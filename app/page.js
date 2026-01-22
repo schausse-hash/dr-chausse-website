@@ -463,7 +463,7 @@ function Famille() {
           <div className="section-divider mx-auto mb-4" />
           <h2 className="font-display text-4xl text-charcoal mb-4">Ma vie, mes passions</h2>
           <p className="text-warm-gray text-lg max-w-2xl mx-auto">
-            « Ma vie ne s'est pas arrêtée qu'à la dentisterie. Malgré toutes les reconstructions 
+            « Ma vie ne s'est pas arrêtée qu'à la médecine dentaire. Malgré toutes les reconstructions 
             et remodelages de milliers de sourires, il reste que les plus beaux sont ceux de 
             mon épouse, de mes quatre enfants, et de mes trois petits-enfants. »
           </p>
