@@ -1,15 +1,15 @@
 import './globals.css'
 
 export const metadata = {
-  title: 'Dr Serge Chaussé | Dentiste à Montréal | Implants Dentaires & Soins Esthétiques',
-  description: 'Dr Serge Chaussé, dentiste d\'expérience à Montréal. Spécialiste en implants dentaires, dentisterie au laser, blanchiment et soins esthétiques. Plus de 35 ans d\'expertise.',
-  keywords: 'dentiste Montréal, Dr Serge Chaussé, implants dentaires, blanchiment dents, dentisterie laser, CEREC, orthodontie',
+  title: 'Dr Serge Chaussé | Dentiste & Formateur en Implantologie | Montréal',
+  description: 'Dr Serge Chaussé, dentiste avec plus de 40 ans d\'expérience. Spécialiste en implants dentaires, CEREC, orthodontie. Formateur international en implantologie. Montréal et Saint-Jean-sur-Richelieu.',
+  keywords: 'dentiste Montréal, Dr Serge Chaussé, implants dentaires, formation implantologie, CEREC, orthodontie, All-on-4, tutorat dentaire',
   authors: [{ name: 'Dr Serge Chaussé' }],
   openGraph: {
-    title: 'Dr Serge Chaussé | Dentiste à Montréal',
-    description: 'Plus de 35 ans d\'expertise en soins dentaires de qualité',
+    title: 'Dr Serge Chaussé | Dentiste & Formateur en Implantologie',
+    description: 'Plus de 40 ans d\'expertise en soins dentaires et formation en implantologie',
     url: 'https://www.dentiste.com',
-    siteName: 'Dr Serge Chaussé - Dentiste',
+    siteName: 'Dr Serge Chaussé',
     locale: 'fr_CA',
     type: 'website',
   },
