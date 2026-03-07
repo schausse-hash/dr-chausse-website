@@ -47,6 +47,7 @@ function LoginForm({ onLogin }) {
 }
 
 function Dashboard() {
+  const [famillePhotos, setFamillePhotos] = useState([])
   const [activeTab, setActiveTab] = useState('services')
   const [services, setServices] = useState([])
   const [siteSettings, setSiteSettings] = useState({})
@@ -60,6 +61,15 @@ function Dashboard() {
 
   async function loadData() {
     setLoading(true)
+    const { data: photoFiles } = await supabase.storage.from('famille').list('')
+const photos = (photoFiles || [])
+  .filter(f => f.name !== '.emptyFolderPlaceholder')
+  .map(f => ({
+    name: f.name,
+    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/famille/${f.name}`,
+    caption: f.name.replace(/\.[^.]+$/, '').replace(/-/g, ' '),
+  }))
+setFamillePhotos(photos)
     const [{ data: svcs }, { data: sets }] = await Promise.all([
       supabase.from('services').select('*').eq('locale', 'fr').order('order'),
       supabase.from('site_settings').select('*').eq('locale', 'fr').single(),
