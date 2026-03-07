@@ -273,21 +273,6 @@ function Certifications() {
 
 // SERVICES
 function Services() {
-  const services = [
-    { icon: "🦷", title: "Implants dentaires", desc: "Pose d'implants et réhabilitation complète incluant la technique All-on-4", slug: "implants-dentaires" },
-    { icon: "😊", title: "Services d'Orthodontie", desc: "Solutions orthodontiques pour aligner vos dents à tout âge", slug: "orthodontie-invisalign" },
-    { icon: "🦷", title: "Chirurgie dents de sagesse", desc: "Faites enlever vos dents de sagesse ici même", slug: "chirurgie-dents-de-sagesse" },
-    { icon: "💉", title: "Botox esthétique ou thérapeutique", desc: "Injection de Botox en toute sécurité", slug: "botox-esthetique" },
-    { icon: "✨", title: "Réhabilitation complète", desc: "Solutions esthétiques sur implants ou dents naturelles", slug: "rehabilitation-complete" },
-    { icon: "🫦", title: "Service de Parodontie", desc: "Curetage parodontal, chirurgie, greffe gingivale", slug: "parodontie" },
-    { icon: "🏥", title: "Chirurgie osseuse", desc: "Greffes osseuses et élévations sinusales pour préparer les implants", slug: "chirurgie-osseuse" },
-  ]
-  const problemes = [
-    "Dents manquantes, dents trop espacées, trouble de l'occlusion",
-    "Dents ébréchées, fissurées ou usées", "Obturations inesthétiques",
-    "Dents irrémédiablement tachées ou décolorées", "Malposition dentaire",
-  ]
-
   return (
     <section id="services" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -299,31 +284,12 @@ function Services() {
         <div className="mb-16">
           <img src="/images/clinique-1.jpg" alt="Dr Chaussé en consultation" className="w-full h-80 object-cover rounded-2xl shadow-lg" />
         </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {services.map((s, i) => (
-            <Link key={i} href={`/services/${s.slug}`}>
-              <div className="card-hover bg-cream rounded-2xl p-6 border border-gray-100 h-full cursor-pointer hover:border-dental-400 transition-colors">
-                <span className="text-4xl">{s.icon}</span>
-                <h3 className="font-display text-xl mt-4 mb-2">{s.title}</h3>
-                <p className="text-warm-gray text-sm">{s.desc}</p>
-                <p className="text-dental-600 text-sm mt-3 font-medium">En savoir plus →</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="bg-gradient-to-r from-dental-600 to-dental-700 rounded-3xl p-8 lg:p-12 text-white">
-          <h3 className="font-display text-2xl mb-6">Je peux corriger tous ces problèmes « permanents »</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            {problemes.map((p, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-accent-400 mt-0.5 flex-shrink-0" />
-                <span>{p}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8">
-            <a href="#contact" className="btn-primary bg-white text-dental-700 hover:bg-accent-400">Consultation gratuite</a>
-          </div>
+        <div className="text-center">
+          <Link href="/services">
+            <div className="inline-block bg-dental-600 text-white font-semibold px-10 py-4 rounded-full hover:bg-dental-700 transition-colors text-lg cursor-pointer">
+              Voir tous nos services →
+            </div>
+          </Link>
         </div>
       </div>
     </section>
