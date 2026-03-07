@@ -142,7 +142,7 @@ setFamillePhotos(allPhotos)
 
       <div className="bg-white border-b border-gray-200 px-6">
         <div className="flex gap-1">
-          {[{ id: 'services', label: '🗂️ Services' }, { id: 'site', label: '🌐 Paramètres du site' }, { id: 'photos', label: '📸 Photos famille' }].map(tab => (
+          {[{ id: 'services', label: '🗂️ Services' }, { id: 'site', label: '🌐 Paramètres du site' },{ id: 'mavie', label: '🌿 Ma vie' }].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? 'border-dental-600 text-dental-600' : 'border-transparent text-warm-gray hover:text-charcoal'}`}>
               {tab.label}
@@ -185,8 +185,8 @@ setFamillePhotos(allPhotos)
         {activeTab === 'site' && (
           <SiteSettingsEditor settings={siteSettings} onSave={saveSiteSettings} saving={saving} />
         )}
-       {activeTab === 'photos' && (
-  <AdminPhotos photos={famillePhotos} onRefresh={loadData} />
+       {activeTab === 'mavie' && (
+  <AdminMaVie photos={famillePhotos} onRefresh={loadData} />
         )}   
       </div>
     </div>
