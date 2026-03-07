@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
+export const runtime = 'nodejs'
 
 export const metadata = {
   title: 'Services | Dr Serge Chaussé - Dentiste Montréal',
