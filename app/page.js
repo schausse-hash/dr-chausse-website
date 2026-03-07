@@ -612,56 +612,6 @@ function Contact() {
   )
 }
 
-// FOOTER
-function Footer() {
-  return (
-    <footer className="bg-charcoal text-white py-16">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8 mb-12">
-          <div className="md:col-span-2">
-            <h3 className="font-display text-2xl mb-4">Dr Serge Chaussé</h3>
-            <p className="text-white/60 mb-4">Dentiste avec plus de 40 ans d'expérience et formateur international en implantologie.</p>
-            <p className="text-white/60 text-sm mb-6">« J'ai enfin trouvé mon dentiste! »</p>
-            <div className="flex space-x-4">
-              {socialLinks.map((social) => (
-                <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
-                  className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center hover:bg-dental-600 transition-colors"
-                  aria-label={social.label}>
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Navigation</h4>
-            <ul className="space-y-2 text-white/60 text-sm">
-              <li><a href="#apropos" className="hover:text-white">À propos</a></li>
-              <li><a href="#services" className="hover:text-white">Services</a></li>
-              <li><a href="#formation" className="hover:text-white">Formation</a></li>
-              <li><a href="#emplacements" className="hover:text-white">Emplacements</a></li>
-              <li><a href="#contact" className="hover:text-white">Contact</a></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="font-semibold mb-4">Contact</h4>
-            <ul className="space-y-2 text-white/60 text-sm">
-              <li>📞 514.521.4141</li>
-              <li>📧 schausse@dentiste.com</li>
-              <li className="pt-2">
-                <a href="https://www.implantologycourses.com/" target="_blank" rel="noopener noreferrer"
-                  className="text-accent-400 hover:text-accent-300">implantologycourses.com</a>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
-          <p>© 2025 Dr Serge Chaussé. Tous droits réservés.</p>
-          <p>Membre de l'Ordre des dentistes du Québec</p>
-        </div>
-      </div>
-    </footer>
-  )
-}
 
 // PAGE PRINCIPALE
 export default function Home() {
