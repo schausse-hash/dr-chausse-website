@@ -1,6 +1,5 @@
 import './globals.css'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import ConditionalLayout from '@/components/ConditionalLayout'
 
 export const metadata = {
   title: 'Dr Serge Chaussé | Dentiste & Formateur en Implantologie | Montréal',
@@ -9,27 +8,14 @@ export const metadata = {
   authors: [{ name: 'Dr Serge Chaussé' }],
   openGraph: {
     title: 'Dr Serge Chaussé | Dentiste & Formateur en Implantologie',
-    description: 'Plus de 40 ans d\'expertise en soins dentaires et formation en implantologie',
+    description: 'Plus de 42 ans d\'expertise en soins dentaires et formation en implantologie',
     url: 'https://www.dentiste.com',
     siteName: 'Dr Serge Chaussé',
     locale: 'fr_CA',
     type: 'website',
   },
 }
-'use client'
-import { usePathname } from 'next/navigation'
 
-function ConditionalLayout({ children }) {
-  const pathname = usePathname()
-  const isAdmin = pathname?.startsWith('/admin')
-  return (
-    <>
-      {!isAdmin && <Navigation />}
-      {children}
-      {!isAdmin && <Footer />}
-    </>
-  )
-}
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
@@ -38,7 +24,7 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="antialiased">
-    <ConditionalLayout>{children}</ConditionalLayout>
+        <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
   )
