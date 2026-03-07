@@ -24,7 +24,7 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/#formation', label: 'Formation' },
   { href: '/#emplacements', label: 'Emplacements' },
-  { href: '/#famille', label: 'Ma vie' },
+  { href: '/ma-vie', label: 'Ma vie' },
   { href: '/#contact', label: 'Contact' },
 ]
 
