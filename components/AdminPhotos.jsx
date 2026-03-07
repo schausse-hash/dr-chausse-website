@@ -36,16 +36,21 @@ export default function AdminPhotos({ photos, onRefresh }) {
     inputRef.current.value = ''
   }
 
-  async function handleDelete(name) {
-    if (!confirm(`Supprimer "${name}" ?`)) return
-    setDeleting(name)
-    const supabase = createSupabase()
-    await supabase.storage.from('famille').remove([name])
-    await onRefresh()
-    showMessage('Photo supprimée ✓')
-    setDeleting(null)
+ async function handleUpload(e) {
+  const files = Array.from(e.target.files)
+  if (!files.length) return
+  setUploading(true)
+  const supabase = createSupabase()
+  for (const file of files) {
+    const fileName = `${Date.now()}-${file.name.replace(/\s/g, '-')}`
+    const { error } = await supabase.storage.from('famille').upload(fileName, file)
+    if (error) console.error('Upload error:', error)
   }
-
+  await onRefresh()
+  showMessage(`${files.length} photo(s) uploadée(s) ✓`)
+  setUploading(false)
+  e.target.value = ''
+}
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
@@ -54,23 +59,24 @@ export default function AdminPhotos({ photos, onRefresh }) {
       </div>
 
       {/* Zone upload */}
-      <div
-        className="border-2 border-dashed border-dental-300 rounded-2xl p-8 text-center mb-8 hover:border-dental-500 transition-colors cursor-pointer bg-cream"
-        onClick={() => inputRef.current?.click()}
-      >
-        <div className="text-4xl mb-3">📸</div>
-        <p className="text-charcoal font-medium mb-1">Cliquer pour ajouter des photos</p>
-        <p className="text-warm-gray text-sm">JPG, PNG, WEBP — plusieurs fichiers à la fois</p>
-        {uploading && <p className="text-dental-600 text-sm mt-2 font-medium">Upload en cours...</p>}
-        <input
-          ref={inputRef}
-          type="file"
-          accept="image/*"
-          multiple
-          className="hidden"
-          onChange={handleUpload}
-        />
-      </div>
+    <div
+  className="border-2 border-dashed border-dental-300 rounded-2xl p-8 text-center mb-8 hover:border-dental-500 transition-colors cursor-pointer bg-cream"
+>
+  <label htmlFor="photo-upload" className="cursor-pointer block">
+    <div className="text-4xl mb-3">📸</div>
+    <p className="text-charcoal font-medium mb-1">Cliquer pour ajouter des photos</p>
+    <p className="text-warm-gray text-sm">JPG, PNG, WEBP — plusieurs fichiers à la fois</p>
+    {uploading && <p className="text-dental-600 text-sm mt-2 font-medium">Upload en cours...</p>}
+  </label>
+  <input
+    id="photo-upload"
+    type="file"
+    accept="image/*"
+    multiple
+    className="hidden"
+    onChange={handleUpload}
+  />
+</div>
 
       {/* Grille photos */}
       {photos.length === 0 ? (
