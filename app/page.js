@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'  // ← ajoute cette ligne
 import { useState, useEffect } from 'react'
 import { 
   Phone, Mail, MapPin, Clock, Menu, X, Award, GraduationCap,
