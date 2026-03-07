@@ -667,7 +667,6 @@ function Footer() {
 export default function Home() {
   return (
     <main>
-      <Navigation />
       <Hero />
       <About />
       <Certifications />
@@ -677,7 +676,6 @@ export default function Home() {
       <Famille />
       <Temoignages />
       <Contact />
-      <Footer />
-    </main>
+       </main>
   )
 }
