@@ -61,15 +61,19 @@ function Dashboard() {
 
   async function loadData() {
     setLoading(true)
-    const { data: photoFiles } = await supabase.storage.from('famille').list('')
-const photos = (photoFiles || [])
-  .filter(f => f.name !== '.emptyFolderPlaceholder')
-  .map(f => ({
-    name: f.name,
-    url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/famille/${f.name}`,
-    caption: f.name.replace(/\.[^.]+$/, '').replace(/-/g, ' '),
-  }))
-setFamillePhotos(photos)
+ const BUCKETS = ['famille', 'voyages', 'plongee', 'aventures']
+const allPhotos = {}
+for (const bucket of BUCKETS) {
+  const { data } = await supabase.storage.from(bucket).list('')
+  allPhotos[bucket] = (data || [])
+    .filter(f => f.name !== '.emptyFolderPlaceholder')
+    .map(f => ({
+      name: f.name,
+      url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${f.name}`,
+      caption: f.name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+    }))
+}
+setFamillePhotos(allPhotos)
     const [{ data: svcs }, { data: sets }] = await Promise.all([
       supabase.from('services').select('*').eq('locale', 'fr').order('order'),
       supabase.from('site_settings').select('*').eq('locale', 'fr').single(),
