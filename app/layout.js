@@ -16,7 +16,20 @@ export const metadata = {
     type: 'website',
   },
 }
+'use client'
+import { usePathname } from 'next/navigation'
 
+function ConditionalLayout({ children }) {
+  const pathname = usePathname()
+  const isAdmin = pathname?.startsWith('/admin')
+  return (
+    <>
+      {!isAdmin && <Navigation />}
+      {children}
+      {!isAdmin && <Footer />}
+    </>
+  )
+}
 export default function RootLayout({ children }) {
   return (
     <html lang="fr">
