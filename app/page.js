@@ -1,98 +1,12 @@
 'use client'
 
-'use client'
-
 import { useState } from 'react'
+import Link from 'next/link'
 import { 
   Phone, Mail, MapPin, Clock, Award, GraduationCap,
   CheckCircle2, Users, Calendar, Globe,
   Heart, Sparkles, Shield, Star, ChevronDown, ExternalLink
 } from 'lucide-react'
-
-// Twitter/X Icon
-const XIcon = ({ className }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/>
-  </svg>
-)
-
-const socialLinks = [
-  { href: 'https://www.facebook.com/', icon: Facebook, label: 'Facebook' },
-  { href: 'https://x.com/sergechausse', icon: XIcon, label: 'X' },
-  { href: 'https://www.youtube.com/@sergechausse', icon: Youtube, label: 'YouTube' },
-  { href: 'https://www.linkedin.com/in/serge-chausse/', icon: Linkedin, label: 'LinkedIn' },
-  { href: 'https://www.instagram.com/', icon: Instagram, label: 'Instagram' },
-]
-
-
-  return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-      isScrolled ? 'bg-white/95 backdrop-blur-md shadow-lg py-2' : 'bg-transparent py-4'
-    }`}>
-      <div className={`transition-all duration-300 ${isScrolled ? 'hidden' : 'block'}`}>
-        <div className="max-w-7xl mx-auto px-6 flex justify-end items-center space-x-3 pb-2">
-          <span className="text-xs text-white/70">English</span>
-          {socialLinks.map((social) => (
-            <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
-              className="text-white/70 hover:text-white transition-colors" aria-label={social.label}>
-              <social.icon className="w-4 h-4" />
-            </a>
-          ))}
-        </div>
-      </div>
-
-      <div className="max-w-7xl mx-auto px-6 flex items-center justify-between">
-        <a href="#accueil" className="flex flex-col">
-          <span className={`font-display text-xl font-semibold transition-colors ${
-            isScrolled ? 'text-dental-700' : 'text-white'
-          }`}>Dr Serge Chaussé</span>
-          <span className={`text-xs tracking-widest uppercase transition-colors ${
-            isScrolled ? 'text-warm-gray' : 'text-white/70'
-          }`}>Dentiste • Formateur</span>
-        </a>
-
-        <div className="hidden lg:flex items-center space-x-6">
-          {navLinks.map((link) => (
-            <a key={link.href} href={link.href}
-              className={`text-sm font-medium transition-colors ${
-                isScrolled ? 'text-charcoal hover:text-dental-600' : 'text-white/90 hover:text-white'
-              }`}>{link.label}</a>
-          ))}
-          <a href="tel:5145214141" className="btn-primary text-xs py-3 px-6">514.521.4141</a>
-        </div>
-
-        <button className="lg:hidden" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? (
-            <X className={`w-6 h-6 ${isScrolled ? 'text-charcoal' : 'text-white'}`} />
-          ) : (
-            <Menu className={`w-6 h-6 ${isScrolled ? 'text-charcoal' : 'text-white'}`} />
-          )}
-        </button>
-      </div>
-
-      {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-xl">
-          <div className="px-6 py-8 space-y-4">
-            {navLinks.map((link) => (
-              <a key={link.href} href={link.href}
-                className="block text-lg text-charcoal hover:text-dental-600"
-                onClick={() => setIsMobileMenuOpen(false)}>{link.label}</a>
-            ))}
-            <div className="flex space-x-4 pt-4 border-t">
-              {socialLinks.map((social) => (
-                <a key={social.label} href={social.href} target="_blank" rel="noopener noreferrer"
-                  className="text-gray-500 hover:text-dental-600">
-                  <social.icon className="w-5 h-5" />
-                </a>
-              ))}
-            </div>
-            <a href="tel:5145214141" className="btn-primary inline-block mt-4 text-center">Appeler</a>
-          </div>
-        </div>
-      )}
-    </nav>
-  )
-}
 
 // HERO
 function Hero() {
@@ -164,8 +78,8 @@ function About() {
               ainsi que l'efficacité de mes soins.
             </p>
             <p className="text-lg text-warm-gray">
-              <strong className="text-charcoal">Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.</strong> 
-              {' '}Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
+              <strong className="text-charcoal">Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.</strong>{' '}
+              Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
             </p>
             <div className="grid sm:grid-cols-2 gap-4 pt-4">
               {[
@@ -194,9 +108,9 @@ function Certifications() {
   const formations = [
     "All-on-4 du Dr Paulo Malo", "Orthodontie IAO", "Prosthodontie Institut Dr Yvan Poitras",
     "Chirurgie implantaire Maxicourse Toronto (350h)", "Chirurgie osseuse California Implant Institute",
-    "CEREC 3D par Dr Marc Morin", "Pacific Trainig Institute for Facial Aesthetics & Therapeutics", "Manipulation tissus mous", "elevation sinusal Dr Al Farage vancouver",
+    "CEREC 3D par Dr Marc Morin", "Pacific Training Institute for Facial Aesthetics & Therapeutics",
+    "Manipulation tissus mous", "Élévation sinusale Dr Al Farage Vancouver",
   ]
-
   return (
     <section className="py-24 bg-cream">
       <div className="max-w-7xl mx-auto px-6">
@@ -264,12 +178,43 @@ function Services() {
         <div className="mb-16">
           <img src="/images/clinique-1.jpg" alt="Dr Chaussé en consultation" className="w-full h-80 object-cover rounded-2xl shadow-lg" />
         </div>
-        <div className="text-center">
-          <Link href="/services">
-            <div className="inline-block bg-dental-600 text-white font-semibold px-10 py-4 rounded-full hover:bg-dental-700 transition-colors text-lg cursor-pointer">
-              Voir tous nos services →
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {[
+            { emoji: '🦷', titre: 'Implants dentaires', desc: "Pose d'implants et réhabilitation complète incluant la technique All-on-4" },
+            { emoji: '👑', titre: 'CEREC 3D', desc: "Couronnes et restaurations en céramique en une seule visite" },
+            { emoji: '😊', titre: 'Orthodontie', desc: "Solutions orthodontiques pour aligner vos dents à tout âge" },
+            { emoji: '✨', titre: 'Dentisterie au laser', desc: "Traitements précis et confortables avec le Waterlaser MD" },
+            { emoji: '💎', titre: 'Blanchiment', desc: "Retrouvez un sourire éclatant avec nos traitements professionnels" },
+            { emoji: '🏥', titre: 'Chirurgie osseuse', desc: "Greffes osseuses et élévations sinusales pour préparer les implants" },
+          ].map((s, i) => (
+            <div key={i} className="card-hover bg-cream rounded-2xl p-6 border border-gray-100">
+              <span className="text-4xl">{s.emoji}</span>
+              <h3 className="font-display text-xl mt-4 mb-2">{s.titre}</h3>
+              <p className="text-warm-gray text-sm">{s.desc}</p>
             </div>
-          </Link>
+          ))}
+        </div>
+        <div className="bg-gradient-to-r from-dental-600 to-dental-700 rounded-3xl p-8 lg:p-12 text-white">
+          <h3 className="font-display text-2xl mb-6">Je peux corriger tous ces problèmes « permanents »</h3>
+          <div className="grid md:grid-cols-2 gap-4">
+            {[
+              "Dents manquantes, dents trop espacées, trouble de l'occlusion",
+              "Dents ébréchées, fissurées ou usées",
+              "Obturations inesthétiques",
+              "Dents irrémédiablement tachées ou décolorées",
+              "Malposition dentaire",
+            ].map((item, i) => (
+              <div key={i} className="flex items-start gap-3">
+                <CheckCircle2 className="w-5 h-5 text-accent-400 mt-0.5 flex-shrink-0" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+          <div className="mt-8">
+            <a href="#contact" className="btn-primary bg-white text-dental-700 hover:bg-accent-400">
+              Consultation gratuite
+            </a>
+          </div>
         </div>
       </div>
     </section>
@@ -355,7 +300,6 @@ function Emplacements() {
       ],
     },
   ]
-
   return (
     <section id="emplacements" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
@@ -591,7 +535,6 @@ function Contact() {
   )
 }
 
-
 // PAGE PRINCIPALE
 export default function Home() {
   return (
@@ -605,6 +548,6 @@ export default function Home() {
       <Famille />
       <Temoignages />
       <Contact />
-       </main>
+    </main>
   )
 }
