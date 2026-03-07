@@ -185,7 +185,7 @@ function About() {
             </p>
             <p className="text-lg text-warm-gray">
               <strong className="text-charcoal">Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.</strong> 
-              {' '}Mes 40 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
+              {' '}Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
             </p>
             <div className="grid sm:grid-cols-2 gap-4 pt-4">
               {[
@@ -213,8 +213,8 @@ function About() {
 function Certifications() {
   const formations = [
     "All-on-4 du Dr Paulo Malo", "Orthodontie IAO", "Prosthodontie Institut Dr Yvan Poitras",
-    "Chirurgie implantaire Titanium/Trinon", "Chirurgie osseuse California Implant Institute",
-    "CEREC 3D par Dr Marc Morin", "Laser Waterlaser MD", "Manipulation tissus mous", "Maxicourse Toronto (350h)",
+    "Chirurgie implantaire Maxicourse Toronto (350h)", "Chirurgie osseuse California Implant Institute",
+    "CEREC 3D par Dr Marc Morin", "Pacific Trainig Institute for Facial Aesthetics & Therapeutics", "Manipulation tissus mous", "elevation sinusal Dr Al Farage vancouver",
   ]
 
   return (
