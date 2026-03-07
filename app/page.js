@@ -38,6 +38,7 @@ function Navigation() {
     { href: '#accueil', label: 'Accueil' },
     { href: '#apropos', label: 'À propos' },
     { href: '#services', label: 'Services' },
+    { href: '/fr/expertises', label: 'Expertises →' },
     { href: '#formation', label: 'Formation' },
     { href: '#emplacements', label: 'Emplacements' },
     { href: '#famille', label: 'Ma vie' },
