@@ -1,5 +1,5 @@
 'use client'
-
+import AdminPhotos from '@/components/AdminPhotos'
 import { useState, useEffect } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
