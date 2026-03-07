@@ -1,12 +1,12 @@
 'use client'
 
-import Link from 'next/link'  // ← ajoute cette ligne
-import { useState, useEffect } from 'react'
+'use client'
+
+import { useState } from 'react'
 import { 
-  Phone, Mail, MapPin, Clock, Menu, X, Award, GraduationCap,
+  Phone, Mail, MapPin, Clock, Award, GraduationCap,
   CheckCircle2, Users, Calendar, Globe,
-  Heart, Sparkles, Shield, Star, ChevronDown, ExternalLink,
-  Facebook, Instagram, Linkedin, Youtube
+  Heart, Sparkles, Shield, Star, ChevronDown, ExternalLink
 } from 'lucide-react'
 
 // Twitter/X Icon
@@ -24,27 +24,6 @@ const socialLinks = [
   { href: 'https://www.instagram.com/', icon: Instagram, label: 'Instagram' },
 ]
 
-// NAVIGATION
-function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false)
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
-
-  useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  const navLinks = [
-    { href: '#accueil', label: 'Accueil' },
-    { href: '#apropos', label: 'À propos' },
-    { href: '#services', label: 'Services' },
-    { href: '/fr/expertises', label: 'Expertises →' },
-    { href: '#formation', label: 'Formation' },
-    { href: '#emplacements', label: 'Emplacements' },
-    { href: '#famille', label: 'Ma vie' },
-    { href: '#contact', label: 'Contact' },
-  ]
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
