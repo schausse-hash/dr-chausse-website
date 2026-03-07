@@ -181,6 +181,9 @@ setFamillePhotos(photos)
         {activeTab === 'site' && (
           <SiteSettingsEditor settings={siteSettings} onSave={saveSiteSettings} saving={saving} />
         )}
+       {activeTab === 'photos' && (
+  <AdminPhotos photos={famillePhotos} onRefresh={loadData} />
+        )}   
       </div>
     </div>
   )
