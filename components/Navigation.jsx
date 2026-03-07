@@ -21,7 +21,7 @@ export const socialLinks = [
 const navLinks = [
   { href: '/#accueil', label: 'Accueil' },
   { href: '/#apropos', label: 'À propos' },
-  { href: '/#services', label: 'Services' },
+  { href: '/services', label: 'Services' },
   { href: '/#formation', label: 'Formation' },
   { href: '/#emplacements', label: 'Emplacements' },
   { href: '/#famille', label: 'Ma vie' },
