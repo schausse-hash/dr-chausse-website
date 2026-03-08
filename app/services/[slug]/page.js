@@ -32,8 +32,8 @@ export default async function ServiceDetailPage({ params }) {
     .from('services')
     .select('*')
     .eq('slug', params.slug)
-    .eq('lang', 'fr')    // ✅ corrigé: 'locale' → 'lang'
-    .eq('is_active', true) // ✅ corrigé: 'published' → 'is_active'
+.eq('locale', 'fr')
+.eq('published', true)
     .single()
 
   if (!service) notFound()
