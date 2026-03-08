@@ -472,32 +472,9 @@ function Contact() {
 
           {/* COLONNE GAUCHE */}
           <div className="space-y-8">
-            <div className="bg-white rounded-2xl p-8 shadow-sm">
-              <h3 className="font-display text-xl mb-6">Coordonnées principales</h3>
-              <div className="space-y-4">
-                <a href="tel:5145214141" className="flex items-center gap-4 text-charcoal hover:text-dental-600">
-                  <div className="w-12 h-12 bg-dental-100 rounded-full flex items-center justify-center">
-                    <Phone className="w-5 h-5 text-dental-600" />
-                  </div>
-                  <div>
-                    <p className="font-medium">514.521.4141</p>
-                    <p className="text-sm text-warm-gray">Téléphone principal</p>
-                  </div>
-                </a>
-                <a href="mailto:schausse@dentiste.com" className="flex items-center gap-4 text-charcoal hover:text-dental-600">
-                  <div className="w-12 h-12 bg-dental-100 rounded-full flex items-center justify-center">
-                    <Mail className="w-5 h-5 text-dental-600" />
-                  </div>
-                  <div>
-                    <p className="font-medium">schausse@dentiste.com</p>
-                    <p className="text-sm text-warm-gray">Courriel</p>
-                  </div>
-                </a>
-              </div>
-            </div>
-
-            <div className="bg-dental-600 text-white rounded-2xl p-8">
-              <h3 className="font-display text-xl mb-6">Les cliniques ou je travaille</h3>
+           <div className="bg-dental-600 text-white rounded-2xl p-8">
+           
+    <h3 className="font-display text-xl mb-6">Les cliniques ou je travaille</h3>
               <div className="space-y-6">
                 <div>
                   <p className="font-semibold text-lg">Clinique dentaire du boulevard Saint-Joseph — Montréal</p>
