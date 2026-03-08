@@ -497,19 +497,25 @@ function Contact() {
             </div>
 
             <div className="bg-dental-600 text-white rounded-2xl p-8">
-              <h3 className="font-display text-xl mb-6">Nos cliniques</h3>
+              <h3 className="font-display text-xl mb-6">Les cliniques ou je travaille</h3>
               <div className="space-y-6">
                 <div>
-                  <p className="font-semibold text-lg">Le Plateau — Montréal</p>
+                  <p className="font-semibold text-lg">Clinique dentaire du boulevard Saint-Joseph — Montréal</p>
                   <p className="text-white/80 text-sm mt-1">1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9</p>
                   <a href="tel:5145214141" className="text-accent-400 hover:text-accent-300 text-sm">514.521.4141</a>
-                  <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
+                 <a href="mailto:info@centredentaireboulevardsaintjoseph.ca" className="text-accent-400 hover:text-accent-300 text-xs block mt-1">
+ info@centredentaireboulevardsaintjoseph.ca
+</a>
+    <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
                 </div>
                 <div className="border-t border-white/20 pt-6">
                   <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
                   <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
                   <a href="tel:4503493368" className="text-accent-400 hover:text-accent-300 text-sm">450 349-3368</a>
-                  <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
+                  <a href="mailto:centredentairest-luc@videotron.ca" className="text-accent-400 hover:text-accent-300 text-xs block mt-1">
+  centredentairest-luc@videotron.ca
+</a>
+    <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
                   <a href="https://centredentairest-luc.com/" target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
                     centredentairest-luc.com <ExternalLink className="w-3 h-3" />
