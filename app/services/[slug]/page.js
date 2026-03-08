@@ -17,7 +17,7 @@ export async function generateMetadata({ params }) {
     .from('services')
     .select('title, intro, meta_title, meta_description')
     .eq('slug', params.slug)
-    .eq('lang', 'fr')  // ✅ corrigé: 'locale' → 'lang'
+    .eq('lang', 'fr')  // ← changer pour .eq('locale', 'fr')
     .single()
   if (!data) return {}
   return {
@@ -32,8 +32,8 @@ export default async function ServiceDetailPage({ params }) {
     .from('services')
     .select('*')
     .eq('slug', params.slug)
-.eq('locale', 'fr')
-.eq('published', true)
+    .eq('lang', 'fr')    // ← changer pour .eq('locale', 'fr')
+    .eq('is_active', true) // ← changer pour .eq('published', true)
     .single()
 
   if (!service) notFound()
