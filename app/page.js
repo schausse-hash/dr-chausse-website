@@ -508,7 +508,7 @@ function Contact() {
                 <div className="border-t border-white/20 pt-6">
                   <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
                   <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
-                  <a href="tel:5797000915" className="text-accent-400 hover:text-accent-300 text-sm">579.700.0915</a>
+                  <a href="tel:4503493368" className="text-accent-400 hover:text-accent-300 text-sm">450 349-3368</a>
                   <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
                   <a href="https://centredentairest-luc.com/" target="_blank" rel="noopener noreferrer"
                     className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
