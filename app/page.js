@@ -447,19 +447,20 @@ function Contact() {
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    setFormStatus('submitting')
-    try {
-      const response = await fetch('https://formspree.io/f/YOUR_FORM_ID', {
-        method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(formData)
-      })
-      if (response.ok) {
-        setFormStatus('success')
-        setFormData({ prenom: '', nom: '', email: '', telephone: '', sujet: '', message: '' })
-      } else { setFormStatus('error') }
-    } catch { setFormStatus('error') }
-  }
-
+  e.preventDefault()
+  setFormStatus('submitting')
+  try {
+    const response = await fetch('/api/contact', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(formData)
+    })
+    if (response.ok) {
+      setFormStatus('success')
+      setFormData({ prenom: '', nom: '', email: '', telephone: '', sujet: '', message: '' })
+    } else { setFormStatus('error') }
+  } catch { setFormStatus('error') }
+}
   return (
     <section id="contact" className="py-24 bg-cream">
       <div className="max-w-7xl mx-auto px-6">
