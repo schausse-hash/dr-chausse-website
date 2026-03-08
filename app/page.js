@@ -462,6 +462,8 @@ function Contact() {
           <p className="text-warm-gray text-lg">Une consultation gratuite vous enchantera!</p>
         </div>
         <div className="grid lg:grid-cols-2 gap-12">
+
+          {/* COLONNE GAUCHE */}
           <div className="space-y-8">
             <div className="bg-white rounded-2xl p-8 shadow-sm">
               <h3 className="font-display text-xl mb-6">Coordonnées principales</h3>
@@ -470,37 +472,47 @@ function Contact() {
                   <div className="w-12 h-12 bg-dental-100 rounded-full flex items-center justify-center">
                     <Phone className="w-5 h-5 text-dental-600" />
                   </div>
-                  <div><p className="font-medium">514.521.4141</p><p className="text-sm text-warm-gray">Téléphone principal</p></div>
+                  <div>
+                    <p className="font-medium">514.521.4141</p>
+                    <p className="text-sm text-warm-gray">Téléphone principal</p>
+                  </div>
                 </a>
                 <a href="mailto:schausse@dentiste.com" className="flex items-center gap-4 text-charcoal hover:text-dental-600">
                   <div className="w-12 h-12 bg-dental-100 rounded-full flex items-center justify-center">
                     <Mail className="w-5 h-5 text-dental-600" />
                   </div>
-                  <div><p className="font-medium">schausse@dentiste.com</p><p className="text-sm text-warm-gray">Courriel</p></div>
+                  <div>
+                    <p className="font-medium">schausse@dentiste.com</p>
+                    <p className="text-sm text-warm-gray">Courriel</p>
+                  </div>
                 </a>
               </div>
             </div>
-<div className="bg-dental-600 text-white rounded-2xl p-8">
-  <h3 className="font-display text-xl mb-6">Nos cliniques</h3>
-  <div className="space-y-6">
-    <div>
-      <p className="font-semibold text-lg">Le Plateau — Montréal</p>
-      <p className="text-white/80 text-sm mt-1">1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9</p>
-      <a href="tel:5145214141" className="text-accent-400 hover:text-accent-300 text-sm">514.521.4141</a>
-      <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
-    </div>
-    <div className="border-t border-white/20 pt-6">
-      <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
-      <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
-      <a href="tel:5797000915" className="text-accent-400 hover:text-accent-300 text-sm">579.700.0915</a>
-      <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
-      <a href="https://centredentairest-luc.com/" target="_blank" rel="noopener noreferrer"
-        className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
-        centredentairest-luc.com <ExternalLink className="w-3 h-3" />
-      </a>
-    </div>
-  </div>
-</div>
+
+            <div className="bg-dental-600 text-white rounded-2xl p-8">
+              <h3 className="font-display text-xl mb-6">Nos cliniques</h3>
+              <div className="space-y-6">
+                <div>
+                  <p className="font-semibold text-lg">Le Plateau — Montréal</p>
+                  <p className="text-white/80 text-sm mt-1">1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9</p>
+                  <a href="tel:5145214141" className="text-accent-400 hover:text-accent-300 text-sm">514.521.4141</a>
+                  <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
+                </div>
+                <div className="border-t border-white/20 pt-6">
+                  <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
+                  <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
+                  <a href="tel:5797000915" className="text-accent-400 hover:text-accent-300 text-sm">579.700.0915</a>
+                  <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
+                  <a href="https://centredentairest-luc.com/" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
+                    centredentairest-luc.com <ExternalLink className="w-3 h-3" />
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* COLONNE DROITE — FORMULAIRE */}
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <h3 className="font-display text-xl mb-6">Envoyez-moi un message</h3>
             {formStatus === 'success' && (
@@ -527,8 +539,10 @@ function Contact() {
               <select name="sujet" value={formData.sujet} onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
                 <option value="">Sujet de votre message</option>
-                <option value="info">Demande d'information</option>
+                <option value="rdv-plateau">Rendez-vous — Le Plateau (Montréal)</option>
+                <option value="rdv-stjean">Rendez-vous — Saint-Jean-sur-Richelieu</option>
                 <option value="formation">Formation / Tutorat</option>
+                <option value="info">Demande d'information</option>
                 <option value="autre">Autre</option>
               </select>
               <textarea name="message" value={formData.message} onChange={handleChange}
@@ -540,6 +554,7 @@ function Contact() {
               </button>
             </form>
           </div>
+
         </div>
       </div>
     </section>
