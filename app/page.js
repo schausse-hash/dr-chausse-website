@@ -507,7 +507,12 @@ function Contact() {
  info@centredentaireboulevardsaintjoseph.ca
 </a>
     <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
-                </div>
+    <a href="https://www.cliniquedentaireboulevardsaintjoseph.ca/" target="_blank" rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
+                    cliniquedentaireboulevardsaintjoseph.ca/ <ExternalLink className="w-3 h-3" />
+                  </a>            
+    
+    </div>
                 <div className="border-t border-white/20 pt-6">
                   <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
                   <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
