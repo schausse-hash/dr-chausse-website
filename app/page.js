@@ -500,7 +500,7 @@ function Contact() {
       </a>
     </div>
   </div>
-</div>
+
           <div className="bg-white rounded-2xl p-8 shadow-sm">
             <h3 className="font-display text-xl mb-6">Envoyez-moi un message</h3>
             {formStatus === 'success' && (
