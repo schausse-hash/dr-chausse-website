@@ -480,7 +480,7 @@ function Contact() {
                 </a>
               </div>
             </div>
-         <div className="bg-dental-600 text-white rounded-2xl p-8">
+<div className="bg-dental-600 text-white rounded-2xl p-8">
   <h3 className="font-display text-xl mb-6">Nos cliniques</h3>
   <div className="space-y-6">
     <div>
