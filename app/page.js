@@ -474,7 +474,7 @@ function Contact() {
           <div className="space-y-8">
            <div className="bg-dental-600 text-white rounded-2xl p-8">
            
-    <h3 className="font-display text-xl mb-6">Les cliniques ou je travaille</h3>
+    <h3 className="font-display text-xl mb-6">Les cliniques où je travaille</h3>
               <div className="space-y-6">
                 <div>
                   <p className="font-semibold text-lg">Clinique dentaire du boulevard Saint-Joseph — Montréal</p>
