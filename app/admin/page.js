@@ -1,6 +1,6 @@
 'use client'
 import AdminMaVie from '@/components/AdminMaVie'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
 
 function LoginForm({ onLogin }) {
@@ -61,19 +61,19 @@ function Dashboard() {
 
   async function loadData() {
     setLoading(true)
- const BUCKETS = ['famille', 'voyages', 'plongee', 'aventures']
-const allPhotos = {}
-for (const bucket of BUCKETS) {
-  const { data } = await supabase.storage.from(bucket).list('')
-  allPhotos[bucket] = (data || [])
-    .filter(f => f.name !== '.emptyFolderPlaceholder')
-    .map(f => ({
-      name: f.name,
-      url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${f.name}`,
-      caption: f.name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
-    }))
-}
-setFamillePhotos(allPhotos)
+    const BUCKETS = ['famille', 'voyages', 'plongee', 'aventures']
+    const allPhotos = {}
+    for (const bucket of BUCKETS) {
+      const { data } = await supabase.storage.from(bucket).list('')
+      allPhotos[bucket] = (data || [])
+        .filter(f => f.name !== '.emptyFolderPlaceholder')
+        .map(f => ({
+          name: f.name,
+          url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${bucket}/${f.name}`,
+          caption: f.name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+        }))
+    }
+    setFamillePhotos(allPhotos)
     const [{ data: svcs }, { data: sets }] = await Promise.all([
       supabase.from('services').select('*').eq('locale', 'fr').order('order'),
       supabase.from('site_settings').select('*').eq('locale', 'fr').single(),
@@ -142,7 +142,7 @@ setFamillePhotos(allPhotos)
 
       <div className="bg-white border-b border-gray-200 px-6">
         <div className="flex gap-1">
-          {[{ id: 'services', label: '🗂️ Services' }, { id: 'site', label: '🌐 Paramètres du site' },{ id: 'mavie', label: '🌿 Ma vie' }].map(tab => (
+          {[{ id: 'services', label: '🗂️ Services' }, { id: 'site', label: '🌐 Paramètres du site' }, { id: 'mavie', label: '🌿 Ma vie' }].map(tab => (
             <button key={tab.id} onClick={() => setActiveTab(tab.id)}
               className={`px-4 py-3 text-sm font-medium border-b-2 transition-colors ${activeTab === tab.id ? 'border-dental-600 text-dental-600' : 'border-transparent text-warm-gray hover:text-charcoal'}`}>
               {tab.label}
@@ -162,6 +162,9 @@ setFamillePhotos(allPhotos)
                 <div className="space-y-3">
                   {services.map(s => (
                     <div key={s.id} className="bg-white rounded-xl p-4 border border-gray-100 flex items-center gap-4">
+                      {s.image_url && (
+                        <img src={s.image_url} alt={s.title} className="w-16 h-16 object-cover rounded-lg flex-shrink-0" />
+                      )}
                       <div className="flex-1">
                         <div className="font-medium text-charcoal">{s.title}</div>
                         <div className="text-sm text-warm-gray">{s.category} · /services/{s.slug}</div>
@@ -185,63 +188,269 @@ setFamillePhotos(allPhotos)
         {activeTab === 'site' && (
           <SiteSettingsEditor settings={siteSettings} onSave={saveSiteSettings} saving={saving} />
         )}
-       {activeTab === 'mavie' && (
-  <AdminMaVie photos={famillePhotos} onRefresh={loadData} />
-        )}   
+        {activeTab === 'mavie' && (
+          <AdminMaVie photos={famillePhotos} onRefresh={loadData} />
+        )}
       </div>
     </div>
   )
 }
 
+// ============================================
+// SERVICE EDITOR COMPLET
+// ============================================
 function ServiceEditor({ service, onSave, onCancel, saving }) {
-  const [form, setForm] = useState({ ...service })
+  const [form, setForm] = useState({ ...service, content: service.content || [] })
+  const [uploadingImage, setUploadingImage] = useState(false)
+  const fileInputRef = useRef(null)
+  const supabase = createClient()
+
+  // --- IMAGE UPLOAD ---
+  async function handleImageUpload(e) {
+    const file = e.target.files[0]
+    if (!file) return
+    setUploadingImage(true)
+    const ext = file.name.split('.').pop()
+    const fileName = `services/${form.slug}-${Date.now()}.${ext}`
+    const { error } = await supabase.storage.from('images').upload(fileName, file, { upsert: true })
+    if (!error) {
+      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${fileName}`
+      setForm(p => ({ ...p, image_url: url }))
+    }
+    setUploadingImage(false)
+  }
+
+  async function removeImage() {
+    setForm(p => ({ ...p, image_url: '' }))
+  }
+
+  // --- CONTENT SECTIONS ---
+  function addSection() {
+    setForm(p => ({ ...p, content: [...p.content, { titre: '', texte: '', liste: [] }] }))
+  }
+
+  function updateSection(i, field, value) {
+    setForm(p => {
+      const content = [...p.content]
+      content[i] = { ...content[i], [field]: value }
+      return { ...p, content }
+    })
+  }
+
+  function removeSection(i) {
+    setForm(p => ({ ...p, content: p.content.filter((_, idx) => idx !== i) }))
+  }
+
+  function moveSection(i, dir) {
+    setForm(p => {
+      const content = [...p.content]
+      const j = i + dir
+      if (j < 0 || j >= content.length) return p
+      ;[content[i], content[j]] = [content[j], content[i]]
+      return { ...p, content }
+    })
+  }
+
+  function addListItem(i) {
+    setForm(p => {
+      const content = [...p.content]
+      content[i] = { ...content[i], liste: [...(content[i].liste || []), ''] }
+      return { ...p, content }
+    })
+  }
+
+  function updateListItem(sectionIdx, itemIdx, value) {
+    setForm(p => {
+      const content = [...p.content]
+      const liste = [...(content[sectionIdx].liste || [])]
+      liste[itemIdx] = value
+      content[sectionIdx] = { ...content[sectionIdx], liste }
+      return { ...p, content }
+    })
+  }
+
+  function removeListItem(sectionIdx, itemIdx) {
+    setForm(p => {
+      const content = [...p.content]
+      const liste = (content[sectionIdx].liste || []).filter((_, idx) => idx !== itemIdx)
+      content[sectionIdx] = { ...content[sectionIdx], liste }
+      return { ...p, content }
+    })
+  }
 
   return (
-    <div className="bg-white rounded-2xl border border-gray-100 p-6">
-      <div className="flex items-center justify-between mb-6">
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-8">
+      {/* HEADER */}
+      <div className="flex items-center justify-between">
         <h3 className="font-display text-xl text-charcoal">Modifier : {form.title}</h3>
         <button onClick={onCancel} className="text-warm-gray hover:text-charcoal text-sm">← Retour</button>
       </div>
-      <div className="space-y-4 mb-6">
-        <div className="grid grid-cols-2 gap-4">
+
+      {/* IMAGE */}
+      <div>
+        <label className="block text-sm font-semibold text-charcoal mb-3">🖼️ Image principale</label>
+        {form.image_url ? (
+          <div className="relative inline-block">
+            <img src={form.image_url} alt="Service" className="w-full max-w-md h-48 object-cover rounded-xl border border-gray-200" />
+            <button onClick={removeImage}
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs hover:bg-red-600">
+              ✕
+            </button>
+          </div>
+        ) : (
+          <div onClick={() => fileInputRef.current?.click()}
+            className="w-full max-w-md h-40 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-dental-400 hover:bg-dental-50 transition-colors">
+            {uploadingImage ? (
+              <div className="text-warm-gray text-sm">Téléversement...</div>
+            ) : (
+              <>
+                <div className="text-3xl mb-2">📸</div>
+                <div className="text-warm-gray text-sm">Cliquez pour ajouter une image</div>
+                <div className="text-warm-gray text-xs mt-1">JPG, PNG, WebP</div>
+              </>
+            )}
+          </div>
+        )}
+        <input ref={fileInputRef} type="file" accept="image/*" onChange={handleImageUpload} className="hidden" />
+        {!form.image_url && !uploadingImage && (
+          <button onClick={() => fileInputRef.current?.click()}
+            className="mt-2 text-dental-600 text-sm hover:underline">
+            + Choisir une image
+          </button>
+        )}
+      </div>
+
+      {/* INFOS DE BASE */}
+      <div>
+        <label className="block text-sm font-semibold text-charcoal mb-3">📋 Informations de base</label>
+        <div className="space-y-4">
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <label className="block text-xs font-medium text-warm-gray mb-1">Catégorie</label>
+              <input value={form.category || ''} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-warm-gray mb-1">Slug (URL)</label>
+              <input value={form.slug || ''} onChange={e => setForm(p => ({ ...p, slug: e.target.value }))}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 bg-gray-50" />
+            </div>
+          </div>
           <div>
-            <label className="block text-xs font-medium text-warm-gray mb-1">Catégorie</label>
-            <input value={form.category || ''} onChange={e => setForm(p => ({ ...p, category: e.target.value }))}
+            <label className="block text-xs font-medium text-warm-gray mb-1">Titre</label>
+            <input value={form.title || ''} onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
           </div>
           <div>
-            <label className="block text-xs font-medium text-warm-gray mb-1">Slug (URL)</label>
-            <input value={form.slug || ''} onChange={e => setForm(p => ({ ...p, slug: e.target.value }))}
-              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 bg-gray-50" />
+            <label className="block text-xs font-medium text-warm-gray mb-1">Extrait (résumé court — affiché sur la carte)</label>
+            <textarea value={form.excerpt || ''} onChange={e => setForm(p => ({ ...p, excerpt: e.target.value }))} rows={2}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
           </div>
         </div>
-        <div>
-          <label className="block text-xs font-medium text-warm-gray mb-1">Titre</label>
-          <input value={form.title || ''} onChange={e => setForm(p => ({ ...p, title: e.target.value }))}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-warm-gray mb-1">Extrait (résumé court)</label>
-          <textarea value={form.excerpt || ''} onChange={e => setForm(p => ({ ...p, excerpt: e.target.value }))} rows={2}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-warm-gray mb-1">SEO Title</label>
-          <input value={form.seo_title || ''} onChange={e => setForm(p => ({ ...p, seo_title: e.target.value }))}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
-        </div>
-        <div>
-          <label className="block text-xs font-medium text-warm-gray mb-1">SEO Description</label>
-          <textarea value={form.seo_description || ''} onChange={e => setForm(p => ({ ...p, seo_description: e.target.value }))} rows={2}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
+      </div>
+
+      {/* SEO */}
+      <div>
+        <label className="block text-sm font-semibold text-charcoal mb-3">🔍 SEO</label>
+        <div className="space-y-4">
+          <div>
+            <label className="block text-xs font-medium text-warm-gray mb-1">SEO Title</label>
+            <input value={form.seo_title || ''} onChange={e => setForm(p => ({ ...p, seo_title: e.target.value }))}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-warm-gray mb-1">SEO Description</label>
+            <textarea value={form.seo_description || ''} onChange={e => setForm(p => ({ ...p, seo_description: e.target.value }))} rows={2}
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
+          </div>
         </div>
       </div>
-      <div className="flex gap-3">
+
+      {/* CONTENU */}
+      <div>
+        <div className="flex items-center justify-between mb-3">
+          <label className="block text-sm font-semibold text-charcoal">📝 Contenu de la page</label>
+          <button onClick={addSection}
+            className="bg-dental-600 text-white rounded-lg px-4 py-1.5 text-sm hover:bg-dental-700 transition-colors">
+            + Ajouter une section
+          </button>
+        </div>
+
+        {form.content.length === 0 && (
+          <div className="text-center py-10 border-2 border-dashed border-gray-200 rounded-xl text-warm-gray text-sm">
+            Aucune section. Cliquez sur "Ajouter une section" pour commencer.
+          </div>
+        )}
+
+        <div className="space-y-4">
+          {form.content.map((section, i) => (
+            <div key={i} className="border border-gray-200 rounded-xl p-4 bg-gray-50">
+              {/* SECTION HEADER */}
+              <div className="flex items-center justify-between mb-3">
+                <span className="text-xs font-medium text-warm-gray bg-white border border-gray-200 rounded-full px-3 py-1">
+                  Section {i + 1}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => moveSection(i, -1)} disabled={i === 0}
+                    className="text-warm-gray hover:text-charcoal disabled:opacity-30 text-sm px-2">↑</button>
+                  <button onClick={() => moveSection(i, 1)} disabled={i === form.content.length - 1}
+                    className="text-warm-gray hover:text-charcoal disabled:opacity-30 text-sm px-2">↓</button>
+                  <button onClick={() => removeSection(i)}
+                    className="text-red-400 hover:text-red-600 text-sm px-2">✕ Supprimer</button>
+                </div>
+              </div>
+
+              {/* TITRE */}
+              <div className="mb-3">
+                <label className="block text-xs font-medium text-warm-gray mb-1">Titre de la section</label>
+                <input value={section.titre || ''} onChange={e => updateSection(i, 'titre', e.target.value)}
+                  placeholder="ex: Avantages, Le processus, Questions fréquentes..."
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 bg-white" />
+              </div>
+
+              {/* TEXTE */}
+              <div className="mb-3">
+                <label className="block text-xs font-medium text-warm-gray mb-1">Texte (paragraphe)</label>
+                <textarea value={section.texte || ''} onChange={e => updateSection(i, 'texte', e.target.value)}
+                  placeholder="Texte descriptif de cette section..."
+                  rows={3}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none bg-white" />
+              </div>
+
+              {/* LISTE */}
+              <div>
+                <label className="block text-xs font-medium text-warm-gray mb-2">Liste à puces</label>
+                <div className="space-y-2">
+                  {(section.liste || []).map((item, j) => (
+                    <div key={j} className="flex gap-2 items-center">
+                      <span className="text-dental-500 text-sm">✓</span>
+                      <input value={item} onChange={e => updateListItem(i, j, e.target.value)}
+                        placeholder="Élément de liste..."
+                        className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-dental-500 bg-white" />
+                      <button onClick={() => removeListItem(i, j)}
+                        className="text-red-400 hover:text-red-600 text-sm w-6">✕</button>
+                    </div>
+                  ))}
+                  <button onClick={() => addListItem(i)}
+                    className="text-dental-600 text-sm hover:underline mt-1">
+                    + Ajouter un élément
+                  </button>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* BOUTONS */}
+      <div className="flex gap-3 pt-4 border-t border-gray-100">
         <button onClick={() => onSave(form)} disabled={saving}
-          className="bg-dental-600 text-white rounded-lg px-6 py-2 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
-          {saving ? 'Sauvegarde...' : 'Sauvegarder'}
+          className="bg-dental-600 text-white rounded-lg px-8 py-2.5 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
+          {saving ? 'Sauvegarde...' : '💾 Sauvegarder'}
         </button>
-        <button onClick={onCancel} className="border border-gray-200 text-warm-gray rounded-lg px-6 py-2 text-sm hover:bg-gray-50">Annuler</button>
+        <button onClick={onCancel} className="border border-gray-200 text-warm-gray rounded-lg px-6 py-2.5 text-sm hover:bg-gray-50">
+          Annuler
+        </button>
       </div>
     </div>
   )
