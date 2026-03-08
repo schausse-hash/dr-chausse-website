@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js'
 
 export const dynamic = 'force-dynamic'
 export const runtime = 'nodejs'
- 
+export const revalidate = 0 
 export const metadata = {
   title: 'Services | Dr Serge Chaussé - Dentiste Montréal',
   description: 'Découvrez tous les services dentaires offerts par le Dr Serge Chaussé.',
