@@ -290,14 +290,15 @@ function Emplacements() {
       ],
     },
     {
-      nom: "Centre Dentaire St-Luc", ville: "Saint-Jean-sur-Richelieu",
-      adresse: "413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3", tel: "579 700-0915",
-      site: "centredentairest-luc.com",
-      horaires: [
-        { jour: "Lundi", heures: "9:00 - 20:00" }, { jour: "Mardi", heures: "9:00 - 20:00" },
-        { jour: "Mercredi", heures: "9:00 - 20:00" }, { jour: "Jeudi", heures: "9:00 - 20:00" },
-        { jour: "Vendredi", heures: "8:00 - 16:00" }, { jour: "Sam-Dim", heures: "Fermé" },
-      ],
+       nom: "Centre Dentaire St-Luc", ville: "Saint-Jean-sur-Richelieu",
+  adresse: "413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3", tel: "450 349-3368",
+  email: "centredentairest-luc@videotron.ca",
+  site: "centredentairest-luc.com",
+  horaires: [
+    { jour: "Lundi", heures: "9:00 - 20:00" }, { jour: "Mardi", heures: "9:00 - 20:00" },
+    { jour: "Mercredi", heures: "9:00 - 20:00" }, { jour: "Jeudi", heures: "9:00 - 20:00" },
+    { jour: "Vendredi", heures: "8:00 - 16:00" }, { jour: "Sam-Dim", heures: "Fermé" },
+  ],
     },
   ]
   return (
@@ -323,11 +324,17 @@ function Emplacements() {
                 <a href={`tel:${b.tel.replace(/\s/g, '')}`} className="flex items-center gap-2 text-charcoal font-medium">
                   <Phone className="w-4 h-4 text-dental-500" /> {b.tel}
                 </a>
-                <a href={`https://${b.site}`} target="_blank" rel="noopener noreferrer" 
-                  className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
-                  <Globe className="w-4 h-4" /> {b.site}
-                </a>
-              </div>
+               <a href={`https://${b.site}`} target="_blank" rel="noopener noreferrer"
+  className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
+  <Globe className="w-4 h-4" /> {b.site}
+</a>
+{b.email && (
+  <a href={`mailto:${b.email}`}
+    className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
+    <Mail className="w-4 h-4" /> {b.email}
+  </a>
+)}
+</div>
               <div className="border-t pt-4">
                 <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
                   <Clock className="w-4 h-4 text-dental-500" /> Heures d'ouverture
