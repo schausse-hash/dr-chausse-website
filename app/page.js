@@ -527,7 +527,6 @@ function Contact() {
               <select name="sujet" value={formData.sujet} onChange={handleChange}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
                 <option value="">Sujet de votre message</option>
-                <option value="rdv">Prise de rendez-vous</option>
                 <option value="info">Demande d'information</option>
                 <option value="formation">Formation / Tutorat</option>
                 <option value="autre">Autre</option>
