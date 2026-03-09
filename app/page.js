@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { 
   Phone, Mail, MapPin, Globe,
-
+  Award, Star,
   ChevronDown, ExternalLink
 } from 'lucide-react'
 
