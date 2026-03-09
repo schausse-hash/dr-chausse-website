@@ -37,13 +37,15 @@ function timeAgo(dateStr) {
 // ── Composants ───────────────────────────────────────────────────
 function StatCard({ icon: Icon, label, value, sub, color }) {
   return (
-    <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
-      <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 ${color}`}>
-        <Icon className="w-6 h-6" />
+    <div className="bg-white rounded-2xl p-5 border border-gray-100 shadow-sm flex items-start gap-4">
+      <div className={`w-11 h-11 rounded-xl flex items-center justify-center shrink-0 ${color}`}>
+        <Icon className="w-5 h-5" />
       </div>
-      <p className="text-3xl font-bold text-charcoal">{fmt(value)}</p>
-      <p className="text-sm text-warm-gray mt-1">{label}</p>
-      {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+      <div>
+        <p className="text-2xl font-bold text-charcoal">{fmt(value)}</p>
+        <p className="text-sm text-warm-gray">{label}</p>
+        {sub && <p className="text-xs text-gray-400 mt-0.5">{sub}</p>}
+      </div>
     </div>
   )
 }
@@ -124,6 +126,9 @@ export default function AnalyticsDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
+            <a href="/admin" className="inline-flex items-center gap-1 text-sm text-dental-600 hover:text-dental-800 mb-3">
+              ← Retour à l'administration
+            </a>
             <h1 className="font-display text-3xl text-charcoal">Analytics</h1>
             <p className="text-warm-gray text-sm mt-1">
               {lastRefresh ? `Mis à jour ${timeAgo(lastRefresh)}` : 'Chargement...'}
@@ -147,7 +152,7 @@ export default function AnalyticsDashboard() {
         </div>
 
         {/* KPI Cards */}
-        <div className="grid grid-cols-2 md:grid-cols-3 gap-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
           <StatCard icon={Eye}         label="Pages vues"     value={pageViews}   color="bg-blue-100 text-blue-700"     sub={`${sessions} sessions`} />
           <StatCard icon={Users}       label="Sessions"       value={sessions}    color="bg-indigo-100 text-indigo-700" />
           <StatCard icon={Phone}       label="Clics tél."     value={phoneCLicks} color="bg-green-100 text-green-700"   />
