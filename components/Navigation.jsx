@@ -22,7 +22,7 @@ const navLinks = [
   { href: '/#accueil', label: 'Accueil' },
   { href: '/apropos', label: 'À propos' },
   { href: '/services', label: 'Services' },
-  { href: '/#formation', label: 'Formation' },
+  { href: '/formation', label: 'Formation' },
   { href: '/#emplacements', label: 'Emplacements' },
   { href: '/avantapres', label: 'Avant Après' },
   { href: '/ma-vie', label: 'Ma vie' },
