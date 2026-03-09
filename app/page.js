@@ -461,7 +461,7 @@ function DentCaptcha({ onVerified }) {
       </div>
 
       {/* Grille */}
-      <div className="grid grid-cols-6 gap-2 mb-3">
+      <div className="grid grid-cols-3 gap-2 mb-3">
         {items.map(item => {
           const isSelected = selected.has(item.id)
           const isWrong = status === 'error' && isSelected && !item.correct
@@ -473,7 +473,7 @@ function DentCaptcha({ onVerified }) {
               onClick={() => toggle(item.id)}
               disabled={status === 'success'}
               className={[
-                'flex flex-col items-center justify-center rounded-lg py-2 px-1 border-2 transition-all text-center',
+                'flex flex-col items-center justify-center rounded-lg py-1.5 px-1 border-2 transition-all text-center',
                 status === 'success' ? 'cursor-default' : 'cursor-pointer',
                 isGood                                    ? 'border-green-500 bg-green-100' :
                 isWrong                                   ? 'border-red-400 bg-red-100'    :
@@ -481,7 +481,7 @@ function DentCaptcha({ onVerified }) {
                                                             'border-gray-200 bg-white hover:border-dental-300 hover:bg-dental-50',
               ].join(' ')}
             >
-              <span className="text-2xl leading-none">{item.emoji}</span>
+              <span className="text-lg leading-none">{item.emoji}</span>
               <span className={`text-[10px] mt-1 leading-tight ${isSelected ? 'text-dental-600 font-medium' : 'text-gray-400'}`}>
                 {item.label}
               </span>
