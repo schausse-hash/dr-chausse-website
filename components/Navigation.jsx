@@ -24,6 +24,7 @@ const navLinks = [
   { href: '/services', label: 'Services' },
   { href: '/#formation', label: 'Formation' },
   { href: '/#emplacements', label: 'Emplacements' },
+  { href: '/avantapres', label: 'Avant Après' },
   { href: '/ma-vie', label: 'Ma vie' },
   { href: '/#contact', label: 'Contact' },
 ]
@@ -63,7 +64,7 @@ export default function Navigation() {
           }`}>Dr Serge Chaussé</span>
           <span className={`text-xs tracking-widest uppercase transition-colors ${
             isScrolled ? 'text-warm-gray' : 'text-white/70'
-          }`}>Dentiste • Formateur</span>
+          }`}>Chirurgien Dentiste</span>
         </Link>
 
         {/* Desktop */}

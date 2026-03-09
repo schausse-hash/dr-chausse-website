@@ -38,8 +38,10 @@ export default function Footer() {
             <ul className="space-y-2 text-white/60 text-sm">
               <li><a href="/apropos" className="hover:text-white">À propos</a></li>
               <li><a href="/services" className="hover:text-white">Services</a></li>
-              <li><a href="/#formation" className="hover:text-white">Formation</a></li>
+              <li><a href="/formation" className="hover:text-white">Formation</a></li>
+              <li><a href="/avantapres" className="hover:text-white">Avant Après</a></li>
               <li><a href="/#emplacements" className="hover:text-white">Emplacements</a></li>
+              <li><a href="/ma-vie" className="hover:text-white">Ma vie</a></li>
               <li><a href="/#contact" className="hover:text-white">Contact</a></li>
             </ul>
           </div>
@@ -50,7 +52,7 @@ export default function Footer() {
               <li>📧 schausse@dentiste.com</li>
               <li className="pt-2">
                 <a href="https://www.implantologycourses.com/" target="_blank" rel="noopener noreferrer"
-                  className="text-accent-400 hover:text-accent-300">implantologycourses.com</a>
+                  className="text-accent-400 hover:text-accent-300">cours Hands on à l'international>
               </li>
             </ul>
           </div>
