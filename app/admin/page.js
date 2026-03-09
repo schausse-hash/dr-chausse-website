@@ -148,6 +148,10 @@ function Dashboard() {
               {tab.label}
             </button>
           ))}
+          <a href="/admin/analytics"
+            className="px-4 py-3 text-sm font-medium border-b-2 border-transparent text-warm-gray hover:text-charcoal transition-colors">
+            📊 Analytics
+          </a>
         </div>
       </div>
 
