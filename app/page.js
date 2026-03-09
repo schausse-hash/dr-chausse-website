@@ -3,9 +3,9 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { 
-  Phone, Mail, MapPin, Clock, Award, GraduationCap,
-  CheckCircle2, Users, Calendar, Globe,
-  Heart, Sparkles, Shield, Star, ChevronDown, ExternalLink
+  Phone, Mail, MapPin, Globe,
+
+  ChevronDown, ExternalLink
 } from 'lucide-react'
 
 // HERO
@@ -24,7 +24,7 @@ function Hero() {
               Votre sourire,<br /><span className="text-accent-400">mon expertise</span>
             </h1>
             <p className="text-xl text-white/80 max-w-lg">
-              Dentiste et formateur international en implantologie. 
+              Chirurgien dentiste et formateur en implantologie. 
               Il suffit d'un petit rien pour transformer votre sourire.
             </p>
            
@@ -65,25 +65,21 @@ function Hero() {
 function Emplacements() {
   const bureaux = [
     {
-      nom: "Clinique dentaire Boulevard St-Joseph", ville: "Montréal (Plateau Mont-Royal)",
-      adresse: "1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9", tel: "514-521-4141",
+      nom: "Clinique dentaire Boulevard St-Joseph",
+      ville: "Montréal (Plateau Mont-Royal)",
+      adresse: "1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9",
+      tel: "514-521-4141",
       site: "cliniquedentaireboulevardsaintjoseph.ca",
-      horaires: [
-        { jour: "Lundi", heures: "8:30 - 16:00" }, { jour: "Mardi", heures: "7:30 - 17:00" },
-        { jour: "Mercredi", heures: "7:30 - 18:30" }, { jour: "Jeudi", heures: "7:30 - 17:00" },
-        { jour: "Vendredi", heures: "8:00 - 16:00" }, { jour: "Sam-Dim", heures: "Fermé" },
-      ],
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.6!2d-73.5739!3d45.5322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91a4e1b3b3b3b%3A0x0!2s1277+Bd+Saint-Joseph+E%2C+Montr%C3%A9al!5e0!3m2!1sfr!2sca!4v1700000000000",
     },
     {
-       nom: "Centre Dentaire St-Luc", ville: "Saint-Jean-sur-Richelieu",
-  adresse: "413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3", tel: "450 349-3368",
-  email: "centredentairest-luc@videotron.ca",
-  site: "centredentairest-luc.com",
-  horaires: [
-    { jour: "Lundi", heures: "9:00 - 20:00" }, { jour: "Mardi", heures: "9:00 - 20:00" },
-    { jour: "Mercredi", heures: "9:00 - 20:00" }, { jour: "Jeudi", heures: "9:00 - 20:00" },
-    { jour: "Vendredi", heures: "8:00 - 16:00" }, { jour: "Sam-Dim", heures: "Fermé" },
-  ],
+      nom: "Centre Dentaire St-Luc",
+      ville: "Saint-Jean-sur-Richelieu",
+      adresse: "413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3",
+      tel: "450 349-3368",
+      email: "centredentairest-luc@videotron.ca",
+      site: "centredentairest-luc.com",
+      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2810.4!2d-73.2637!3d45.3078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc924b1b1b1b1b1%3A0x0!2s413+Boul.+Saint-Luc%2C+Saint-Jean-sur-Richelieu!5e0!3m2!1sfr!2sca!4v1700000000001",
     },
   ]
   return (
@@ -96,42 +92,46 @@ function Emplacements() {
         </div>
         <div className="grid md:grid-cols-2 gap-8">
           {bureaux.map((b, i) => (
-            <div key={i} className="bg-cream rounded-2xl p-8 border border-gray-100">
-              <div className="flex items-start justify-between mb-4">
+            <div key={i} className="bg-cream rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
+              {/* Carte Google Maps */}
+              <div className="h-52 w-full bg-gray-200">
+                <iframe
+                  src={b.mapSrc}
+                  width="100%" height="100%"
+                  style={{ border: 0 }}
+                  allowFullScreen loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  title={b.nom}
+                />
+              </div>
+              {/* Infos */}
+              <div className="p-6 space-y-3">
                 <div>
                   <h3 className="font-display text-xl text-charcoal">{b.nom}</h3>
-                  <p className="text-dental-600 font-medium">{b.ville}</p>
+                  <p className="text-dental-600 font-medium text-sm">{b.ville}</p>
                 </div>
-                <MapPin className="w-6 h-6 text-dental-500" />
-              </div>
-              <div className="space-y-3 mb-6">
-                <p className="text-warm-gray text-sm">{b.adresse}</p>
-                <a href={`tel:${b.tel.replace(/\s/g, '')}`} className="flex items-center gap-2 text-charcoal font-medium">
+                <p className="text-warm-gray text-sm flex items-start gap-2">
+                  <MapPin className="w-4 h-4 text-dental-500 mt-0.5 shrink-0" /> {b.adresse}
+                </p>
+                <a href={`tel:${b.tel.replace(/\s/g, '')}`}
+                  className="flex items-center gap-2 text-charcoal font-medium hover:text-dental-600 transition-colors">
                   <Phone className="w-4 h-4 text-dental-500" /> {b.tel}
                 </a>
-               <a href={`https://${b.site}`} target="_blank" rel="noopener noreferrer"
-  className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
-  <Globe className="w-4 h-4" /> {b.site}
-</a>
-{b.email && (
-  <a href={`mailto:${b.email}`}
-    className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
-    <Mail className="w-4 h-4" /> {b.email}
-  </a>
-)}
-</div>
-              <div className="border-t pt-4">
-                <h4 className="font-medium text-sm mb-3 flex items-center gap-2">
-                  <Clock className="w-4 h-4 text-dental-500" /> Heures d'ouverture
-                </h4>
-                <div className="grid grid-cols-2 gap-2 text-sm">
-                  {b.horaires.map((h, j) => (
-                    <div key={j} className="flex justify-between">
-                      <span className="text-warm-gray">{h.jour}</span>
-                      <span className="text-charcoal">{h.heures}</span>
-                    </div>
-                  ))}
-                </div>
+                {b.email && (
+                  <a href={`mailto:${b.email}`}
+                    className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
+                    <Mail className="w-4 h-4" /> {b.email}
+                  </a>
+                )}
+                <a href={`https://${b.site}`} target="_blank" rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-dental-600 hover:text-dental-700 text-sm">
+                  <Globe className="w-4 h-4" /> {b.site}
+                </a>
+                <a href={`https://maps.google.com/?q=${encodeURIComponent(b.adresse)}`}
+                  target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 mt-2 bg-dental-600 text-white text-sm px-4 py-2 rounded-lg hover:bg-dental-700 transition-colors">
+                  <MapPin className="w-4 h-4" /> Obtenir l'itinéraire
+                </a>
               </div>
             </div>
           ))}
