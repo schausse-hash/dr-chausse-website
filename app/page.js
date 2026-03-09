@@ -357,48 +357,6 @@ function Emplacements() {
 }
 
 // FAMILLE
-function Famille() {
-  return (
-    <section id="famille" className="py-24 bg-gradient-to-b from-cream to-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-display text-4xl text-charcoal mb-4">Ma vie, mes passions</h2>
-          <p className="text-warm-gray text-lg max-w-2xl mx-auto">
-            « Ma vie ne s'est pas arrêtée qu'à la médecine dentaire. Malgré toutes les reconstructions 
-            et remodelages de milliers de sourires, il reste que les plus beaux sont ceux de 
-            mon épouse, de mes quatre enfants, et de mes trois petits-enfants. »
-          </p>
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-          {[
-            { icon: Heart, label: "Diane", desc: "Mon épouse" },
-            { icon: Users, label: "4 enfants", desc: "Rachel, Mathias, Gaële, Thomas" },
-            { icon: Star, label: "3 petits-enfants", desc: "Dont Camille" },
-            { icon: Sparkles, label: "Thomas", desc: "Veut suivre mes traces!" },
-          ].map((item, i) => (
-            <div key={i} className="bg-white p-6 rounded-xl shadow-sm text-center">
-              <div className="w-12 h-12 mx-auto mb-3 bg-dental-100 rounded-full flex items-center justify-center">
-                <item.icon className="w-6 h-6 text-dental-600" />
-              </div>
-              <h4 className="font-semibold text-charcoal">{item.label}</h4>
-              <p className="text-sm text-warm-gray">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="bg-dental-600 rounded-3xl p-8 text-white text-center">
-          <h3 className="font-display text-2xl mb-4">🤿 Nos passions</h3>
-          <p className="text-white/80 text-lg">
-            🏍️ Moto père-fille • 🌴 Voyages en famille • 🌊 Plongée sous-marine • 🌵 Aventures
-          </p>
-        </div>
-        <div className="mt-12 text-center">
-          <p className="font-display text-xl text-charcoal">« Votre sourire est souvent le reflet de votre personnalité. Prenez-en soin. »</p>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // TÉMOIGNAGES
 function Temoignages() {
@@ -688,7 +646,6 @@ export default function Home() {
       <Services />
       <Formation />
       <Emplacements />
-      <Famille />
       <Temoignages />
       <Contact />
     </main>
