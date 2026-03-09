@@ -3,10 +3,6 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { useAnalytics } from '@/hooks/useAnalytics'
-import {
-  Award, GraduationCap, CheckCircle2,
-  Heart, Sparkles, Shield, Star, ArrowLeft, Phone
-} from 'lucide-react'
 
 const formations = [
   "All-on-4 du Dr Paulo Malo", "Orthodontie IAO", "Prosthodontie Institut Dr Yvan Poitras",
@@ -30,21 +26,17 @@ export default function AProposPage() {
       <section className="hero-gradient py-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <Link href="/"
-            onClick={() => track('click_nav', 'retour-accueil')}
-            className="inline-flex items-center gap-2 text-white/70 hover:text-white text-sm mb-8 transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Retour à l'accueil
-          </Link>
+        
           <div className="max-w-2xl">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-2 mb-6">
               <Award className="w-4 h-4 text-accent-400" />
-              <span className="text-sm text-white">Plus de 40 ans d'expérience</span>
+              <span className="text-sm text-white">Plus de 42 ans d'expérience</span>
             </div>
             <h1 className="font-display text-4xl md:text-5xl text-white mb-4">
               À propos du Dr Chaussé
             </h1>
             <p className="text-white/70 text-lg">
-              Dentiste, formateur international et passionné par l'excellence en soins dentaires depuis 1984.
+              Dentiste, formateur et passionné par l'excellence en soins dentaires depuis 1984.
             </p>
           </div>
         </div>
@@ -86,7 +78,7 @@ export default function AProposPage() {
               {/* Stats */}
               <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-100">
                 <div className="text-center">
-                  <div className="font-display text-3xl text-dental-600">40+</div>
+                  <div className="font-display text-3xl text-dental-600">42+</div>
                   <div className="text-xs text-warm-gray mt-1">Années d'expérience</div>
                 </div>
                 <div className="text-center">
@@ -95,7 +87,7 @@ export default function AProposPage() {
                 </div>
                 <div className="text-center">
                   <div className="font-display text-3xl text-dental-600">17+</div>
-                  <div className="text-xs text-warm-gray mt-1">Ans formateur</div>
+                  <div className="text-xs text-warm-gray mt-1">Années formateur</div>
                 </div>
               </div>
 
@@ -105,7 +97,7 @@ export default function AProposPage() {
                   { icon: Heart,        text: 'Approche humaine' },
                   { icon: Sparkles,     text: 'Technologies de pointe' },
                   { icon: Shield,       text: 'Intégrité & Qualité' },
-                  { icon: GraduationCap,text: 'Formateur international' },
+                  { icon: GraduationCap,text: 'Formateur hands on' },
                 ].map((item, i) => (
                   <div key={i} className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-dental-100 flex items-center justify-center shrink-0">
@@ -164,7 +156,7 @@ export default function AProposPage() {
               <ul className="space-y-4">
                 <li className="flex items-start gap-3">
                   <Star className="w-5 h-5 text-accent-500 mt-0.5 shrink-0" />
-                  <span><strong>Fellow AAIO</strong> — American Academy of Implant Orthodontics</span>
+                  <span><strong>Fellow AAID</strong> — American Academy of Implant Dentistry</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Star className="w-5 h-5 text-accent-500 mt-0.5 shrink-0" />
