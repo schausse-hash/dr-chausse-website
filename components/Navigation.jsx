@@ -26,6 +26,7 @@ const navLinks = [
   { href: '/#emplacements', label: 'Emplacements' },
   { href: '/avantapres', label: 'Avant Après' },
   { href: '/ma-vie', label: 'Ma vie' },
+  { href: '/blog', label: 'Mon Blog' },
   { href: '/#contact', label: 'Contact' },
 ]
 

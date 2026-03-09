@@ -42,6 +42,7 @@ export default function Footer() {
               <li><a href="/avantapres" className="hover:text-white">Avant Après</a></li>
               <li><a href="/#emplacements" className="hover:text-white">Emplacements</a></li>
               <li><a href="/ma-vie" className="hover:text-white">Ma vie</a></li>
+              <li><a href="/blog" className="hover:text-white">Mon Blog</a></li>
               <li><a href="/#contact" className="hover:text-white">Contact</a></li>
             </ul>
           </div>
