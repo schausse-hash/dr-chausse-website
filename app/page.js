@@ -156,7 +156,7 @@ function Temoignages() {
           </p>
         </div>
         <div className="flex justify-center mb-12">
-          <a href="https://www.ratemds.com/doctor-ratings/42011/Dr-Serge-Chausse-Montreal-QC.html" 
+          <a href="https://www.ratemds.com/best-doctors/qc/montreal/?text=chausse" 
             target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2">
             <Star className="w-5 h-5" /> Voir les avis sur RateMDs <ExternalLink className="w-4 h-4" />
           </a>
