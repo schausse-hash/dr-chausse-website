@@ -8,6 +8,8 @@ function LoginForm({ onLogin }) {
   const [password, setPassword] = useState('')
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState('')
+  const [mode, setMode] = useState('login') // 'login' | 'reset'
+  const [resetSent, setResetSent] = useState(false)
   const supabase = createClient()
 
   async function handleLogin() {
@@ -19,6 +21,18 @@ function LoginForm({ onLogin }) {
     setLoading(false)
   }
 
+  async function handleReset() {
+    if (!email) { setError('Entrez votre email d\'abord.'); return }
+    setLoading(true)
+    setError('')
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: 'https://www.dentiste.com/admin',
+    })
+    if (error) setError(error.message)
+    else setResetSent(true)
+    setLoading(false)
+  }
+
   return (
     <div className="min-h-screen bg-dental-900 flex items-center justify-center px-4">
       <div className="bg-white rounded-2xl p-8 w-full max-w-sm shadow-2xl">
@@ -27,20 +41,57 @@ function LoginForm({ onLogin }) {
           <h1 className="font-display text-2xl text-charcoal">Administration</h1>
           <p className="text-warm-gray text-sm mt-1">Dr Serge Chaussé</p>
         </div>
+
         {error && (
           <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 mb-4 text-sm">{error}</div>
         )}
-        <div className="space-y-4">
-          <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}
-            className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-dental-500" />
-          <input type="password" placeholder="Mot de passe" value={password} onChange={e => setPassword(e.target.value)}
-            onKeyDown={e => e.key === 'Enter' && handleLogin()}
-            className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-dental-500" />
-          <button onClick={handleLogin} disabled={loading}
-            className="w-full bg-dental-600 text-white rounded-lg py-3 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
-            {loading ? 'Connexion...' : 'Se connecter'}
-          </button>
-        </div>
+
+        {mode === 'login' ? (
+          <div className="space-y-4">
+            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-dental-500" />
+            <input type="password" placeholder="Mot de passe" value={password} onChange={e => setPassword(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleLogin()}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-dental-500" />
+            <button onClick={handleLogin} disabled={loading}
+              className="w-full bg-dental-600 text-white rounded-lg py-3 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
+              {loading ? 'Connexion...' : 'Se connecter'}
+            </button>
+            <div className="text-center">
+              <button onClick={() => { setMode('reset'); setError('') }}
+                className="text-sm text-warm-gray hover:text-dental-600 underline underline-offset-2">
+                Mot de passe oublié?
+              </button>
+            </div>
+          </div>
+        ) : resetSent ? (
+          <div className="text-center space-y-4">
+            <div className="text-4xl">📧</div>
+            <p className="text-charcoal font-medium">Email envoyé!</p>
+            <p className="text-warm-gray text-sm">Vérifiez votre boîte courriel pour réinitialiser votre mot de passe.</p>
+            <button onClick={() => { setMode('login'); setResetSent(false) }}
+              className="text-sm text-dental-600 hover:underline">
+              ← Retour à la connexion
+            </button>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <p className="text-sm text-warm-gray text-center">Entrez votre email pour recevoir un lien de réinitialisation.</p>
+            <input type="email" placeholder="Email" value={email} onChange={e => setEmail(e.target.value)}
+              onKeyDown={e => e.key === 'Enter' && handleReset()}
+              className="w-full border border-gray-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:border-dental-500" />
+            <button onClick={handleReset} disabled={loading}
+              className="w-full bg-dental-600 text-white rounded-lg py-3 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
+              {loading ? 'Envoi...' : 'Envoyer le lien'}
+            </button>
+            <div className="text-center">
+              <button onClick={() => { setMode('login'); setError('') }}
+                className="text-sm text-warm-gray hover:text-dental-600 underline underline-offset-2">
+                ← Retour à la connexion
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   )
