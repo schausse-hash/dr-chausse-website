@@ -1,5 +1,6 @@
 import './globals.css'
 import ConditionalLayout from '@/components/ConditionalLayout'
+import Script from 'next/script'
 
 export const metadata = {
   title: 'Dr Serge Chaussé | Dentiste & Formateur en Implantologie | Montréal',
@@ -24,6 +25,22 @@ export default function RootLayout({ children }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
       </head>
       <body className="antialiased">
+        {/* Google Analytics */}
+        <Script
+          src="https://www.googletagmanager.com/gtag/js?id=G-6ERJEBXPZW"
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-6ERJEBXPZW', {
+              page_path: window.location.pathname,
+            });
+          `}
+        </Script>
+
         <ConditionalLayout>{children}</ConditionalLayout>
       </body>
     </html>
