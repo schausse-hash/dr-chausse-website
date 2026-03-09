@@ -3,6 +3,11 @@
 import { useEffect } from 'react'
 import Link from 'next/link'
 import { useAnalytics } from '@/hooks/useAnalytics'
+import {
+  Award,           // ← manquant!
+  GraduationCap, CheckCircle2,
+  Heart, Sparkles, Shield, Star, Phone
+} from 'lucide-react'
 
 const formations = [
   "All-on-4 du Dr Paulo Malo", "Orthodontie IAO", "Prosthodontie Institut Dr Yvan Poitras",
