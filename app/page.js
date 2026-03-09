@@ -18,23 +18,16 @@ function Hero() {
           <div className="text-white space-y-8">
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur rounded-full px-4 py-2">
               <Award className="w-4 h-4 text-accent-400" />
-              <span className="text-sm">Plus de 40 ans d'expérience</span>
+              <span className="text-sm">Plus de 42 ans d'expérience</span>
             </div>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-tight">
               Votre sourire,<br /><span className="text-accent-400">mon expertise</span>
             </h1>
             <p className="text-xl text-white/80 max-w-lg">
-              Dentiste et formateur international en implantologie. 
+              Dentiste et formateur en implantologie. 
               Il suffit d'un petit rien pour transformer votre sourire.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <a href="#contact" className="btn-primary bg-white text-dental-700 hover:bg-accent-400 hover:text-charcoal">
-                Prendre rendez-vous
-              </a>
-              <a href="#apropos" className="btn-outline border-white text-white hover:bg-white hover:text-dental-700">
-                En savoir plus
-              </a>
-            </div>
+
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
               <div><div className="font-display text-3xl text-accent-400">40+</div><div className="text-sm text-white/60">Années d'expérience</div></div>
               <div><div className="font-display text-3xl text-accent-400">2000+</div><div className="text-sm text-white/60">Heures de formation</div></div>
@@ -86,7 +79,7 @@ function About() {
                 { icon: Heart, text: 'Approche humaine' },
                 { icon: Sparkles, text: 'Technologies de pointe' },
                 { icon: Shield, text: 'Intégrité & Qualité' },
-                { icon: GraduationCap, text: 'Formateur international' },
+                { icon: GraduationCap, text: 'Formateur' },
               ].map((item, i) => (
                 <div key={i} className="flex items-center gap-3">
                   <div className="w-10 h-10 rounded-full bg-dental-100 flex items-center justify-center">
@@ -140,7 +133,7 @@ function Certifications() {
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <Star className="w-5 h-5 text-accent-500 mt-0.5" />
-                <span><strong>Fellow AAIO</strong> - American Academy of Implant Orthodontics</span>
+                <span><strong>Fellow AAID</strong> - American Academy of Implant Dentistry</span>
               </li>
               <li className="flex items-start gap-3">
                 <Star className="w-5 h-5 text-accent-500 mt-0.5" />
