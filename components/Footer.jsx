@@ -52,7 +52,7 @@ export default function Footer() {
               <li>📧 schausse@dentiste.com</li>
               <li className="pt-2">
                 <a href="https://www.implantologycourses.com/" target="_blank" rel="noopener noreferrer"
-                  className="text-accent-400 hover:text-accent-300">cours Hands on à l'international>
+                  className="text-accent-400 hover:text-accent-300">Cours Hands-on à l'international</a>
               </li>
             </ul>
           </div>
