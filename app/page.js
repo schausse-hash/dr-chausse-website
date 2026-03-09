@@ -286,98 +286,63 @@ function Contact() {
   return (
     <section id="contact" className="py-24 bg-cream">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
+        <div className="text-center mb-12">
           <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-display text-4xl text-charcoal mb-4">Contactez-moi</h2>
-         </div>
-        <div className="grid lg:grid-cols-2 gap-12">
+          <h2 className="font-display text-4xl text-charcoal mb-2">Contactez-moi</h2>
+          <p className="text-warm-gray text-lg">Une consultation gratuite vous enchantera!</p>
+        </div>
 
-          {/* COLONNE GAUCHE */}
-          <div className="space-y-8">
-           <div className="bg-dental-600 text-white rounded-2xl p-8">
-           
-    <h3 className="font-display text-xl mb-6">Les cliniques où je travaille</h3>
-              <div className="space-y-6">
-                <div>
-                  <p className="font-semibold text-lg">Clinique dentaire du boulevard Saint-Joseph — Montréal</p>
-                  <p className="text-white/80 text-sm mt-1">1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9</p>
-                  <a href="tel:5145214141" className="text-accent-400 hover:text-accent-300 text-sm">514.521.4141</a>
-                 <a href="mailto:info@centredentaireboulevardsaintjoseph.ca" className="text-accent-400 hover:text-accent-300 text-xs block mt-1">
- info@centredentaireboulevardsaintjoseph.ca
-</a>
-    <p className="text-white/60 text-xs mt-2">Lun–Jeu: 7h30–17h · Ven: 8h–16h</p>
-    <a href="https://www.cliniquedentaireboulevardsaintjoseph.ca/" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
-                    cliniquedentaireboulevardsaintjoseph.ca/ <ExternalLink className="w-3 h-3" />
-                  </a>            
-    
-    </div>
-                <div className="border-t border-white/20 pt-6">
-                  <p className="font-semibold text-lg">Saint-Jean-sur-Richelieu</p>
-                  <p className="text-white/80 text-sm mt-1">413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3</p>
-                  <a href="tel:4503493368" className="text-accent-400 hover:text-accent-300 text-sm">450 349-3368</a>
-                  <a href="mailto:centredentairest-luc@videotron.ca" className="text-accent-400 hover:text-accent-300 text-xs block mt-1">
-  centredentairest-luc@videotron.ca
-</a>
-    <p className="text-white/60 text-xs mt-2">Lun–Jeu: 9h–20h · Ven: 8h–16h</p>
-                  <a href="https://centredentairest-luc.com/" target="_blank" rel="noopener noreferrer"
-                    className="inline-flex items-center gap-1 text-accent-400 hover:text-accent-300 text-xs mt-2">
-                    centredentairest-luc.com <ExternalLink className="w-3 h-3" />
-                  </a>
-                </div>
-              </div>
+        {/* FORMULAIRE CENTRÉ */}
+        <div className="max-w-2xl mx-auto bg-white rounded-2xl p-8 shadow-sm">
+          {formStatus === 'success' && (
+            <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-xl flex items-center gap-3">
+              <span className="text-2xl">✅</span>
+              <p className="text-green-700 font-medium">Message envoyé avec succès! Je vous répondrai sous peu.</p>
             </div>
-          </div>
-
-          {/* COLONNE DROITE — FORMULAIRE */}
-          <div className="bg-white rounded-2xl p-8 shadow-sm">
-            <h3 className="font-display text-xl mb-6">Envoyez-moi un message</h3>
-            {formStatus === 'success' && (
-              <div className="mb-6 p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-700 font-medium">Message envoyé avec succès!</p>
-              </div>
-            )}
-            {formStatus === 'error' && (
-              <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-lg">
-                <p className="text-red-700">Erreur. Appelez-moi au 514.521.4141</p>
-              </div>
-            )}
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <div className="grid sm:grid-cols-2 gap-4">
-                <input type="text" name="prenom" value={formData.prenom} onChange={handleChange}
-                  placeholder="Prénom *" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
-                <input type="text" name="nom" value={formData.nom} onChange={handleChange}
-                  placeholder="Nom *" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
-              </div>
+          )}
+          {formStatus === 'error' && (
+            <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
+              <p className="text-red-700">Erreur lors de l'envoi. Appelez-moi au <a href="tel:5145214141" className="font-semibold underline">514.521.4141</a></p>
+            </div>
+          )}
+          <form onSubmit={handleSubmit} className="space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <input type="text" name="prenom" value={formData.prenom} onChange={handleChange}
+                placeholder="Prénom *" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
+              <input type="text" name="nom" value={formData.nom} onChange={handleChange}
+                placeholder="Nom *" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
               <input type="email" name="email" value={formData.email} onChange={handleChange}
                 placeholder="Courriel *" required className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
               <input type="tel" name="telephone" value={formData.telephone} onChange={handleChange}
                 placeholder="Téléphone" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
-              <select name="sujet" value={formData.sujet} onChange={handleChange}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
-                <option value="">Sujet de votre message</option>
-                <option value="formation">Formation / Tutorat</option>
-                <option value="info">Demande d'information</option>
-                <option value="autre">Autre</option>
-              </select>
-              <textarea name="message" value={formData.message} onChange={handleChange}
-                placeholder="Votre message *" required rows={4}
-                className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none resize-none" />
-              <DentCaptcha onVerified={setCaptchaOk} />
-              {captchaOk ? (
-                <button type="submit" disabled={formStatus === 'submitting'}
-                  className={`btn-primary w-full ${formStatus === 'submitting' ? 'opacity-70' : ''}`}>
-                  {formStatus === 'submitting' ? 'Envoi en cours...' : '✉️ Envoyer le message'}
-                </button>
-              ) : (
-                <div className="w-full py-3 px-4 rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 text-center">
-                  <p className="text-sm text-gray-400">👆 Complétez la vérification ci-dessus pour envoyer</p>
-                </div>
-              )}
-            </form>
-          </div>
-
+            </div>
+            <select name="sujet" value={formData.sujet} onChange={handleChange}
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
+              <option value="">Sujet de votre message</option>
+              <option value="rdv">Demande de rendez-vous</option>
+              <option value="formation">Formation / Tutorat</option>
+              <option value="info">Demande d'information</option>
+              <option value="autre">Autre</option>
+            </select>
+            <textarea name="message" value={formData.message} onChange={handleChange}
+              placeholder="Votre message *" required rows={4}
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none resize-none" />
+            <DentCaptcha onVerified={setCaptchaOk} />
+            {captchaOk ? (
+              <button type="submit" disabled={formStatus === 'submitting'}
+                className={`btn-primary w-full ${formStatus === 'submitting' ? 'opacity-70' : ''}`}>
+                {formStatus === 'submitting' ? 'Envoi en cours...' : '✉️ Envoyer le message'}
+              </button>
+            ) : (
+              <div className="w-full py-3 px-4 rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 text-center">
+                <p className="text-sm text-gray-400">👆 Complétez la vérification ci-dessus pour envoyer</p>
+              </div>
+            )}
+          </form>
         </div>
+
       </div>
     </section>
   )
