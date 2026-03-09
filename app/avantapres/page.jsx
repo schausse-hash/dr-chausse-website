@@ -56,7 +56,7 @@ export default function AvantApresPage() {
             Conformément au code des professions, nous vous invitons à consulter
             les avis authentiques sur des sites indépendants.
           </p>
-          <a href="https://www.ratemds.com/best-doctors/qc/montreal/?text=chausse"
+          <a href="https://www.ratemds.com/doctor-ratings/875036/Dr-Serge-Chausse-Montreal-QC.html/"
             target="_blank" rel="noopener noreferrer"
             onClick={() => track('click_site_externe', 'ratemds')}
             className="btn-primary inline-flex items-center gap-2">
