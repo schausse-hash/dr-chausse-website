@@ -144,44 +144,6 @@ function Emplacements() {
 
 // FAMILLE
 
-// TÉMOIGNAGES
-function Temoignages() {
-  return (
-    <section className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-12">
-          <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-display text-4xl text-charcoal mb-4">Ce que disent mes patients</h2>
-          <p className="text-warm-gray max-w-2xl mx-auto">
-            Conformément au code des professions, nous vous invitons à consulter les avis authentiques sur des sites indépendants.
-          </p>
-        </div>
-        <div className="flex justify-center mb-12">
-          <a href="https://www.ratemds.com/best-doctors/qc/montreal/?text=chausse" 
-            target="_blank" rel="noopener noreferrer" className="btn-primary inline-flex items-center gap-2">
-            <Star className="w-5 h-5" /> Voir les avis sur RateMDs <ExternalLink className="w-4 h-4" />
-          </a>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div className="bg-cream rounded-2xl p-8">
-            <h3 className="font-display text-xl mb-4">Réhabilitation tout céramique</h3>
-            <p className="text-warm-gray mb-4">Un bel exemple d'une réhabilitation complète en zirconium et céramique</p>
-            <div className="bg-dental-100 h-48 rounded-xl flex items-center justify-center text-dental-400">
-              Photos avant/après à ajouter
-            </div>
-          </div>
-          <div className="bg-cream rounded-2xl p-8">
-            <h3 className="font-display text-xl mb-4">Réhabilitation All-On-Four</h3>
-            <p className="text-warm-gray mb-4">« Ma vie a changée! »</p>
-            <div className="bg-dental-100 h-48 rounded-xl flex items-center justify-center text-dental-400">
-              Photos avant/après à ajouter
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // ── CAPTCHA DENTAIRE ──────────────────────────────────────────────
 const CAPTCHA_ITEMS = [
@@ -327,8 +289,7 @@ function Contact() {
         <div className="text-center mb-16">
           <div className="section-divider mx-auto mb-4" />
           <h2 className="font-display text-4xl text-charcoal mb-4">Contactez-moi</h2>
-          <p className="text-warm-gray text-lg">Une consultation gratuite vous enchantera!</p>
-        </div>
+         </div>
         <div className="grid lg:grid-cols-2 gap-12">
 
           {/* COLONNE GAUCHE */}
@@ -428,7 +389,6 @@ export default function Home() {
     <main>
       <Hero />
       <Emplacements />
-      <Temoignages />
       <Contact />
     </main>
   )
