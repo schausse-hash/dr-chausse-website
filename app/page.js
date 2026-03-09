@@ -70,6 +70,7 @@ function Emplacements() {
       adresse: "1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9",
       tel: "514-521-4141",
       site: "cliniquedentaireboulevardsaintjoseph.ca",
+      email: "info@centredentaireboulevardsaintjoseph.ca",
       mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.6!2d-73.5739!3d45.5322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91a4e1b3b3b3b%3A0x0!2s1277+Bd+Saint-Joseph+E%2C+Montr%C3%A9al!5e0!3m2!1sfr!2sca!4v1700000000000",
     },
     {
