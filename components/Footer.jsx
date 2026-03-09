@@ -48,8 +48,8 @@ export default function Footer() {
           <div>
             <h4 className="font-semibold mb-4">Contact</h4>
             <ul className="space-y-2 text-white/60 text-sm">
-              <li>📞 514.521.4141</li>
-              <li>📧 schausse@dentiste.com</li>
+              <li><a href="tel:5145214141" className="hover:text-white">📞 514.521.4141</a></li>
+              <li><a href="mailto:schausse@dentiste.com" className="hover:text-white">📧 schausse@dentiste.com</a></li>
               <li className="pt-2">
                 <a href="https://www.implantologycourses.com/" target="_blank" rel="noopener noreferrer"
                   className="text-accent-400 hover:text-accent-300">Cours Hands-on à l'international</a>
@@ -58,7 +58,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
-          <p>© 2025 Dr Serge Chaussé. Tous droits réservés.</p>
+          <p>© 2026 Dr Serge Chaussé. Tous droits réservés.</p>
           <p>Membre de l'Ordre des dentistes du Québec</p>
         </div>
       </div>
