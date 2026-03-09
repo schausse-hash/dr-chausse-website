@@ -18,16 +18,23 @@ function Hero() {
           <div className="text-white space-y-8">
             <div className="inline-flex items-center space-x-2 bg-white/10 backdrop-blur rounded-full px-4 py-2">
               <Award className="w-4 h-4 text-accent-400" />
-              <span className="text-sm">Plus de 42 ans d'expérience</span>
+              <span className="text-sm">Plus de 40 ans d'expérience</span>
             </div>
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-tight">
               Votre sourire,<br /><span className="text-accent-400">mon expertise</span>
             </h1>
             <p className="text-xl text-white/80 max-w-lg">
-              Dentiste et formateur en implantologie. 
+              Dentiste et formateur international en implantologie. 
               Il suffit d'un petit rien pour transformer votre sourire.
             </p>
-
+            <div className="flex flex-wrap gap-4">
+              <a href="#contact" className="btn-primary bg-white text-dental-700 hover:bg-accent-400 hover:text-charcoal">
+                Prendre rendez-vous
+              </a>
+              <a href="/apropos" className="btn-outline border-white text-white hover:bg-white hover:text-dental-700">
+                En savoir plus
+              </a>
+            </div>
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
               <div><div className="font-display text-3xl text-accent-400">40+</div><div className="text-sm text-white/60">Années d'expérience</div></div>
               <div><div className="font-display text-3xl text-accent-400">2000+</div><div className="text-sm text-white/60">Heures de formation</div></div>
@@ -54,109 +61,8 @@ function Hero() {
 }
 
 // À PROPOS
-function About() {
-  return (
-    <section id="apropos" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
-          <div className="relative">
-            <img src="/images/portrait-principal.jpg" alt="Dr Serge Chaussé" className="rounded-2xl shadow-xl w-full" />
-          </div>
-          <div className="space-y-6">
-            <div className="section-divider" />
-            <h2 className="font-display text-4xl lg:text-5xl text-charcoal">Dr Serge Chaussé</h2>
-            <p className="text-lg text-warm-gray">
-              Depuis 1984, je suis une référence en soins de dentisterie à Montréal. 
-              Mes patients de tous âges apprécient mon professionnalisme, ma délicatesse 
-              ainsi que l'efficacité de mes soins.
-            </p>
-            <p className="text-lg text-warm-gray">
-              <strong className="text-charcoal">Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.</strong>{' '}
-              Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
-            </p>
-            <div className="grid sm:grid-cols-2 gap-4 pt-4">
-              {[
-                { icon: Heart, text: 'Approche humaine' },
-                { icon: Sparkles, text: 'Technologies de pointe' },
-                { icon: Shield, text: 'Intégrité & Qualité' },
-                { icon: GraduationCap, text: 'Formateur' },
-              ].map((item, i) => (
-                <div key={i} className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-dental-100 flex items-center justify-center">
-                    <item.icon className="w-5 h-5 text-dental-600" />
-                  </div>
-                  <span className="text-charcoal">{item.text}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // CERTIFICATIONS
-function Certifications() {
-  const formations = [
-    "All-on-4 du Dr Paulo Malo", "Orthodontie IAO", "Prosthodontie Institut Dr Yvan Poitras",
-    "Chirurgie implantaire Maxicourse Toronto (350h)", "Chirurgie osseuse California Implant Institute",
-    "CEREC 3D par Dr Marc Morin", "Pacific Training Institute for Facial Aesthetics & Therapeutics",
-    "Manipulation tissus mous", "Élévation sinusale Dr Al Farage Vancouver",
-  ]
-  return (
-    <section className="py-24 bg-cream">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-display text-4xl text-charcoal mb-4">Formation & Certifications</h2>
-          <p className="text-warm-gray text-lg">Plus de 2000 heures d'éducation continue</p>
-        </div>
-        <div className="grid md:grid-cols-2 gap-8 mb-12">
-          <div className="bg-white p-8 rounded-2xl shadow-sm">
-            <GraduationCap className="w-12 h-12 text-dental-600 mb-4" />
-            <h3 className="font-display text-2xl mb-4">Formation académique</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-dental-500 mt-0.5" />
-                <span><strong>Certificat en chimie</strong> - Université de Montréal (1979)</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-dental-500 mt-0.5" />
-                <span><strong>Doctorat en médecine dentaire</strong> - Université de Montréal (1984)</span>
-              </li>
-            </ul>
-          </div>
-          <div className="bg-white p-8 rounded-2xl shadow-sm">
-            <Award className="w-12 h-12 text-accent-500 mb-4" />
-            <h3 className="font-display text-2xl mb-4">En cours</h3>
-            <ul className="space-y-3">
-              <li className="flex items-start gap-3">
-                <Star className="w-5 h-5 text-accent-500 mt-0.5" />
-                <span><strong>Fellow AAID</strong> - American Academy of Implant Dentistry</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <Star className="w-5 h-5 text-accent-500 mt-0.5" />
-                <span><strong>Diplomate ABOI</strong> - American Board of Oral Implantology</span>
-              </li>
-            </ul>
-          </div>
-        </div>
-        <div className="bg-dental-600 text-white p-8 rounded-2xl">
-          <h3 className="font-display text-2xl mb-6 text-center">Éducation continue (2000+ heures)</h3>
-          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-            {formations.map((f, i) => (
-              <div key={i} className="flex items-center gap-2 bg-white/10 rounded-lg px-4 py-3">
-                <CheckCircle2 className="w-4 h-4 text-accent-400 flex-shrink-0" />
-                <span className="text-sm">{f}</span>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // SERVICES
 
@@ -580,8 +486,6 @@ export default function Home() {
   return (
     <main>
       <Hero />
-      <About />
-      <Certifications />
       <Formation />
       <Emplacements />
       <Temoignages />
