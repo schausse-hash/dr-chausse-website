@@ -439,15 +439,108 @@ function Temoignages() {
   )
 }
 
+// ── CAPTCHA DENTAIRE ──────────────────────────────────────────────
+const CAPTCHA_ITEMS = [
+  { id: 'saine1',     label: 'Dent saine',  correct: true,  emoji: '🦷' },
+  { id: 'saine2',     label: 'Dent saine',  correct: true,  emoji: '🦷' },
+  { id: 'saine3',     label: 'Dent saine',  correct: true,  emoji: '🦷' },
+  { id: 'cariee1',    label: 'Cariée',       correct: false, emoji: '🪥' },
+  { id: 'couronne1',  label: 'Couronne',     correct: false, emoji: '👑' },
+  { id: 'brosse1',    label: 'Brosse',       correct: false, emoji: '🖌️' },
+]
+
+function shuffle(arr) {
+  const a = [...arr]
+  for (let i = a.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [a[i], a[j]] = [a[j], a[i]]
+  }
+  return a
+}
+
+function DentCaptcha({ onVerified }) {
+  const [items] = useState(() => shuffle(CAPTCHA_ITEMS))
+  const [selected, setSelected] = useState(new Set())
+  const [status, setStatus] = useState('idle') // idle | error | success
+
+  const toggle = (id) => {
+    if (status === 'success') return
+    setSelected(prev => {
+      const next = new Set(prev)
+      next.has(id) ? next.delete(id) : next.add(id)
+      return next
+    })
+    setStatus('idle')
+  }
+
+  const verify = () => {
+    const correct = items.filter(i => i.correct)
+    const allCorrectSelected = correct.every(i => selected.has(i.id))
+    const noWrongSelected = items.filter(i => !i.correct).every(i => !selected.has(i.id))
+    if (allCorrectSelected && noWrongSelected) {
+      setStatus('success')
+      onVerified(true)
+    } else {
+      setStatus('error')
+      onVerified(false)
+    }
+  }
+
+  return (
+    <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
+      <p className="text-xs font-semibold text-dental-600 uppercase tracking-wider mb-3">
+        🦷 Sélectionnez toutes les dents saines
+      </p>
+      <div className="grid grid-cols-6 gap-2 mb-3">
+        {items.map(item => {
+          const isSelected = selected.has(item.id)
+          const isWrong = status === 'error' && isSelected && !item.correct
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => toggle(item.id)}
+              className={[
+                'flex flex-col items-center justify-center rounded-lg py-2 px-1 border-2 transition-all text-center cursor-pointer',
+                isSelected && status !== 'error' ? 'border-dental-500 bg-dental-50' : '',
+                isWrong ? 'border-red-400 bg-red-50 animate-pulse' : '',
+                status === 'success' && isSelected ? 'border-green-500 bg-green-50' : '',
+                !isSelected && !isWrong ? 'border-gray-200 bg-white hover:border-dental-300' : '',
+              ].join(' ')}
+            >
+              <span className="text-2xl leading-none">{item.emoji}</span>
+              <span className="text-[10px] text-gray-400 mt-1 leading-tight">{item.label}</span>
+            </button>
+          )
+        })}
+      </div>
+      <div className="flex items-center justify-between gap-3">
+        <div className="text-xs">
+          {status === 'error' && <span className="text-red-500">⚠️ Mauvaise sélection, réessayez</span>}
+          {status === 'success' && <span className="text-green-600 font-medium">✓ Vérifié — vous êtes humain!</span>}
+        </div>
+        {status !== 'success' && (
+          <button type="button" onClick={verify}
+            className="text-xs font-semibold text-white bg-dental-600 hover:bg-dental-700 px-3 py-1.5 rounded-lg transition-colors shrink-0">
+            Vérifier
+          </button>
+        )}
+      </div>
+    </div>
+  )
+}
+
 // CONTACT
 function Contact() {
   const [formStatus, setFormStatus] = useState('idle')
+  const [captchaOk, setCaptchaOk] = useState(false)
   const [formData, setFormData] = useState({ prenom: '', nom: '', email: '', telephone: '', sujet: '', message: '' })
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
 
   const handleSubmit = async (e) => {
   e.preventDefault()
+  if (!captchaOk) return
   setFormStatus('submitting')
   try {
     const response = await fetch('/api/contact', {
@@ -542,8 +635,9 @@ function Contact() {
               <textarea name="message" value={formData.message} onChange={handleChange}
                 placeholder="Votre message *" required rows={4}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none resize-none" />
-              <button type="submit" disabled={formStatus === 'submitting'}
-                className={`btn-primary w-full ${formStatus === 'submitting' ? 'opacity-70' : ''}`}>
+              <DentCaptcha onVerified={setCaptchaOk} />
+              <button type="submit" disabled={formStatus === 'submitting' || !captchaOk}
+                className={`btn-primary w-full ${(formStatus === 'submitting' || !captchaOk) ? 'opacity-50 cursor-not-allowed' : ''}`}>
                 {formStatus === 'submitting' ? 'Envoi...' : 'Envoyer'}
               </button>
             </form>
