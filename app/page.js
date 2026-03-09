@@ -487,41 +487,64 @@ function DentCaptcha({ onVerified }) {
   }
 
   return (
-    <div className="border border-gray-200 rounded-xl p-4 bg-gray-50">
-      <p className="text-xs font-semibold text-dental-600 uppercase tracking-wider mb-3">
-        🦷 Sélectionnez toutes les dents saines
-      </p>
+    <div className={`rounded-xl p-4 border-2 transition-all ${
+      status === 'success' ? 'border-green-400 bg-green-50' :
+      status === 'error'   ? 'border-red-300 bg-red-50' :
+                             'border-gray-200 bg-gray-50'
+    }`}>
+      {/* Header */}
+      <div className="flex items-center justify-between mb-3">
+        <p className="text-xs font-semibold text-dental-600 uppercase tracking-wider">
+          🦷 Sélectionnez toutes les dents saines
+        </p>
+        {status === 'idle' && (
+          <span className="text-[10px] text-gray-400">{selected.size} sélectionné{selected.size > 1 ? 's' : ''}</span>
+        )}
+      </div>
+
+      {/* Grille */}
       <div className="grid grid-cols-6 gap-2 mb-3">
         {items.map(item => {
           const isSelected = selected.has(item.id)
           const isWrong = status === 'error' && isSelected && !item.correct
+          const isGood  = status === 'success' && item.correct
           return (
             <button
               key={item.id}
               type="button"
               onClick={() => toggle(item.id)}
+              disabled={status === 'success'}
               className={[
-                'flex flex-col items-center justify-center rounded-lg py-2 px-1 border-2 transition-all text-center cursor-pointer',
-                isSelected && status !== 'error' ? 'border-dental-500 bg-dental-50' : '',
-                isWrong ? 'border-red-400 bg-red-50 animate-pulse' : '',
-                status === 'success' && isSelected ? 'border-green-500 bg-green-50' : '',
-                !isSelected && !isWrong ? 'border-gray-200 bg-white hover:border-dental-300' : '',
+                'flex flex-col items-center justify-center rounded-lg py-2 px-1 border-2 transition-all text-center',
+                status === 'success' ? 'cursor-default' : 'cursor-pointer',
+                isGood                                    ? 'border-green-500 bg-green-100' :
+                isWrong                                   ? 'border-red-400 bg-red-100'    :
+                isSelected                                ? 'border-dental-500 bg-dental-50 scale-105 shadow-sm' :
+                                                            'border-gray-200 bg-white hover:border-dental-300 hover:bg-dental-50',
               ].join(' ')}
             >
               <span className="text-2xl leading-none">{item.emoji}</span>
-              <span className="text-[10px] text-gray-400 mt-1 leading-tight">{item.label}</span>
+              <span className={`text-[10px] mt-1 leading-tight ${isSelected ? 'text-dental-600 font-medium' : 'text-gray-400'}`}>
+                {item.label}
+              </span>
             </button>
           )
         })}
       </div>
-      <div className="flex items-center justify-between gap-3">
+
+      {/* Footer */}
+      <div className="flex items-center justify-between gap-3 min-h-[28px]">
         <div className="text-xs">
-          {status === 'error' && <span className="text-red-500">⚠️ Mauvaise sélection, réessayez</span>}
-          {status === 'success' && <span className="text-green-600 font-medium">✓ Vérifié — vous êtes humain!</span>}
+          {status === 'error'   && <span className="text-red-600 font-medium">⚠️ Mauvaise sélection — réessayez</span>}
+          {status === 'success' && <span className="text-green-700 font-semibold">✅ Vérifié! Le bouton d'envoi est maintenant actif.</span>}
+          {status === 'idle' && selected.size > 0 && <span className="text-gray-400">Cliquez Vérifier quand vous êtes prêt</span>}
+          {status === 'idle' && selected.size === 0 && <span className="text-gray-400">Cliquez sur les dents saines 🦷</span>}
         </div>
         {status !== 'success' && (
-          <button type="button" onClick={verify}
-            className="text-xs font-semibold text-white bg-dental-600 hover:bg-dental-700 px-3 py-1.5 rounded-lg transition-colors shrink-0">
+          <button type="button" onClick={verify} disabled={selected.size === 0}
+            className={`text-xs font-semibold text-white px-3 py-1.5 rounded-lg transition-colors shrink-0 ${
+              selected.size === 0 ? 'bg-gray-300 cursor-not-allowed' : 'bg-dental-600 hover:bg-dental-700'
+            }`}>
             Vérifier
           </button>
         )}
@@ -636,10 +659,16 @@ function Contact() {
                 placeholder="Votre message *" required rows={4}
                 className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none resize-none" />
               <DentCaptcha onVerified={setCaptchaOk} />
-              <button type="submit" disabled={formStatus === 'submitting' || !captchaOk}
-                className={`btn-primary w-full ${(formStatus === 'submitting' || !captchaOk) ? 'opacity-50 cursor-not-allowed' : ''}`}>
-                {formStatus === 'submitting' ? 'Envoi...' : 'Envoyer'}
-              </button>
+              {captchaOk ? (
+                <button type="submit" disabled={formStatus === 'submitting'}
+                  className={`btn-primary w-full ${formStatus === 'submitting' ? 'opacity-70' : ''}`}>
+                  {formStatus === 'submitting' ? 'Envoi en cours...' : '✉️ Envoyer le message'}
+                </button>
+              ) : (
+                <div className="w-full py-3 px-4 rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 text-center">
+                  <p className="text-sm text-gray-400">👆 Complétez la vérification ci-dessus pour envoyer</p>
+                </div>
+              )}
             </form>
           </div>
 
