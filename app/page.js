@@ -166,60 +166,6 @@ function Certifications() {
 }
 
 // SERVICES
-function Services() {
-  return (
-    <section id="services" className="py-24 bg-white">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-16">
-          <div className="section-divider mx-auto mb-4" />
-          <h2 className="font-display text-4xl text-charcoal mb-4">Services cliniques</h2>
-          <p className="text-warm-gray text-lg max-w-2xl mx-auto">Technologies de pointe maîtrisées pour des résultats optimaux</p>
-        </div>
-        <div className="mb-16">
-          <img src="/images/clinique-1.jpg" alt="Dr Chaussé en consultation" className="w-full h-80 object-cover rounded-2xl shadow-lg" />
-        </div>
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-          {[
-            { emoji: '🦷', titre: 'Implants dentaires', desc: "Pose d'implants et réhabilitation complète incluant la technique All-on-4" },
-            { emoji: '👑', titre: 'CEREC 3D', desc: "Couronnes et restaurations en céramique en une seule visite" },
-            { emoji: '😊', titre: 'Orthodontie', desc: "Solutions orthodontiques pour aligner vos dents à tout âge" },
-            { emoji: '✨', titre: 'Dentisterie au laser', desc: "Traitements précis et confortables avec le Waterlaser MD" },
-            { emoji: '💎', titre: 'Blanchiment', desc: "Retrouvez un sourire éclatant avec nos traitements professionnels" },
-            { emoji: '🏥', titre: 'Chirurgie osseuse', desc: "Greffes osseuses et élévations sinusales pour préparer les implants" },
-          ].map((s, i) => (
-            <div key={i} className="card-hover bg-cream rounded-2xl p-6 border border-gray-100">
-              <span className="text-4xl">{s.emoji}</span>
-              <h3 className="font-display text-xl mt-4 mb-2">{s.titre}</h3>
-              <p className="text-warm-gray text-sm">{s.desc}</p>
-            </div>
-          ))}
-        </div>
-        <div className="bg-gradient-to-r from-dental-600 to-dental-700 rounded-3xl p-8 lg:p-12 text-white">
-          <h3 className="font-display text-2xl mb-6">Je peux corriger tous ces problèmes « permanents »</h3>
-          <div className="grid md:grid-cols-2 gap-4">
-            {[
-              "Dents manquantes, dents trop espacées, trouble de l'occlusion",
-              "Dents ébréchées, fissurées ou usées",
-              "Obturations inesthétiques",
-              "Dents irrémédiablement tachées ou décolorées",
-              "Malposition dentaire",
-            ].map((item, i) => (
-              <div key={i} className="flex items-start gap-3">
-                <CheckCircle2 className="w-5 h-5 text-accent-400 mt-0.5 flex-shrink-0" />
-                <span>{item}</span>
-              </div>
-            ))}
-          </div>
-          <div className="mt-8">
-            <a href="#contact" className="btn-primary bg-white text-dental-700 hover:bg-accent-400">
-              Consultation gratuite
-            </a>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
 
 // FORMATION
 function Formation() {
@@ -643,7 +589,6 @@ export default function Home() {
       <Hero />
       <About />
       <Certifications />
-      <Services />
       <Formation />
       <Emplacements />
       <Temoignages />
