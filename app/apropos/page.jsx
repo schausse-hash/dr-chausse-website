@@ -53,11 +53,16 @@ export default function AProposPage() {
           <div className="grid lg:grid-cols-2 gap-16 items-center">
 
             <div className="relative">
-              <img
-                src="/images/portrait-principal.jpg"
-                alt="Dr Serge Chaussé"
-                className="rounded-2xl shadow-xl w-full"
-              />
+              <div className="rounded-2xl overflow-hidden shadow-xl aspect-video w-full">
+                <iframe
+                  src="https://www.youtube.com/embed/k649xMCcHLo"
+                  title="Dr Serge Chaussé — Clinique d'implant dentaire"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                  className="w-full h-full"
+                  style={{ minHeight: '320px' }}
+                />
+              </div>
               <div className="absolute -bottom-4 -right-4 bg-dental-600 text-white rounded-xl p-5 shadow-lg hidden md:block">
                 <p className="font-display text-lg">Dr Serge Chaussé</p>
                 <p className="text-white/70 text-sm">DMD, Université de Montréal</p>
