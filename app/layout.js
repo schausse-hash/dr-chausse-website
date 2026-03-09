@@ -7,8 +7,7 @@
 import './globals.css'
 import { Playfair_Display, Inter } from 'next/font/google'
 import Script from 'next/script'
-import Navigation from '@/components/Navigation'
-import Footer from '@/components/Footer'
+import ConditionalLayout from '@/components/ConditionalLayout'
 import { SchemaDentiste, SchemaFAQ } from '@/components/SchemaOrg'
 
 const playfair = Playfair_Display({
@@ -138,9 +137,9 @@ export default function RootLayout({ children }) {
           `}
         </Script>
 
-        <Navigation />
-        <main>{children}</main>
-        <Footer />
+        <ConditionalLayout>
+          {children}
+        </ConditionalLayout>
 
       </body>
     </html>
