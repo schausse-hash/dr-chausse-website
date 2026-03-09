@@ -289,7 +289,6 @@ function Contact() {
         <div className="text-center mb-12">
           <div className="section-divider mx-auto mb-4" />
           <h2 className="font-display text-4xl text-charcoal mb-2">Contactez-moi</h2>
-          <p className="text-warm-gray text-lg">Une consultation gratuite vous enchantera!</p>
         </div>
 
         {/* FORMULAIRE CENTRÉ */}
