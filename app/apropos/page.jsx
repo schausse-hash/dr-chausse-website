@@ -50,7 +50,6 @@ export default function AProposPage() {
 <section className="lg:hidden hero-gradient pt-24 pb-6 relative overflow-hidden">
   <div className="absolute inset-0 bg-black/20" />
   <div className="max-w-7xl mx-auto px-6 relative z-10">
-    <h1 className="font-display text-3xl text-white mb-2">À propos du Dr Chaussé</h1>
   </div>
 </section>
 
