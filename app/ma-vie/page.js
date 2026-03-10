@@ -135,105 +135,96 @@ async function loadVideos() {
         </div>
       </div>
 
-      {/* SECTION CAROUSEL */}
-      <section className="py-16 bg-cream min-h-[600px]">
-        <div className="max-w-5xl mx-auto px-6">
+    <section className="py-16 bg-cream min-h-[600px]">
+  <div className="max-w-5xl mx-auto px-6">
 
-          {/* Titre section */}
-          <div className="text-center mb-10">
-            <div className="text-5xl mb-3">{activeCat?.emoji}</div>
-            <h2 className="font-display text-3xl text-charcoal mb-2">{activeCat?.label}</h2>
-            <p className="text-warm-gray">{activeCat?.description}</p>
+    {/* Titre section */}
+    <div className="text-center mb-10">
+      <div className="text-5xl mb-3">{activeCat?.emoji}</div>
+      <h2 className="font-display text-3xl text-charcoal mb-2">{activeCat?.label}</h2>
+      <p className="text-warm-gray">{activeCat?.description}</p>
+    </div>
+
+    {loading ? (
+      <p className="text-center text-warm-gray py-20">Chargement...</p>
+    ) : activeCat?.type === 'videos' ? (
+      /* ── GRILLE VIDÉOS ── */
+      videos.length === 0 ? (
+        <p className="text-center text-warm-gray py-20 text-lg">Vidéos à venir...</p>
+      ) : (
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {videos.map(video => (
+            <div key={video.id} className="bg-white rounded-2xl overflow-hidden shadow-md">
+              <div className="relative" style={{ paddingTop: '56.25%' }}>
+                <iframe
+                  className="absolute inset-0 w-full h-full"
+                  src={`https://www.youtube.com/embed/${video.youtube_id}`}
+                  title={video.titre}
+                  frameBorder="0"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowFullScreen
+                />
+              </div>
+              <div className="p-4">
+                <h3 className="font-medium text-charcoal">{video.titre}</h3>
+                {video.description && <p className="text-sm text-warm-gray mt-1">{video.description}</p>}
+              </div>
+            </div>
+          ))}
+        </div>
+      )
+    ) : (
+      /* ── CAROUSEL PHOTOS (existant) ── */
+      currentPhotos.length === 0 ? (
+        <p className="text-center text-warm-gray py-20 text-lg">Photos à venir...</p>
+      ) : (
+        <>
+          {/* PHOTO PRINCIPALE */}
+          <div className="relative bg-charcoal rounded-2xl overflow-hidden mb-4" style={{ height: '480px' }}>
+            <img
+              src={currentPhotos[currentIndex]?.url}
+              alt={currentPhotos[currentIndex]?.caption}
+              className="w-full h-full object-contain cursor-zoom-in"
+              onClick={() => openLightbox(currentIndex)}
+            />
+            {currentPhotos[currentIndex]?.caption && (
+              <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-6 py-4">
+                <p className="text-white capitalize text-sm">{currentPhotos[currentIndex].caption}</p>
+              </div>
+            )}
+            {currentIndex > 0 && (
+              <button onClick={prev} className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl transition-all">‹</button>
+            )}
+            {currentIndex < currentPhotos.length - 1 && (
+              <button onClick={next} className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl transition-all">›</button>
+            )}
+            <div className="absolute top-4 right-4 bg-black/40 text-white text-xs px-3 py-1 rounded-full">
+              {currentIndex + 1} / {currentPhotos.length}
+            </div>
           </div>
 
-          {loading ? (
-            <p className="text-center text-warm-gray py-20">Chargement...</p>
-          ) : currentPhotos.length === 0 ? (
-            <p className="text-center text-warm-gray py-20 text-lg">Photos à venir...</p>
-          ) : (
-            <>
-              {/* PHOTO PRINCIPALE */}
-              <div className="relative bg-charcoal rounded-2xl overflow-hidden mb-4" style={{ height: '480px' }}>
-                <img
-                  src={currentPhotos[currentIndex]?.url}
-                  alt={currentPhotos[currentIndex]?.caption}
-                  className="w-full h-full object-contain cursor-zoom-in"
-                  onClick={() => openLightbox(currentIndex)}
-                />
-
-                {/* Caption */}
-                {currentPhotos[currentIndex]?.caption && (
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/70 to-transparent px-6 py-4">
-                    <p className="text-white capitalize text-sm">{currentPhotos[currentIndex].caption}</p>
-                  </div>
-                )}
-
-                {/* Boutons nav sur photo principale */}
-                {currentIndex > 0 && (
-                  <button
-                    onClick={prev}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl transition-all"
-                  >‹</button>
-                )}
-                {currentIndex < currentPhotos.length - 1 && (
-                  <button
-                    onClick={next}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/40 hover:bg-black/70 text-white rounded-full w-12 h-12 flex items-center justify-center text-2xl transition-all"
-                  >›</button>
-                )}
-
-                {/* Compteur */}
-                <div className="absolute top-4 right-4 bg-black/40 text-white text-xs px-3 py-1 rounded-full">
-                  {currentIndex + 1} / {currentPhotos.length}
-                </div>
-              </div>
-
-              {/* THUMBNAILS */}
-              <div className="flex gap-2 items-center">
-                {/* Flèche gauche thumbnails */}
-                <button
-                  onClick={prev}
-                  disabled={currentIndex === 0}
-                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-charcoal disabled:opacity-30 hover:bg-dental-50 transition-all"
-                >‹</button>
-
-                {/* Thumbnails visibles */}
-                <div className="flex gap-2 flex-1 overflow-hidden">
-                  {currentPhotos.slice(thumbStart, thumbStart + VISIBLE).map((photo, i) => {
-                    const realIndex = thumbStart + i
-                    return (
-                      <button
-                        key={photo.name}
-                        onClick={() => setCurrentIndex(realIndex)}
-                        className={`flex-1 rounded-lg overflow-hidden transition-all ${
-                          realIndex === currentIndex
-                            ? 'ring-2 ring-dental-600 ring-offset-2 opacity-100'
-                            : 'opacity-60 hover:opacity-90'
-                        }`}
-                        style={{ height: '72px' }}
-                      >
-                        <img
-                          src={photo.url}
-                          alt={photo.caption}
-                          className="w-full h-full object-cover"
-                          loading="lazy"
-                        />
-                      </button>
-                    )
-                  })}
-                </div>
-
-                {/* Flèche droite thumbnails */}
-                <button
-                  onClick={next}
-                  disabled={currentIndex === currentPhotos.length - 1}
-                  className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-charcoal disabled:opacity-30 hover:bg-dental-50 transition-all"
-                >›</button>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
+          {/* THUMBNAILS */}
+          <div className="flex gap-2 items-center">
+            <button onClick={prev} disabled={currentIndex === 0} className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-charcoal disabled:opacity-30 hover:bg-dental-50 transition-all">‹</button>
+            <div className="flex gap-2 flex-1 overflow-hidden">
+              {currentPhotos.slice(thumbStart, thumbStart + VISIBLE).map((photo, i) => {
+                const realIndex = thumbStart + i
+                return (
+                  <button key={photo.name} onClick={() => setCurrentIndex(realIndex)}
+                    className={`flex-1 rounded-lg overflow-hidden transition-all ${realIndex === currentIndex ? 'ring-2 ring-dental-600 ring-offset-2 opacity-100' : 'opacity-60 hover:opacity-90'}`}
+                    style={{ height: '72px' }}>
+                    <img src={photo.url} alt={photo.caption} className="w-full h-full object-cover" loading="lazy" />
+                  </button>
+                )
+              })}
+            </div>
+            <button onClick={next} disabled={currentIndex === currentPhotos.length - 1} className="flex-shrink-0 w-8 h-8 bg-white rounded-full shadow flex items-center justify-center text-charcoal disabled:opacity-30 hover:bg-dental-50 transition-all">›</button>
+          </div>
+        </>
+      )
+    )}
+  </div>
+</section>
 
       {/* NOS PASSIONS */}
       <section className="py-12 bg-dental-900 text-center">
