@@ -105,7 +105,7 @@ export default function MaViePage() {
 {/* BANNIÈRE MOBILE — titre compact seulement */}
 <div className="lg:hidden pt-20 bg-dental-900">
   <div className="max-w-4xl mx-auto px-6 py-8 text-white text-center">
-    <h1 className="font-display text-3xl">Ma vie, mes passions</h1>
+   <h1 className="font-display text-xl text-white/80">Ma vie, mes passions</h1>
   </div>
 </div>
 
