@@ -32,28 +32,38 @@ const [lightbox, setLightbox] = useState(null)
 
   // Reset index quand on change de catégorie
   useEffect(() => {
-    setCurrentIndex(0)
-  }, [activeCategory])
+  loadAllPhotos()
+  loadVideos()
+}, [])
 
-  async function loadAllPhotos() {
-    const supabase = createSupabase()
-    const result = {}
-    for (const cat of CATEGORIES) {
-      const { data } = await supabase.storage.from(cat.id).list('', {
-        sortBy: { column: 'name', order: 'asc' }
-      })
-      result[cat.id] = (data || [])
-        .filter(f => f.name !== '.emptyFolderPlaceholder')
-        .map(f => ({
-          name: f.name,
-          url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${cat.id}/${f.name}`,
-          caption: f.name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
-        }))
-    }
-    setPhotos(result)
-    setLoading(false)
+async function loadAllPhotos() {
+  const supabase = createSupabase()
+  const result = {}
+  for (const cat of CATEGORIES.filter(c => c.type === 'photos')) {
+    const { data } = await supabase.storage.from(cat.id).list('', {
+      sortBy: { column: 'name', order: 'asc' }
+    })
+    result[cat.id] = (data || [])
+      .filter(f => f.name !== '.emptyFolderPlaceholder')
+      .map(f => ({
+        name: f.name,
+        url: `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${cat.id}/${f.name}`,
+        caption: f.name.replace(/^\d+-/, '').replace(/\.[^.]+$/, '').replace(/[-_]/g, ' '),
+      }))
   }
+  setPhotos(result)
+  setLoading(false)
+}
 
+async function loadVideos() {
+  const supabase = createSupabase()
+  const { data } = await supabase
+    .from('ma_vie_videos')
+    .select('*')
+    .eq('published', true)
+    .order('ordre', { ascending: true })
+  setVideos(data || [])
+}
   const currentPhotos = photos[activeCategory] || []
   const VISIBLE = 5 // nombre de thumbnails visibles
 
