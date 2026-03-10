@@ -11,18 +11,20 @@ function createSupabase() {
 }
 
 const CATEGORIES = [
-  { id: 'famille', label: 'Famille', emoji: '👨‍👩‍👧‍👦', description: 'Mon épouse Diane, mes quatre enfants et mes petits-enfants.' },
-  { id: 'voyages', label: 'Voyages', emoji: '✈️', description: 'Explorer le monde en famille, découvrir de nouvelles cultures.' },
-  { id: 'plongee', label: 'Plongée', emoji: '🤿', description: 'La beauté silencieuse des fonds marins.' },
-  { id: 'aventures', label: 'Aventures', emoji: '🌵', description: 'Moto père-fille, randonnées et toutes les aventures de la vie.' },
+  { id: 'famille', label: 'Famille', emoji: '👨‍👩‍👧‍👦', description: 'Mon épouse Diane, mes quatre enfants et mes petits-enfants.', type: 'photos' },
+  { id: 'voyages', label: 'Voyages', emoji: '✈️', description: 'Explorer le monde en famille, découvrir de nouvelles cultures.', type: 'photos' },
+  { id: 'plongee', label: 'Plongée', emoji: '🤿', description: 'La beauté silencieuse des fonds marins.', type: 'photos' },
+  { id: 'aventures', label: 'Aventures', emoji: '🌵', description: 'Moto père-fille, randonnées et toutes les aventures de la vie.', type: 'photos' },
+  { id: 'videos', label: 'Vidéos', emoji: '🎬', description: 'Moments de vie en vidéo.', type: 'videos' },
 ]
 
 export default function MaViePage() {
-  const [photos, setPhotos] = useState({})
-  const [loading, setLoading] = useState(true)
-  const [activeCategory, setActiveCategory] = useState('famille')
-  const [currentIndex, setCurrentIndex] = useState(0)
-  const [lightbox, setLightbox] = useState(null)
+const [photos, setPhotos] = useState({})
+const [videos, setVideos] = useState([])
+const [loading, setLoading] = useState(true)
+const [activeCategory, setActiveCategory] = useState('famille')
+const [currentIndex, setCurrentIndex] = useState(0)
+const [lightbox, setLightbox] = useState(null)
 
   useEffect(() => {
     loadAllPhotos()
