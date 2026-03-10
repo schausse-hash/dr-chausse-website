@@ -27,23 +27,24 @@ function Hero() {
               Chirurgien dentiste et formateur en implantologie. 
               Il suffit d'un petit rien pour transformer votre sourire.
             </p>
-           
             <div className="grid grid-cols-3 gap-6 pt-8 border-t border-white/20">
               <div><div className="font-display text-3xl text-accent-400">40+</div><div className="text-sm text-white/60">Années d'expérience</div></div>
               <div><div className="font-display text-3xl text-accent-400">2000+</div><div className="text-sm text-white/60">Heures de formation</div></div>
               <div><div className="font-display text-3xl text-accent-400">17+</div><div className="text-sm text-white/60">Ans formateur</div></div>
             </div>
           </div>
-         <div className="flex justify-center lg:block mt-8 lg:mt-0">
-  <div className="relative w-64 lg:w-full">
-    <img src="/images/portrait-principal.jpg" alt="Dr Serge Chaussé" 
-      className="rounded-2xl shadow-2xl w-full max-w-xs lg:max-w-md mx-auto" />
-    <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 lg:p-4 shadow-lg">
-      <p className="text-dental-600 font-semibold text-sm lg:text-base">Dr Serge Chaussé</p>
-      <p className="text-xs lg:text-sm text-gray-500">DMD, Université de Montréal</p>
-    </div>
-  </div>
-</div>
+          <div className="flex justify-center lg:block mt-8 lg:mt-0">
+            <div className="relative w-64 lg:w-full">
+              <img src="/images/portrait-principal.jpg" alt="Dr Serge Chaussé" 
+                className="rounded-2xl shadow-2xl w-full max-w-xs lg:max-w-md mx-auto" />
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 lg:p-4 shadow-lg">
+                <p className="text-dental-600 font-semibold text-sm lg:text-base">Dr Serge Chaussé</p>
+                <p className="text-xs lg:text-sm text-gray-500">DMD, Université de Montréal</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
         <ChevronDown className="w-8 h-8 text-white/50" />
       </div>
