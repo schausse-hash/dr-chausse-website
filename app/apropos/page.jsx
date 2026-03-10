@@ -27,25 +27,32 @@ export default function AProposPage() {
   return (
     <main>
 
-      {/* ── HERO COMPACT ─────────────────────────────────────────── */}
-      <section className="hero-gradient py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-black/20" />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-        
-          <div className="max-w-2xl">
-            <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-2 mb-6">
-              <Award className="w-4 h-4 text-accent-400" />
-              <span className="text-sm text-white">Plus de 42 ans d'expérience</span>
-            </div>
-            <h1 className="font-display text-4xl md:text-5xl text-white mb-4">
-              À propos du Dr Chaussé
-            </h1>
-            <p className="text-white/70 text-lg">
-              Dentiste, formateur et passionné par l'excellence en soins dentaires depuis 1984.
-            </p>
-          </div>
-        </div>
-      </section>
+     {/* ── HERO COMPACT — desktop seulement ── */}
+<section className="hidden lg:block hero-gradient py-20 relative overflow-hidden">
+  <div className="absolute inset-0 bg-black/20" />
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <div className="max-w-2xl">
+      <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur rounded-full px-4 py-2 mb-6">
+        <Award className="w-4 h-4 text-accent-400" />
+        <span className="text-sm text-white">Plus de 42 ans d'expérience</span>
+      </div>
+      <h1 className="font-display text-4xl md:text-5xl text-white mb-4">
+        À propos du Dr Chaussé
+      </h1>
+      <p className="text-white/70 text-lg">
+        Dentiste, formateur et passionné par l'excellence en soins dentaires depuis 1984.
+      </p>
+    </div>
+  </div>
+</section>
+
+{/* ── HERO MOBILE seulement ── */}
+<section className="lg:hidden hero-gradient pt-24 pb-6 relative overflow-hidden">
+  <div className="absolute inset-0 bg-black/20" />
+  <div className="max-w-7xl mx-auto px-6 relative z-10">
+    <h1 className="font-display text-3xl text-white mb-2">À propos du Dr Chaussé</h1>
+  </div>
+</section>
 
       {/* ── PORTRAIT + BIO ───────────────────────────────────────── */}
 <section className="py-20 bg-white">
