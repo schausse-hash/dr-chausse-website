@@ -90,17 +90,24 @@ export default function MaViePage() {
 
   return (
     <main>
-      {/* BANNIÈRE */}
-      <div className="relative pt-20 bg-dental-900">
-        <div className="max-w-4xl mx-auto px-6 py-20 text-white text-center">
-          <div className="section-divider mx-auto mb-4 bg-white" />
-          <h1 className="font-display text-4xl md:text-5xl mb-4">Ma vie, mes passions</h1>
-          <p className="text-xl text-white/80 max-w-2xl mx-auto">
-            « Ma vie ne s'est pas arrêtée qu'à la dentisterie. Les plus beaux sourires
-            sont ceux de mon épouse, de mes quatre enfants, et de mes petits-enfants. »
-          </p>
-        </div>
-      </div>
+      {/* BANNIÈRE — desktop seulement */}
+<div className="relative pt-20 bg-dental-900 hidden lg:block">
+  <div className="max-w-4xl mx-auto px-6 py-20 text-white text-center">
+    <div className="section-divider mx-auto mb-4 bg-white" />
+    <h1 className="font-display text-4xl md:text-5xl mb-4">Ma vie, mes passions</h1>
+    <p className="text-xl text-white/80 max-w-2xl mx-auto">
+      « Ma vie ne s'est pas arrêtée qu'à la dentisterie. Les plus beaux sourires
+      sont ceux de mon épouse, de mes quatre enfants, et de mes petits-enfants. »
+    </p>
+  </div>
+</div>
+
+{/* BANNIÈRE MOBILE — titre compact seulement */}
+<div className="lg:hidden pt-20 bg-dental-900">
+  <div className="max-w-4xl mx-auto px-6 py-8 text-white text-center">
+    <h1 className="font-display text-3xl">Ma vie, mes passions</h1>
+  </div>
+</div>
 
       {/* SOUS-MENU CATÉGORIES */}
       <div className="bg-white border-b border-gray-100 shadow-sm">
