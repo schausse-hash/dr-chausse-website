@@ -123,7 +123,7 @@ export default function RootLayout({ children }) {
 
         {/* ── Google Analytics ── */}
         <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-6ERJEBXPZW"
+          src="https://www.googletagmanager.com/gtag/js?id=G-G-3K872PH6L4"
           strategy="afterInteractive"
         />
         <Script id="google-analytics" strategy="afterInteractive">
