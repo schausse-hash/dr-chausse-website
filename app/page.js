@@ -20,6 +20,15 @@ function Hero() {
               <Award className="w-4 h-4 text-accent-400" />
               <span className="text-sm">Plus de 40 ans d'expérience</span>
             </div>
+
+            {/* Photo visible seulement sur mobile — juste après le badge */}
+            <div className="flex justify-center lg:hidden">
+              <div className="relative w-56">
+                <img src="/images/portrait-principal.jpg" alt="Dr Serge Chaussé" 
+                  className="rounded-2xl shadow-2xl w-full" />
+              </div>
+            </div>
+
             <h1 className="font-display text-4xl md:text-5xl lg:text-6xl leading-tight">
               Votre sourire,<br /><span className="text-accent-400">mon expertise</span>
             </h1>
@@ -33,16 +42,19 @@ function Hero() {
               <div><div className="font-display text-3xl text-accent-400">17+</div><div className="text-sm text-white/60">Ans formateur</div></div>
             </div>
           </div>
-          <div className="flex justify-center lg:block mt-8 lg:mt-0">
-            <div className="relative w-64 lg:w-full">
+
+          {/* Photo visible seulement sur desktop */}
+          <div className="hidden lg:block">
+            <div className="relative">
               <img src="/images/portrait-principal.jpg" alt="Dr Serge Chaussé" 
-                className="rounded-2xl shadow-2xl w-full max-w-xs lg:max-w-md mx-auto" />
-              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-3 lg:p-4 shadow-lg">
-                <p className="text-dental-600 font-semibold text-sm lg:text-base">Dr Serge Chaussé</p>
-                <p className="text-xs lg:text-sm text-gray-500">DMD, Université de Montréal</p>
+                className="rounded-2xl shadow-2xl w-full max-w-md mx-auto" />
+              <div className="absolute -bottom-4 -left-4 bg-white rounded-xl p-4 shadow-lg">
+                <p className="text-dental-600 font-semibold">Dr Serge Chaussé</p>
+                <p className="text-sm text-gray-500">DMD, Université de Montréal</p>
               </div>
             </div>
           </div>
+
         </div>
       </div>
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-bounce">
@@ -51,7 +63,6 @@ function Hero() {
     </section>
   )
 }
-
 // À PROPOS
 
 // CERTIFICATIONS
