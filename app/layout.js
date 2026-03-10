@@ -107,7 +107,7 @@ export const metadata = {
   // ── Vérification Google Search Console ──
   // (remplacer par ton vrai code après avoir ajouté le site dans Search Console)
   verification: {
-    google: 'REMPLACER_PAR_TON_CODE_SEARCH_CONSOLE',
+    google: 'eBuF7NwtlMBYD-fZxMB_fuOjYHDWIFSgRbo0NpVLrec',
   },
 }
 
