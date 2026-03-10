@@ -48,89 +48,88 @@ export default function AProposPage() {
       </section>
 
       {/* ── PORTRAIT + BIO ───────────────────────────────────────── */}
-      <section className="py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+<section className="py-20 bg-white">
+  <div className="max-w-7xl mx-auto px-6">
+    <div className="grid lg:grid-cols-2 gap-16 items-center">
 
-            <div className="relative">
-              <div className="rounded-2xl overflow-hidden shadow-xl aspect-video w-full">
-                <iframe
-                  src="https://www.youtube.com/embed/k649xMCcHLo"
-                  title="Dr Serge Chaussé — Clinique d'implant dentaire"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                  className="w-full h-full"
-                  style={{ minHeight: '320px' }}
-                />
-              </div>
-              <div className="absolute -bottom-4 -right-4 bg-dental-600 text-white rounded-xl p-5 shadow-lg hidden md:block">
-                <p className="font-display text-lg">Dr Serge Chaussé</p>
-                <p className="text-white/70 text-sm">DMD, Université de Montréal</p>
-              </div>
-            </div>
+      {/* Vidéo — visible partout */}
+      <div className="relative">
+        <div className="rounded-2xl overflow-hidden shadow-xl aspect-video w-full">
+          <iframe
+            src="https://www.youtube.com/embed/k649xMCcHLo"
+            title="Dr Serge Chaussé — Clinique d'implant dentaire"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full h-full"
+            style={{ minHeight: '320px' }}
+          />
+        </div>
+        <div className="absolute -bottom-4 -right-4 bg-dental-600 text-white rounded-xl p-5 shadow-lg hidden md:block">
+          <p className="font-display text-lg">Dr Serge Chaussé</p>
+          <p className="text-white/70 text-sm">DMD, Université de Montréal</p>
+        </div>
+      </div>
 
-            <div className="space-y-6">
-              <div className="section-divider" />
-              <h2 className="font-display text-4xl lg:text-5xl text-charcoal">Dr Serge Chaussé</h2>
+      {/* Texte */}
+      <div className="space-y-6">
+        <div className="section-divider" />
+        <h2 className="font-display text-4xl lg:text-5xl text-charcoal">Dr Serge Chaussé</h2>
+        <p className="text-lg text-warm-gray">
+          Depuis 1984, je suis une référence en soins de dentisterie à Montréal.
+          Mes patients de tous âges apprécient mon professionnalisme, ma délicatesse
+          ainsi que l'efficacité de mes soins.
+        </p>
+        <p className="text-lg text-warm-gray">
+          <strong className="text-charcoal">
+            Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.
+          </strong>{' '}
+          Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
+        </p>
 
-              <p className="text-lg text-warm-gray">
-                Depuis 1984, je suis une référence en soins de dentisterie à Montréal.
-                Mes patients de tous âges apprécient mon professionnalisme, ma délicatesse
-                ainsi que l'efficacité de mes soins.
-              </p>
-              <p className="text-lg text-warm-gray">
-                <strong className="text-charcoal">
-                  Ce ne sont pas 32 dents que je traite, c'est votre personne qui m'importe.
-                </strong>{' '}
-                Mes 42 années d'existence sont basées sur l'honnêteté, l'intégrité et la qualité de mes soins.
-              </p>
-
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-100">
-                <div className="text-center">
-                  <div className="font-display text-3xl text-dental-600">42+</div>
-                  <div className="text-xs text-warm-gray mt-1">Années d'expérience</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-display text-3xl text-dental-600">2000+</div>
-                  <div className="text-xs text-warm-gray mt-1">Heures de formation</div>
-                </div>
-                <div className="text-center">
-                  <div className="font-display text-3xl text-dental-600">17+</div>
-                  <div className="text-xs text-warm-gray mt-1">Années formateur</div>
-                </div>
-              </div>
-
-              {/* Valeurs */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                {[
-                  { icon: Heart,        text: 'Approche humaine' },
-                  { icon: Sparkles,     text: 'Technologies de pointe' },
-                  { icon: Shield,       text: 'Intégrité & Qualité' },
-                  { icon: GraduationCap,text: 'Formateur hands on' },
-                ].map((item, i) => (
-                  <div key={i} className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-dental-100 flex items-center justify-center shrink-0">
-                      <item.icon className="w-5 h-5 text-dental-600" />
-                    </div>
-                    <span className="text-charcoal">{item.text}</span>
-                  </div>
-                ))}
-              </div>
-
-              {/* CTA */}
-              <a
-                href="tel:5145214141"
-                onClick={() => track('click_phone', '514-521-4141')}
-                className="inline-flex items-center gap-2 btn-primary mt-2">
-                <Phone className="w-4 h-4" /> 514.521.4141
-              </a>
-            </div>
-
+        {/* Stats */}
+        <div className="grid grid-cols-3 gap-4 py-6 border-y border-gray-100">
+          <div className="text-center">
+            <div className="font-display text-3xl text-dental-600">42+</div>
+            <div className="text-xs text-warm-gray mt-1">Années d'expérience</div>
+          </div>
+          <div className="text-center">
+            <div className="font-display text-3xl text-dental-600">2000+</div>
+            <div className="text-xs text-warm-gray mt-1">Heures de formation</div>
+          </div>
+          <div className="text-center">
+            <div className="font-display text-3xl text-dental-600">17+</div>
+            <div className="text-xs text-warm-gray mt-1">Années formateur</div>
           </div>
         </div>
-      </section>
 
+        {/* Valeurs */}
+        <div className="grid sm:grid-cols-2 gap-4">
+          {[
+            { icon: Heart,         text: 'Approche humaine' },
+            { icon: Sparkles,      text: 'Technologies de pointe' },
+            { icon: Shield,        text: 'Intégrité & Qualité' },
+            { icon: GraduationCap, text: 'Formateur hands on' },
+          ].map((item, i) => (
+            <div key={i} className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-dental-100 flex items-center justify-center shrink-0">
+                <item.icon className="w-5 h-5 text-dental-600" />
+              </div>
+              <span className="text-charcoal">{item.text}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* CTA */}
+        <a href="tel:5145214141"
+          onClick={() => track('click_phone', '514-521-4141')}
+          className="inline-flex items-center gap-2 btn-primary mt-2">
+          <Phone className="w-4 h-4" /> 514.521.4141
+        </a>
+      </div>
+
+    </div>
+  </div>
+</section>
       {/* ── FORMATION ACADÉMIQUE ─────────────────────────────────── */}
       <section className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
