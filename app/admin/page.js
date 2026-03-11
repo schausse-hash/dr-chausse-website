@@ -356,8 +356,8 @@ function AdminBlog() {
       await supabase.from('articles').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
     } else {
       const { id, created_at, updated_at, ...data } = form
-      await supabase.from('articles').insert({ ...data, locale: 'fr' })
-    }
+      const { error } = await supabase.from('articles').insert({ ...data, locale: 'fr' })
+if (error) { alert('Erreur: ' + error.message); setSaving(false); return }
     await loadArticles()
     setEditing(null)
     showMessage('Article sauvegardé ✓')
