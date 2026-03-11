@@ -34,13 +34,13 @@ async function getBlogPosts() {
       const imgMatch = description.match(/<img[^>]+src="([^"]+)"/)
       const image = imgMatch ? imgMatch[1] : null
 
-      // Nettoyer le texte de la description (retirer HTML)
-      const cleanDesc = description
-        .replace(/<[^>]+>/g, ' ')
-        .replace(/&nbsp;/g, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-        .substring(0, 200)
+    // Nettoyer le texte de la description (retirer HTML)
+const cleanDesc = decodeHtmlEntities(description)
+  .replace(/<[^>]+>/g, ' ')
+  .replace(/&nbsp;/g, ' ')
+  .replace(/\s+/g, ' ')
+  .trim()
+  .substring(0, 200)
 
       items.push({
         title,
