@@ -928,8 +928,11 @@ const TABS = [
           <AdminAvantApres cas={avantApres} onRefresh={loadData} />
         )}
         {activeTab === 'blog' && (
-          <AdminBlog />
-        )}
+  <AdminBlog />
+)}
+{activeTab === 'backup' && (
+  <AdminBackup />
+)}
     
       </div>
     </div>
