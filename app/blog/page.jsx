@@ -21,8 +21,9 @@ export const metadata = {
 export default async function BlogPage() {
   const { data: articles } = await supabase
     .from('articles')
-    .select('id, titre, slug, excerpt, image_url, categorie, date_publication')
-    .eq('publie', true)
+    .select('id, title, slug, excerpt, image_url, categorie, date_publication')
+    .eq('published', true)
+    .eq('locale', 'fr')
     .order('date_publication', { ascending: false })
 
   const categories = [...new Set(articles?.map(a => a.categorie).filter(Boolean))]
@@ -49,7 +50,6 @@ export default async function BlogPage() {
       <section className="py-20 bg-cream">
         <div className="max-w-7xl mx-auto px-6">
 
-          {/* Filtres catégories */}
           {categories.length > 0 && (
             <div className="flex flex-wrap gap-3 justify-center mb-12">
               {categories.map(cat => (
@@ -73,7 +73,7 @@ export default async function BlogPage() {
                       <div className="h-48 overflow-hidden">
                         <img
                           src={article.image_url}
-                          alt={article.titre}
+                          alt={article.title}
                           className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                         />
                       </div>
@@ -98,7 +98,7 @@ export default async function BlogPage() {
                         </div>
                       )}
                       <h2 className="font-display text-lg text-charcoal mb-3 leading-snug group-hover:text-dental-600 transition-colors">
-                        {article.titre}
+                        {article.title}
                       </h2>
                       {article.excerpt && (
                         <p className="text-warm-gray text-sm leading-relaxed flex-1">
