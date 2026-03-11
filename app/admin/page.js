@@ -579,12 +579,12 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
             <ReactMarkdown>{contentText}</ReactMarkdown>
           </div>
         ) : (
-          <textarea
-            value={contentText}
-            onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
-            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
-            rows={16}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono" />
+<textarea
+  value={contentText}
+  onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
+  placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
+  rows={16}
+  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono" />
         )}
       </div>
 
