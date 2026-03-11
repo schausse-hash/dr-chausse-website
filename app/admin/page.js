@@ -458,22 +458,20 @@ function AdminBlog() {
 // ÉDITEUR D'ARTICLE BLOG
 // ============================================
 function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
-  const [form, setForm] = useState({ ...article })
+  const [form, setForm] = useState({
+    ...article,
+    content: Array.isArray(article.content) ? article.content : []
+  })
   const [uploading, setUploading] = useState(false)
-  const [preview, setPreview] = useState(false)
   const fileRef = useRef(null)
   const supabase = createClient()
 
   function generateSlug(title) {
-    return title
-      .toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/[^a-z0-9\s-]/g, '')
-      .trim()
-      .replace(/\s+/g, '-')
+    return title.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '').trim().replace(/\s+/g, '-')
   }
 
-  async function uploadImage(file) {
+  async function uploadCover(file) {
     setUploading(true)
     const ext = file.name.split('.').pop()
     const fileName = `blog/${Date.now()}.${ext}`
@@ -485,51 +483,116 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
     setUploading(false)
   }
 
-  // content est du texte simple qu'on lit/écrit directement
-  const contentText = typeof form.content === 'string' ? form.content : ''
+  async function uploadSectionPhoto(blockIdx, file) {
+    const ext = file.name.split('.').pop()
+    const fileName = `blog/sections/${Date.now()}.${ext}`
+    const { error } = await supabase.storage.from('images').upload(fileName, file, { upsert: true })
+    if (!error) {
+      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${fileName}`
+      setForm(p => {
+        const content = [...p.content]
+        content[blockIdx] = { ...content[blockIdx], photos: [...(content[blockIdx].photos || []), url] }
+        return { ...p, content }
+      })
+    }
+  }
+
+  function addBlock(type) {
+    const bloc = type === 'intro'
+      ? { type: 'intro', contenu: '' }
+      : type === 'section'
+      ? { type: 'section', titre: '', photos: [], texte: '', liste: [] }
+      : { type: 'resume', titre: '✅ En résumé', contenu: '', liste: [] }
+    setForm(p => ({ ...p, content: [...p.content, bloc] }))
+  }
+
+  function updateBlock(i, field, value) {
+    setForm(p => {
+      const content = [...p.content]
+      content[i] = { ...content[i], [field]: value }
+      return { ...p, content }
+    })
+  }
+
+  function removeBlock(i) {
+    setForm(p => ({ ...p, content: p.content.filter((_, idx) => idx !== i) }))
+  }
+
+  function moveBlock(i, dir) {
+    setForm(p => {
+      const content = [...p.content]
+      const j = i + dir
+      if (j < 0 || j >= content.length) return p
+      ;[content[i], content[j]] = [content[j], content[i]]
+      return { ...p, content }
+    })
+  }
+
+  function removePhoto(blockIdx, photoIdx) {
+    setForm(p => {
+      const content = [...p.content]
+      content[blockIdx] = { ...content[blockIdx], photos: content[blockIdx].photos.filter((_, i) => i !== photoIdx) }
+      return { ...p, content }
+    })
+  }
+
+  function addListItem(i) {
+    setForm(p => {
+      const content = [...p.content]
+      content[i] = { ...content[i], liste: [...(content[i].liste || []), ''] }
+      return { ...p, content }
+    })
+  }
+
+  function updateListItem(blockIdx, itemIdx, value) {
+    setForm(p => {
+      const content = [...p.content]
+      const liste = [...(content[blockIdx].liste || [])]
+      liste[itemIdx] = value
+      content[blockIdx] = { ...content[blockIdx], liste }
+      return { ...p, content }
+    })
+  }
+
+  function removeListItem(blockIdx, itemIdx) {
+    setForm(p => {
+      const content = [...p.content]
+      content[blockIdx] = { ...content[blockIdx], liste: content[blockIdx].liste.filter((_, i) => i !== itemIdx) }
+      return { ...p, content }
+    })
+  }
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="font-display text-xl text-charcoal">
-          {form.id ? "Modifier l'article" : 'Nouvel article'}
-        </h3>
+        <h3 className="font-display text-xl text-charcoal">{form.id ? "Modifier l'article" : 'Nouvel article'}</h3>
         <button onClick={onCancel} className="text-warm-gray hover:text-charcoal text-sm">← Retour</button>
       </div>
 
-      {/* Titre + slug auto */}
+      {/* Infos de base */}
       <div className="space-y-3">
         <div>
           <label className="block text-xs font-medium text-warm-gray mb-1">Titre *</label>
-          <input
-            value={form.title || ''}
-            onChange={e => setForm(p => ({ ...p, title: e.target.value, slug: generateSlug(e.target.value) }))}
+          <input value={form.title || ''} onChange={e => setForm(p => ({ ...p, title: e.target.value, slug: generateSlug(e.target.value) }))}
             placeholder="Titre de l'article"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
         </div>
         <div className="grid grid-cols-2 gap-3">
           <div>
             <label className="block text-xs font-medium text-warm-gray mb-1">Slug (URL)</label>
-            <input
-              value={form.slug || ''}
-              onChange={e => setForm(p => ({ ...p, slug: e.target.value }))}
-              placeholder="mon-article"
+            <input value={form.slug || ''} onChange={e => setForm(p => ({ ...p, slug: e.target.value }))}
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 font-mono text-xs" />
           </div>
           <div>
             <label className="block text-xs font-medium text-warm-gray mb-1">Catégorie</label>
-            <input
-              value={form.categorie || ''}
-              onChange={e => setForm(p => ({ ...p, categorie: e.target.value }))}
+            <input value={form.categorie || ''} onChange={e => setForm(p => ({ ...p, categorie: e.target.value }))}
               placeholder="ex: Implants, Hygiène..."
               className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
           </div>
         </div>
         <div>
           <label className="block text-xs font-medium text-warm-gray mb-1">Date de publication</label>
-          <input
-            type="date"
-            value={form.date_publication ? form.date_publication.substring(0, 10) : ''}
+          <input type="date" value={form.date_publication ? form.date_publication.substring(0, 10) : ''}
             onChange={e => setForm(p => ({ ...p, date_publication: new Date(e.target.value).toISOString() }))}
             className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
         </div>
@@ -548,45 +611,134 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
           <div onClick={() => fileRef.current?.click()}
             className="w-full max-w-md h-32 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-dental-400 hover:bg-dental-50 transition-colors">
             {uploading ? <div className="text-warm-gray text-sm">Téléversement...</div> : (
-              <><div className="text-2xl mb-1">📸</div><div className="text-warm-gray text-sm">Ajouter une image</div></>
+              <><div className="text-2xl mb-1">📸</div><div className="text-warm-gray text-sm">Image de couverture</div></>
             )}
           </div>
         )}
-        <input ref={fileRef} type="file" accept="image/*" onChange={e => e.target.files[0] && uploadImage(e.target.files[0])} className="hidden" />
+        <input ref={fileRef} type="file" accept="image/*" onChange={e => e.target.files[0] && uploadCover(e.target.files[0])} className="hidden" />
       </div>
 
       {/* Excerpt */}
       <div>
         <label className="block text-xs font-medium text-warm-gray mb-1">Résumé (excerpt)</label>
-        <textarea
-          value={form.excerpt || ''}
-          onChange={e => setForm(p => ({ ...p, excerpt: e.target.value }))}
-          placeholder="Court résumé visible dans la liste du blog..."
-          rows={2}
+        <textarea value={form.excerpt || ''} onChange={e => setForm(p => ({ ...p, excerpt: e.target.value }))}
+          placeholder="Court résumé visible dans la liste du blog..." rows={2}
           className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
       </div>
 
-      {/* Contenu */}
+      {/* Blocs de contenu */}
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <label className="block text-xs font-medium text-warm-gray">Contenu de l'article</label>
-          <button onClick={() => setPreview(!preview)} className="text-xs text-dental-600 hover:underline">
-            {preview ? '✏️ Éditer' : '👁️ Aperçu'}
-          </button>
-        </div>
-        {preview ? (
-          <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 prose prose-sm max-w-none text-charcoal">
-            <ReactMarkdown>{contentText}</ReactMarkdown>
+        <div className="flex items-center justify-between mb-3">
+          <label className="block text-sm font-semibold text-charcoal">📝 Contenu de l'article</label>
+          <div className="flex gap-2">
+            <button onClick={() => addBlock('intro')}
+              className="bg-blue-50 text-blue-600 border border-blue-200 rounded-lg px-3 py-1.5 text-xs hover:bg-blue-100">
+              + Intro
+            </button>
+            <button onClick={() => addBlock('section')}
+              className="bg-dental-50 text-dental-600 border border-dental-200 rounded-lg px-3 py-1.5 text-xs hover:bg-dental-100">
+              + Section
+            </button>
+            <button onClick={() => addBlock('resume')}
+              className="bg-green-50 text-green-600 border border-green-200 rounded-lg px-3 py-1.5 text-xs hover:bg-green-100">
+              + Résumé
+            </button>
           </div>
-        ) : (
-          <textarea
-            value={contentText}
-            onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
-            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
-            rows={16}
-            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono"
-          />
+        </div>
+
+        {form.content.length === 0 && (
+          <div className="text-center py-10 border-2 border-dashed border-gray-200 rounded-xl text-warm-gray text-sm">
+            Cliquez sur "+ Intro", "+ Section" ou "+ Résumé" pour commencer.
+          </div>
         )}
+
+        <div className="space-y-4">
+          {form.content.map((bloc, i) => (
+            <div key={i} className={`border rounded-xl p-4 ${
+              bloc.type === 'intro' ? 'border-blue-200 bg-blue-50/30' :
+              bloc.type === 'resume' ? 'border-green-200 bg-green-50/30' :
+              'border-gray-200 bg-gray-50'
+            }`}>
+              <div className="flex items-center justify-between mb-3">
+                <span className={`text-xs font-medium px-3 py-1 rounded-full border ${
+                  bloc.type === 'intro' ? 'bg-blue-100 text-blue-700 border-blue-200' :
+                  bloc.type === 'resume' ? 'bg-green-100 text-green-700 border-green-200' :
+                  'bg-white text-warm-gray border-gray-200'
+                }`}>
+                  {bloc.type === 'intro' ? '📄 Introduction' : bloc.type === 'resume' ? '✅ Résumé' : `🦷 Section ${i}`}
+                </span>
+                <div className="flex items-center gap-2">
+                  <button onClick={() => moveBlock(i, -1)} disabled={i === 0} className="text-warm-gray hover:text-charcoal disabled:opacity-30 text-sm px-1">↑</button>
+                  <button onClick={() => moveBlock(i, 1)} disabled={i === form.content.length - 1} className="text-warm-gray hover:text-charcoal disabled:opacity-30 text-sm px-1">↓</button>
+                  <button onClick={() => removeBlock(i)} className="text-red-400 hover:text-red-600 text-xs">✕ Supprimer</button>
+                </div>
+              </div>
+
+              {/* Titre (section et résumé) */}
+              {(bloc.type === 'section' || bloc.type === 'resume') && (
+                <div className="mb-3">
+                  <label className="block text-xs font-medium text-warm-gray mb-1">Titre</label>
+                  <input value={bloc.titre || ''} onChange={e => updateBlock(i, 'titre', e.target.value)}
+                    placeholder={bloc.type === 'section' ? "ex: 🦷 1. Évaluation et planification" : "ex: ✅ En résumé"}
+                    className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 bg-white" />
+                </div>
+              )}
+
+              {/* Photos (section seulement) */}
+              {bloc.type === 'section' && (
+                <div className="mb-3">
+                  <label className="block text-xs font-medium text-warm-gray mb-2">Photos de la section</label>
+                  <div className="flex gap-2 flex-wrap">
+                    {(bloc.photos || []).map((url, j) => (
+                      <div key={j} className="relative">
+                        <img src={url} alt="" className="w-24 h-20 object-cover rounded-lg border border-gray-200" />
+                        <button onClick={() => removePhoto(i, j)}
+                          className="absolute -top-1 -right-1 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600">✕</button>
+                      </div>
+                    ))}
+                    <label className="w-24 h-20 border-2 border-dashed border-gray-300 rounded-lg flex flex-col items-center justify-center cursor-pointer hover:border-dental-400 hover:bg-dental-50 transition-colors">
+                      <div className="text-xl">📸</div>
+                      <div className="text-xs text-warm-gray mt-1">Ajouter</div>
+                      <input type="file" accept="image/*" className="hidden"
+                        onChange={e => e.target.files[0] && uploadSectionPhoto(i, e.target.files[0])} />
+                    </label>
+                  </div>
+                </div>
+              )}
+
+              {/* Texte */}
+              <div className="mb-3">
+                <label className="block text-xs font-medium text-warm-gray mb-1">
+                  {bloc.type === 'intro' ? 'Texte d\'introduction' : 'Texte'}
+                </label>
+                <textarea
+                  value={bloc.type === 'intro' ? (bloc.contenu || '') : (bloc.texte || '')}
+                  onChange={e => updateBlock(i, bloc.type === 'intro' ? 'contenu' : 'texte', e.target.value)}
+                  rows={3} placeholder="Texte..."
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none bg-white" />
+              </div>
+
+              {/* Liste (section et résumé) */}
+              {(bloc.type === 'section' || bloc.type === 'resume') && (
+                <div>
+                  <label className="block text-xs font-medium text-warm-gray mb-2">Liste à puces</label>
+                  <div className="space-y-2">
+                    {(bloc.liste || []).map((item, j) => (
+                      <div key={j} className="flex gap-2 items-center">
+                        <span className="text-dental-500 text-sm">•</span>
+                        <input value={item} onChange={e => updateListItem(i, j, e.target.value)}
+                          placeholder="Élément..."
+                          className="flex-1 border border-gray-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:border-dental-500 bg-white" />
+                        <button onClick={() => removeListItem(i, j)} className="text-red-400 hover:text-red-600 text-xs w-5">✕</button>
+                      </div>
+                    ))}
+                    <button onClick={() => addListItem(i)} className="text-dental-600 text-xs hover:underline">+ Ajouter un élément</button>
+                  </div>
+                </div>
+              )}
+            </div>
+          ))}
+        </div>
       </div>
 
       {/* Publié */}
