@@ -483,6 +483,10 @@ function Dashboard() {
         {activeTab === 'avantapres' && (
           <AdminAvantApres cas={avantApres} onRefresh={loadData} />
         )}
+        {activeTab === 'blog' && (
+          <AdminBlog />
+        )}
+    
       </div>
     </div>
   )
