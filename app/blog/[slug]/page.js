@@ -103,7 +103,7 @@ export default async function ArticlePage({ params }) {
     <main className="min-h-screen bg-cream">
 
       {/* HERO */}
-      <section className="hero-gradient pt-6 pb-10 relative overflow-hidden">
+      <section className="hero-gradient pt-24 pb-10 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="max-w-3xl mx-auto px-6 relative z-10">
           {article.categorie && (
