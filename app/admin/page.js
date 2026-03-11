@@ -843,12 +843,13 @@ function Dashboard() {
     </div>
   )
 
- const TABS = [
+const TABS = [
   { id: 'services', label: '🗂️ Services' },
   { id: 'site', label: '🌐 Paramètres du site' },
   { id: 'mavie', label: '🌿 Ma vie' },
   { id: 'avantapres', label: '🦷 Avant/Après' },
-  { id: 'blog', label: '✍️ Blog' },  // ← ajouter
+  { id: 'blog', label: '✍️ Blog' },
+  { id: 'backup', label: '💾 Backup' },
 ]
 
   return (
