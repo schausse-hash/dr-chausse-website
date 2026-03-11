@@ -34,7 +34,7 @@ export default async function BlogPage() {
     <main>
 
       {/* HERO */}
-      <section className="hero-gradient py-20 relative overflow-hidden">
+     <section className="hero-gradient pt-28 pb-20 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-2xl">
