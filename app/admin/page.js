@@ -762,7 +762,114 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
     </div>
   )
 }
-                                         
+
+function AdminBackup() {
+  const [loading, setLoading] = useState(false)
+  const [message, setMessage] = useState('')
+  const supabase = createClient()
+
+  async function exportTable(tableName) {
+    setLoading(true)
+    setMessage('')
+    const { data, error } = await supabase.from(tableName).select('*')
+    if (error) {
+      setMessage(`Erreur: ${error.message}`)
+      setLoading(false)
+      return
+    }
+    const json = JSON.stringify(data, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `${tableName}-backup-${new Date().toISOString().substring(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+    setMessage(`${tableName} exporté ✓`)
+    setLoading(false)
+  }
+
+  async function exportAll() {
+    setLoading(true)
+    setMessage('')
+    const tables = ['services', 'articles', 'avant_apres', 'site_settings']
+    const backup = {}
+    for (const table of tables) {
+      const { data } = await supabase.from(table).select('*')
+      backup[table] = data || []
+    }
+    backup._exported_at = new Date().toISOString()
+    const json = JSON.stringify(backup, null, 2)
+    const blob = new Blob([json], { type: 'application/json' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `dentiste-backup-complet-${new Date().toISOString().substring(0, 10)}.json`
+    a.click()
+    URL.revokeObjectURL(url)
+    setMessage('Backup complet exporté ✓')
+    setLoading(false)
+  }
+
+  const tables = [
+    { id: 'services', label: 'Services', emoji: '🗂️' },
+    { id: 'articles', label: 'Articles blog', emoji: '✍️' },
+    { id: 'avant_apres', label: 'Avant/Après', emoji: '🦷' },
+    { id: 'site_settings', label: 'Paramètres du site', emoji: '🌐' },
+  ]
+
+  return (
+    <div>
+      <h2 className="font-display text-2xl text-charcoal mb-2">Backup des données</h2>
+      <p className="text-warm-gray text-sm mb-8">Exportez vos données en JSON. Conservez ces fichiers sur votre ordinateur ou disque externe.</p>
+
+      {message && (
+        <div className="bg-green-50 border border-green-200 text-green-700 rounded-lg px-4 py-3 mb-6 text-sm">{message}</div>
+      )}
+
+      {/* Bouton tout exporter */}
+      <div className="bg-dental-900 rounded-2xl p-6 mb-6 flex items-center justify-between">
+        <div>
+          <div className="text-white font-display text-lg">📦 Backup complet</div>
+          <div className="text-white/60 text-sm mt-1">Toutes les tables en un seul fichier JSON</div>
+        </div>
+        <button
+          onClick={exportAll}
+          disabled={loading}
+          className="bg-white text-dental-900 rounded-lg px-6 py-2.5 text-sm font-medium hover:bg-gray-100 disabled:opacity-50 transition-colors">
+          {loading ? 'Export...' : '📥 Tout exporter'}
+        </button>
+      </div>
+
+      {/* Boutons par table */}
+      <div className="space-y-3">
+        {tables.map(table => (
+          <div key={table.id} className="bg-white rounded-xl p-4 border border-gray-100 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <span className="text-2xl">{table.emoji}</span>
+              <div>
+                <div className="font-medium text-charcoal">{table.label}</div>
+                <div className="text-xs text-warm-gray">{table.id}</div>
+              </div>
+            </div>
+            <button
+              onClick={() => exportTable(table.id)}
+              disabled={loading}
+              className="border border-gray-200 text-warm-gray rounded-lg px-4 py-2 text-sm hover:bg-gray-50 disabled:opacity-50 transition-colors">
+              📥 Exporter
+            </button>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-8 bg-amber-50 border border-amber-200 rounded-xl p-4">
+        <div className="text-amber-800 text-sm font-medium mb-1">💡 Conseil</div>
+        <div className="text-amber-700 text-sm">Faites un backup complet une fois par mois et conservez-le sur un disque externe ou Google Drive.</div>
+      </div>
+    </div>
+  )
+}
+                                                                             
 function Dashboard() {
   const [famillePhotos, setFamillePhotos] = useState([])
   const [activeTab, setActiveTab] = useState('services')
