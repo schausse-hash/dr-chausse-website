@@ -38,7 +38,7 @@ export default async function BlogPage() {
         <div className="absolute inset-0 bg-black/20" />
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-2xl">
-            <h1 className="font-display text-4xl md:text-5xl text-white mb-4">
+            <<h1 className="font-display text-3xl md:text-4xl text-white mb-4">
               Blog — Informations pour mes patients
             </h1>
             <p className="text-white/70 text-lg">
