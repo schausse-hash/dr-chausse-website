@@ -575,7 +575,7 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
           </button>
         </div>
         {preview ? (
-          <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 text-sm text-warm-gray leading-relaxed">
+          <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 prose prose-sm max-w-none text-
             <ReactMarkdown>{contentText}</ReactMarkdown>
           </div>
         ) : (
