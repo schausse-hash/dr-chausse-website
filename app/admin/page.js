@@ -576,9 +576,7 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
         </div>
         {preview ? (
           <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 text-sm text-warm-gray leading-relaxed">
-            {contentText.split('\n').map((para, i) =>
-              para.trim() ? <p key={i} className="mb-3">{para}</p> : <br key={i} />
-            )}
+            <ReactMarkdown>{contentText}</ReactMarkdown>
           </div>
         ) : (
           <textarea
