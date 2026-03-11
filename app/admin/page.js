@@ -349,7 +349,7 @@ function AdminBlog() {
     setTimeout(() => setMessage(''), 3000)
   }
 
-  async function saveArticle(form) {
+ async function saveArticle(form) {
     setSaving(true)
     if (form.id) {
       const { id, created_at, ...data } = form
@@ -357,7 +357,8 @@ function AdminBlog() {
     } else {
       const { id, created_at, updated_at, ...data } = form
       const { error } = await supabase.from('articles').insert({ ...data, locale: 'fr' })
-if (error) { alert('Erreur: ' + error.message); setSaving(false); return }
+      if (error) { alert('Erreur: ' + error.message); setSaving(false); return }
+    }
     await loadArticles()
     setEditing(null)
     showMessage('Article sauvegardé ✓')
