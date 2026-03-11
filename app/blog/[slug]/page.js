@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, Tag, ArrowLeft } from 'lucide-react'
-
+import ReactMarkdown from 'react-markdown'
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -81,11 +81,9 @@ export default async function ArticlePage({ params }) {
             </div>
           )}
 
-          <div className="prose prose-lg prose-stone max-w-none">
-            {contentText.split('\n').map((para, i) =>
-              para.trim() ? <p key={i} className="mb-4 text-warm-gray leading-relaxed">{para}</p> : null
-            )}
-          </div>
+  <div className="prose prose-lg prose-stone max-w-none">
+  <ReactMarkdown>{contentText}</ReactMarkdown>
+</div>
 
           {relies?.length > 0 && (
             <section className="mt-16 pt-12 border-t border-stone-200">
