@@ -101,7 +101,33 @@ export default async function ArticlePage({ params }) {
 
   return (
     <main className="min-h-screen bg-cream">
+<script
+  type="application/ld+json"
+  dangerouslySetInnerHTML={{
+    __html: JSON.stringify({
+      "@context": "https://schema.org",
+      "@type": "Article",
+      "headline": article.title,
+      "description": article.excerpt,
+      "image": article.image_url || "https://www.dentiste.com/og-image.jpg",
+      "datePublished": article.date_publication,
+      "dateModified": article.updated_at || article.date_publication,
+      "author": {
+        "@type": "Person",
+        "name": "Dr Serge Chaussé",
+        "url": "https://www.dentiste.com/apropos"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "Dr Serge Chaussé — Chirurgien Dentiste",
+        "url": "https://www.dentiste.com"
+      }
+    })
+  }}
+/>
 
+
+    
       {/* HERO */}
       <section className="hero-gradient pt-24 pb-10 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
