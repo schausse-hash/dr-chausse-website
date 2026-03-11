@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
 import { Clock, Tag, ArrowLeft } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
+
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
   process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
@@ -15,12 +15,66 @@ export async function generateMetadata({ params }) {
     .eq('slug', params.slug)
     .eq('published', true)
     .single()
-
   if (!data) return { title: 'Article introuvable' }
   return {
     title: `${data.title} | Dr Serge Chaussé`,
     description: data.excerpt,
   }
+}
+
+function BlocIntro({ bloc }) {
+  return (
+    <p className="text-lg text-warm-gray leading-relaxed mb-8">{bloc.contenu}</p>
+  )
+}
+
+function BlocSection({ bloc }) {
+  return (
+    <div className="mb-12">
+      <hr className="border-stone-200 mb-8" />
+      {bloc.titre && (
+        <h2 className="font-display text-xl text-charcoal mb-6">{bloc.titre}</h2>
+      )}
+      {bloc.photos?.length > 0 && (
+        <div className="grid grid-cols-3 gap-3 mb-6">
+          {bloc.photos.map((url, i) => (
+            <img key={i} src={url} alt="" className="w-full h-40 object-cover rounded-xl" />
+          ))}
+        </div>
+      )}
+      {bloc.texte && (
+        <p className="text-warm-gray leading-relaxed mb-4">{bloc.texte}</p>
+      )}
+      {bloc.liste?.length > 0 && (
+        <ul className="space-y-2 mt-3">
+          {bloc.liste.map((item, i) => (
+            <li key={i} className="flex items-start gap-2 text-warm-gray">
+              <span className="text-dental-500 mt-0.5">•</span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
+  )
+}
+
+function BlocResume({ bloc }) {
+  return (
+    <div className="bg-dental-50 border border-dental-100 rounded-2xl p-6 mb-8">
+      {bloc.titre && (
+        <h2 className="font-display text-xl text-charcoal mb-4">{bloc.titre}</h2>
+      )}
+      {bloc.contenu && (
+        <p className="text-warm-gray leading-relaxed mb-4">{bloc.contenu}</p>
+      )}
+      {bloc.liste?.length > 0 && (
+        <p className="text-charcoal font-medium">
+          {bloc.liste.join(' → ')}
+        </p>
+      )}
+    </div>
+  )
 }
 
 export default async function ArticlePage({ params }) {
@@ -42,13 +96,13 @@ export default async function ArticlePage({ params }) {
     .neq('id', article.id)
     .limit(3) : { data: [] }
 
-  const contentText = typeof article.content === 'string' ? article.content : ''
+  const blocs = Array.isArray(article.content) ? article.content : []
 
   return (
     <main className="min-h-screen bg-cream">
 
       {/* HERO */}
-    <section className="hero-gradient pt-6 pb-10 relative overflow-hidden">
+      <section className="hero-gradient pt-6 pb-10 relative overflow-hidden">
         <div className="absolute inset-0 bg-black/20" />
         <div className="max-w-3xl mx-auto px-6 relative z-10">
           {article.categorie && (
@@ -57,7 +111,7 @@ export default async function ArticlePage({ params }) {
               {article.categorie}
             </div>
           )}
-      <h1 className="font-display text-2xl md:text-3xl text-white mb-2 mt-3">
+          <h1 className="font-display text-2xl md:text-3xl text-white mb-2 mt-3">
             {article.title}
           </h1>
           {article.date_publication && (
@@ -81,9 +135,12 @@ export default async function ArticlePage({ params }) {
             </div>
           )}
 
-  <div className="prose prose-lg prose-stone max-w-none">
-  <ReactMarkdown>{contentText}</ReactMarkdown>
-</div>
+          {blocs.map((bloc, i) => {
+            if (bloc.type === 'intro') return <BlocIntro key={i} bloc={bloc} />
+            if (bloc.type === 'section') return <BlocSection key={i} bloc={bloc} />
+            if (bloc.type === 'resume') return <BlocResume key={i} bloc={bloc} />
+            return null
+          })}
 
           {relies?.length > 0 && (
             <section className="mt-16 pt-12 border-t border-stone-200">
