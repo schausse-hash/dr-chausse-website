@@ -57,7 +57,7 @@ export default async function ArticlePage({ params }) {
               {article.categorie}
             </div>
           )}
-        <h1 className="font-display text-2xl md:text-3xl text-white leading-tight mb-4">
+       <h1 className="font-display text-xl md:text-2xl text-white leading-tight mb-2">
             {article.title}
           </h1>
           {article.date_publication && (
