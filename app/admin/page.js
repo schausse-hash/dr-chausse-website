@@ -338,6 +338,7 @@ function AdminBlog() {
     const { data } = await supabase
       .from('articles')
       .select('*')
+      .eq('locale', 'fr')
       .order('date_publication', { ascending: false })
     setArticles(data || [])
     setLoading(false)
@@ -355,7 +356,7 @@ function AdminBlog() {
       await supabase.from('articles').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
     } else {
       const { id, created_at, updated_at, ...data } = form
-      await supabase.from('articles').insert({ ...data })
+      await supabase.from('articles').insert({ ...data, locale: 'fr' })
     }
     await loadArticles()
     setEditing(null)
@@ -370,20 +371,21 @@ function AdminBlog() {
     showMessage('Article supprimé ✓')
   }
 
-  async function togglePublie(article) {
-    await supabase.from('articles').update({ publie: !article.publie }).eq('id', article.id)
+  async function togglePublished(article) {
+    await supabase.from('articles').update({ published: !article.published }).eq('id', article.id)
     await loadArticles()
   }
 
   const nouveauArticle = {
-    titre: '',
+    title: '',
     slug: '',
     excerpt: '',
-    contenu: '',
+    content: '',
     image_url: '',
     categorie: '',
-    publie: false,
+    published: false,
     date_publication: new Date().toISOString(),
+    locale: 'fr',
   }
 
   if (loading) return <div className="text-warm-gray py-10 text-center">Chargement...</div>
@@ -421,23 +423,23 @@ function AdminBlog() {
           {articles.map(article => (
             <div key={article.id} className="bg-white rounded-xl p-4 border border-gray-100 flex gap-4 items-center">
               {article.image_url ? (
-                <img src={article.image_url} alt={article.titre} className="w-20 h-16 object-cover rounded-lg flex-shrink-0" />
+                <img src={article.image_url} alt={article.title} className="w-20 h-16 object-cover rounded-lg flex-shrink-0" />
               ) : (
                 <div className="w-20 h-16 bg-dental-50 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">🦷</div>
               )}
               <div className="flex-1 min-w-0">
-                <div className="font-medium text-charcoal truncate">{article.titre}</div>
+                <div className="font-medium text-charcoal truncate">{article.title}</div>
                 <div className="text-xs text-warm-gray mt-0.5">
                   {article.categorie && <span className="mr-2">📁 {article.categorie}</span>}
-                  {new Date(article.date_publication).toLocaleDateString('fr-CA', { year: 'numeric', month: 'short', day: 'numeric' })}
+                  {article.date_publication && new Date(article.date_publication).toLocaleDateString('fr-CA', { year: 'numeric', month: 'short', day: 'numeric' })}
                 </div>
                 {article.excerpt && <div className="text-xs text-warm-gray mt-1 truncate max-w-lg">{article.excerpt}</div>}
               </div>
               <div className="flex items-center gap-3 flex-shrink-0">
                 <button
-                  onClick={() => togglePublie(article)}
-                  className={`text-xs px-3 py-1 rounded-full font-medium ${article.publie ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
-                  {article.publie ? 'Publié' : 'Brouillon'}
+                  onClick={() => togglePublished(article)}
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${article.published ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                  {article.published ? 'Publié' : 'Brouillon'}
                 </button>
                 <button onClick={() => setEditing(article)} className="text-sm text-dental-600 hover:underline">Modifier</button>
                 <button onClick={() => deleteArticle(article.id)} className="text-sm text-red-400 hover:text-red-600">Supprimer</button>
@@ -460,8 +462,8 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
   const fileRef = useRef(null)
   const supabase = createClient()
 
-  function generateSlug(titre) {
-    return titre
+  function generateSlug(title) {
+    return title
       .toLowerCase()
       .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
       .replace(/[^a-z0-9\s-]/g, '')
@@ -481,11 +483,14 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
     setUploading(false)
   }
 
+  // content est du texte simple qu'on lit/écrit directement
+  const contentText = typeof form.content === 'string' ? form.content : ''
+
   return (
     <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h3 className="font-display text-xl text-charcoal">
-          {form.id ? 'Modifier l\'article' : 'Nouvel article'}
+          {form.id ? "Modifier l'article" : 'Nouvel article'}
         </h3>
         <button onClick={onCancel} className="text-warm-gray hover:text-charcoal text-sm">← Retour</button>
       </div>
@@ -495,8 +500,8 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
         <div>
           <label className="block text-xs font-medium text-warm-gray mb-1">Titre *</label>
           <input
-            value={form.titre || ''}
-            onChange={e => setForm(p => ({ ...p, titre: e.target.value, slug: p.slug || generateSlug(e.target.value) }))}
+            value={form.title || ''}
+            onChange={e => setForm(p => ({ ...p, title: e.target.value, slug: p.slug || generateSlug(e.target.value) }))}
             placeholder="Titre de l'article"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
         </div>
@@ -563,23 +568,21 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
       <div>
         <div className="flex items-center justify-between mb-2">
           <label className="block text-xs font-medium text-warm-gray">Contenu de l'article</label>
-          <button
-            onClick={() => setPreview(!preview)}
-            className="text-xs text-dental-600 hover:underline">
+          <button onClick={() => setPreview(!preview)} className="text-xs text-dental-600 hover:underline">
             {preview ? '✏️ Éditer' : '👁️ Aperçu'}
           </button>
         </div>
         {preview ? (
           <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 text-sm text-warm-gray leading-relaxed">
-            {form.contenu?.split('\n').map((para, i) =>
+            {contentText.split('\n').map((para, i) =>
               para.trim() ? <p key={i} className="mb-3">{para}</p> : <br key={i} />
             )}
           </div>
         ) : (
           <textarea
-            value={form.contenu || ''}
-            onChange={e => setForm(p => ({ ...p, contenu: e.target.value }))}
-            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.\n\nPas besoin de syntaxe spéciale.`}
+            value={contentText}
+            onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
+            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
             rows={16}
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono" />
         )}
@@ -587,10 +590,10 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
 
       {/* Publié */}
       <div className="flex items-center gap-2">
-        <input type="checkbox" id="publie" checked={form.publie ?? false}
-          onChange={e => setForm(p => ({ ...p, publie: e.target.checked }))}
+        <input type="checkbox" id="published" checked={form.published ?? false}
+          onChange={e => setForm(p => ({ ...p, published: e.target.checked }))}
           className="w-4 h-4 accent-dental-600" />
-        <label htmlFor="publie" className="text-sm text-charcoal">Publié (visible sur le site)</label>
+        <label htmlFor="published" className="text-sm text-charcoal">Publié (visible sur le site)</label>
       </div>
 
       {/* Boutons */}
