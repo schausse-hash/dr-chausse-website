@@ -320,6 +320,293 @@ function CasEditor({ cas, onSave, onCancel, saving }) {
   )
 }
 
+// ============================================
+// ADMIN BLOG
+// ============================================
+function AdminBlog() {
+  const [articles, setArticles] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [editing, setEditing] = useState(null)
+  const [saving, setSaving] = useState(false)
+  const [message, setMessage] = useState('')
+  const supabase = createClient()
+
+  useEffect(() => { loadArticles() }, [])
+
+  async function loadArticles() {
+    setLoading(true)
+    const { data } = await supabase
+      .from('articles')
+      .select('*')
+      .order('date_publication', { ascending: false })
+    setArticles(data || [])
+    setLoading(false)
+  }
+
+  function showMessage(msg) {
+    setMessage(msg)
+    setTimeout(() => setMessage(''), 3000)
+  }
+
+  async function saveArticle(form) {
+    setSaving(true)
+    if (form.id) {
+      const { id, created_at, ...data } = form
+      await supabase.from('articles').update({ ...data, updated_at: new Date().toISOString() }).eq('id', id)
+    } else {
+      const { id, created_at, updated_at, ...data } = form
+      await supabase.from('articles').insert({ ...data })
+    }
+    await loadArticles()
+    setEditing(null)
+    showMessage('Article sauvegardé ✓')
+    setSaving(false)
+  }
+
+  async function deleteArticle(id) {
+    if (!confirm('Supprimer cet article?')) return
+    await supabase.from('articles').delete().eq('id', id)
+    await loadArticles()
+    showMessage('Article supprimé ✓')
+  }
+
+  async function togglePublie(article) {
+    await supabase.from('articles').update({ publie: !article.publie }).eq('id', article.id)
+    await loadArticles()
+  }
+
+  const nouveauArticle = {
+    titre: '',
+    slug: '',
+    excerpt: '',
+    contenu: '',
+    image_url: '',
+    categorie: '',
+    publie: false,
+    date_publication: new Date().toISOString(),
+  }
+
+  if (loading) return <div className="text-warm-gray py-10 text-center">Chargement...</div>
+
+  if (editing) return (
+    <ArticleBlogEditor
+      article={editing}
+      onSave={saveArticle}
+      onCancel={() => setEditing(null)}
+      saving={saving}
+    />
+  )
+
+  return (
+    <div>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="font-display text-2xl text-charcoal">Blog ({articles.length})</h2>
+        <div className="flex items-center gap-3">
+          {message && <span className="text-green-600 text-sm font-medium">{message}</span>}
+          <button
+            onClick={() => setEditing(nouveauArticle)}
+            className="bg-dental-600 text-white rounded-lg px-4 py-2 text-sm hover:bg-dental-700 transition-colors">
+            + Nouvel article
+          </button>
+        </div>
+      </div>
+
+      {articles.length === 0 ? (
+        <div className="text-center py-16 border-2 border-dashed border-gray-200 rounded-2xl text-warm-gray">
+          <div className="text-4xl mb-3">✍️</div>
+          <p className="text-sm">Aucun article. Cliquez sur "Nouvel article" pour commencer.</p>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          {articles.map(article => (
+            <div key={article.id} className="bg-white rounded-xl p-4 border border-gray-100 flex gap-4 items-center">
+              {article.image_url ? (
+                <img src={article.image_url} alt={article.titre} className="w-20 h-16 object-cover rounded-lg flex-shrink-0" />
+              ) : (
+                <div className="w-20 h-16 bg-dental-50 rounded-lg flex items-center justify-center text-2xl flex-shrink-0">🦷</div>
+              )}
+              <div className="flex-1 min-w-0">
+                <div className="font-medium text-charcoal truncate">{article.titre}</div>
+                <div className="text-xs text-warm-gray mt-0.5">
+                  {article.categorie && <span className="mr-2">📁 {article.categorie}</span>}
+                  {new Date(article.date_publication).toLocaleDateString('fr-CA', { year: 'numeric', month: 'short', day: 'numeric' })}
+                </div>
+                {article.excerpt && <div className="text-xs text-warm-gray mt-1 truncate max-w-lg">{article.excerpt}</div>}
+              </div>
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <button
+                  onClick={() => togglePublie(article)}
+                  className={`text-xs px-3 py-1 rounded-full font-medium ${article.publie ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-500'}`}>
+                  {article.publie ? 'Publié' : 'Brouillon'}
+                </button>
+                <button onClick={() => setEditing(article)} className="text-sm text-dental-600 hover:underline">Modifier</button>
+                <button onClick={() => deleteArticle(article.id)} className="text-sm text-red-400 hover:text-red-600">Supprimer</button>
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+// ============================================
+// ÉDITEUR D'ARTICLE BLOG
+// ============================================
+function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
+  const [form, setForm] = useState({ ...article })
+  const [uploading, setUploading] = useState(false)
+  const [preview, setPreview] = useState(false)
+  const fileRef = useRef(null)
+  const supabase = createClient()
+
+  function generateSlug(titre) {
+    return titre
+      .toLowerCase()
+      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-z0-9\s-]/g, '')
+      .trim()
+      .replace(/\s+/g, '-')
+  }
+
+  async function uploadImage(file) {
+    setUploading(true)
+    const ext = file.name.split('.').pop()
+    const fileName = `blog/${Date.now()}.${ext}`
+    const { error } = await supabase.storage.from('images').upload(fileName, file, { upsert: true })
+    if (!error) {
+      const url = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/images/${fileName}`
+      setForm(p => ({ ...p, image_url: url }))
+    }
+    setUploading(false)
+  }
+
+  return (
+    <div className="bg-white rounded-2xl border border-gray-100 p-6 space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="font-display text-xl text-charcoal">
+          {form.id ? 'Modifier l\'article' : 'Nouvel article'}
+        </h3>
+        <button onClick={onCancel} className="text-warm-gray hover:text-charcoal text-sm">← Retour</button>
+      </div>
+
+      {/* Titre + slug auto */}
+      <div className="space-y-3">
+        <div>
+          <label className="block text-xs font-medium text-warm-gray mb-1">Titre *</label>
+          <input
+            value={form.titre || ''}
+            onChange={e => setForm(p => ({ ...p, titre: e.target.value, slug: p.slug || generateSlug(e.target.value) }))}
+            placeholder="Titre de l'article"
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label className="block text-xs font-medium text-warm-gray mb-1">Slug (URL)</label>
+            <input
+              value={form.slug || ''}
+              onChange={e => setForm(p => ({ ...p, slug: e.target.value }))}
+              placeholder="mon-article"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 font-mono text-xs" />
+          </div>
+          <div>
+            <label className="block text-xs font-medium text-warm-gray mb-1">Catégorie</label>
+            <input
+              value={form.categorie || ''}
+              onChange={e => setForm(p => ({ ...p, categorie: e.target.value }))}
+              placeholder="ex: Implants, Hygiène..."
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
+          </div>
+        </div>
+        <div>
+          <label className="block text-xs font-medium text-warm-gray mb-1">Date de publication</label>
+          <input
+            type="date"
+            value={form.date_publication ? form.date_publication.substring(0, 10) : ''}
+            onChange={e => setForm(p => ({ ...p, date_publication: new Date(e.target.value).toISOString() }))}
+            className="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
+        </div>
+      </div>
+
+      {/* Image couverture */}
+      <div>
+        <label className="block text-xs font-medium text-warm-gray mb-2">Image de couverture</label>
+        {form.image_url ? (
+          <div className="relative inline-block">
+            <img src={form.image_url} alt="couverture" className="w-full max-w-md h-40 object-cover rounded-xl border border-gray-200" />
+            <button onClick={() => setForm(p => ({ ...p, image_url: '' }))}
+              className="absolute top-2 right-2 bg-red-500 text-white rounded-full w-7 h-7 flex items-center justify-center text-xs hover:bg-red-600">✕</button>
+          </div>
+        ) : (
+          <div onClick={() => fileRef.current?.click()}
+            className="w-full max-w-md h-32 border-2 border-dashed border-gray-300 rounded-xl flex flex-col items-center justify-center cursor-pointer hover:border-dental-400 hover:bg-dental-50 transition-colors">
+            {uploading ? <div className="text-warm-gray text-sm">Téléversement...</div> : (
+              <><div className="text-2xl mb-1">📸</div><div className="text-warm-gray text-sm">Ajouter une image</div></>
+            )}
+          </div>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" onChange={e => e.target.files[0] && uploadImage(e.target.files[0])} className="hidden" />
+      </div>
+
+      {/* Excerpt */}
+      <div>
+        <label className="block text-xs font-medium text-warm-gray mb-1">Résumé (excerpt)</label>
+        <textarea
+          value={form.excerpt || ''}
+          onChange={e => setForm(p => ({ ...p, excerpt: e.target.value }))}
+          placeholder="Court résumé visible dans la liste du blog..."
+          rows={2}
+          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-none" />
+      </div>
+
+      {/* Contenu */}
+      <div>
+        <div className="flex items-center justify-between mb-2">
+          <label className="block text-xs font-medium text-warm-gray">Contenu de l'article</label>
+          <button
+            onClick={() => setPreview(!preview)}
+            className="text-xs text-dental-600 hover:underline">
+            {preview ? '✏️ Éditer' : '👁️ Aperçu'}
+          </button>
+        </div>
+        {preview ? (
+          <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 text-sm text-warm-gray leading-relaxed">
+            {form.contenu?.split('\n').map((para, i) =>
+              para.trim() ? <p key={i} className="mb-3">{para}</p> : <br key={i} />
+            )}
+          </div>
+        ) : (
+          <textarea
+            value={form.contenu || ''}
+            onChange={e => setForm(p => ({ ...p, contenu: e.target.value }))}
+            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.\n\nPas besoin de syntaxe spéciale.`}
+            rows={16}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono" />
+        )}
+      </div>
+
+      {/* Publié */}
+      <div className="flex items-center gap-2">
+        <input type="checkbox" id="publie" checked={form.publie ?? false}
+          onChange={e => setForm(p => ({ ...p, publie: e.target.checked }))}
+          className="w-4 h-4 accent-dental-600" />
+        <label htmlFor="publie" className="text-sm text-charcoal">Publié (visible sur le site)</label>
+      </div>
+
+      {/* Boutons */}
+      <div className="flex gap-3 pt-4 border-t border-gray-100">
+        <button onClick={() => onSave(form)} disabled={saving}
+          className="bg-dental-600 text-white rounded-lg px-8 py-2.5 text-sm font-medium hover:bg-dental-700 disabled:opacity-50 transition-colors">
+          {saving ? 'Sauvegarde...' : '💾 Sauvegarder'}
+        </button>
+        <button onClick={onCancel} className="border border-gray-200 text-warm-gray rounded-lg px-6 py-2.5 text-sm hover:bg-gray-50">
+          Annuler
+        </button>
+      </div>
+    </div>
+  )
+}
+                                         
 function Dashboard() {
   const [famillePhotos, setFamillePhotos] = useState([])
   const [activeTab, setActiveTab] = useState('services')
