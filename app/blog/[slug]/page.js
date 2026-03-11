@@ -11,14 +11,14 @@ const supabase = createClient(
 export async function generateMetadata({ params }) {
   const { data } = await supabase
     .from('articles')
-    .select('titre, excerpt')
+    .select('title, excerpt')
     .eq('slug', params.slug)
-    .eq('publie', true)
+    .eq('published', true)
     .single()
 
   if (!data) return { title: 'Article introuvable' }
   return {
-    title: `${data.titre} | Dr Serge Chaussé`,
+    title: `${data.title} | Dr Serge Chaussé`,
     description: data.excerpt,
   }
 }
@@ -28,19 +28,21 @@ export default async function ArticlePage({ params }) {
     .from('articles')
     .select('*')
     .eq('slug', params.slug)
-    .eq('publie', true)
+    .eq('published', true)
     .single()
 
   if (!article) notFound()
 
-  // Articles reliés (même catégorie)
   const { data: relies } = article.categorie ? await supabase
     .from('articles')
-    .select('id, titre, slug, excerpt, image_url, date_publication')
-    .eq('publie', true)
+    .select('id, title, slug, excerpt, image_url, date_publication')
+    .eq('published', true)
+    .eq('locale', 'fr')
     .eq('categorie', article.categorie)
     .neq('id', article.id)
     .limit(3) : { data: [] }
+
+  const contentText = typeof article.content === 'string' ? article.content : ''
 
   return (
     <main className="min-h-screen bg-cream">
@@ -56,7 +58,7 @@ export default async function ArticlePage({ params }) {
             </div>
           )}
           <h1 className="font-display text-4xl md:text-5xl text-white leading-tight mb-4">
-            {article.titre}
+            {article.title}
           </h1>
           {article.date_publication && (
             <div className="flex items-center gap-2 text-white/60 text-sm">
@@ -73,29 +75,18 @@ export default async function ArticlePage({ params }) {
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-6">
 
-          {/* Image couverture */}
           {article.image_url && (
             <div className="rounded-2xl overflow-hidden mb-10 shadow-sm">
-              <img
-                src={article.image_url}
-                alt={article.titre}
-                className="w-full h-72 object-cover"
-              />
+              <img src={article.image_url} alt={article.title} className="w-full h-72 object-cover" />
             </div>
           )}
 
-          {/* Contenu — texte brut avec mise en forme simple */}
-          <div className="prose prose-lg prose-stone max-w-none
-            prose-headings:font-display prose-headings:text-charcoal
-            prose-a:text-dental-600 prose-strong:text-charcoal
-            prose-p:text-warm-gray prose-p:leading-relaxed
-            prose-li:text-warm-gray">
-            {article.contenu?.split('\n').map((para, i) =>
+          <div className="prose prose-lg prose-stone max-w-none">
+            {contentText.split('\n').map((para, i) =>
               para.trim() ? <p key={i} className="mb-4 text-warm-gray leading-relaxed">{para}</p> : null
             )}
           </div>
 
-          {/* Articles reliés */}
           {relies?.length > 0 && (
             <section className="mt-16 pt-12 border-t border-stone-200">
               <h2 className="font-display text-2xl text-charcoal mb-8">Articles reliés</h2>
@@ -104,13 +95,13 @@ export default async function ArticlePage({ params }) {
                   <Link key={r.id} href={`/blog/${r.slug}`} className="group">
                     <div className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-md transition-shadow">
                       {r.image_url ? (
-                        <img src={r.image_url} alt={r.titre} className="w-full h-32 object-cover" />
+                        <img src={r.image_url} alt={r.title} className="w-full h-32 object-cover" />
                       ) : (
                         <div className="h-32 bg-dental-50 flex items-center justify-center text-3xl">🦷</div>
                       )}
                       <div className="p-4">
                         <h3 className="font-medium text-charcoal text-sm group-hover:text-dental-600 transition-colors line-clamp-2">
-                          {r.titre}
+                          {r.title}
                         </h3>
                       </div>
                     </div>
@@ -120,7 +111,6 @@ export default async function ArticlePage({ params }) {
             </section>
           )}
 
-          {/* Retour */}
           <div className="mt-12">
             <Link href="/blog" className="inline-flex items-center gap-2 text-dental-600 hover:text-dental-700 font-medium">
               <ArrowLeft className="w-4 h-4" />
