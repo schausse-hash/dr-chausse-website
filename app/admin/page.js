@@ -400,12 +400,13 @@ function Dashboard() {
     </div>
   )
 
-  const TABS = [
-    { id: 'services', label: '🗂️ Services' },
-    { id: 'site', label: '🌐 Paramètres du site' },
-    { id: 'mavie', label: '🌿 Ma vie' },
-    { id: 'avantapres', label: '🦷 Avant/Après' },
-  ]
+ const TABS = [
+  { id: 'services', label: '🗂️ Services' },
+  { id: 'site', label: '🌐 Paramètres du site' },
+  { id: 'mavie', label: '🌿 Ma vie' },
+  { id: 'avantapres', label: '🦷 Avant/Après' },
+  { id: 'blog', label: '✍️ Blog' },  // ← ajouter
+]
 
   return (
     <div className="min-h-screen bg-gray-50">
