@@ -576,18 +576,17 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
         </div>
         {preview ? (
           <div className="border border-gray-200 rounded-lg p-4 min-h-48 bg-gray-50 prose prose-sm max-w-none text-charcoal">
-  <ReactMarkdown>{contentText}</ReactMarkdown>
+            <ReactMarkdown>{contentText}</ReactMarkdown>
           </div>
         ) : (
-<textarea
-          value={contentText}
-          onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
-          placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
-          rows={16}
-          className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono"
-        />
-      </div>
-    ) }
+          <textarea
+            value={contentText}
+            onChange={e => setForm(p => ({ ...p, content: e.target.value }))}
+            placeholder={`Écrivez votre article ici...\n\nLes sauts de ligne créent de nouveaux paragraphes.`}
+            rows={16}
+            className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500 resize-y font-mono"
+          />
+        )}
       </div>
 
       {/* Publié */}
