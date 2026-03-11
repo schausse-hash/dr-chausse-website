@@ -39,7 +39,7 @@ export default async function BlogPage() {
         <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="max-w-2xl">
             <<h1 className="font-display text-2xl md:text-3xl text-white mb-4">
-              Blog — Informations pour mes patients
+              Blog &mdash; Informations pour mes patients
             </h1>
             <p className="text-white/70 text-lg">
               Conseils dentaires, explications sur les traitements et réflexions sur la dentisterie moderne.
