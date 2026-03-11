@@ -501,7 +501,7 @@ function ArticleBlogEditor({ article, onSave, onCancel, saving }) {
           <label className="block text-xs font-medium text-warm-gray mb-1">Titre *</label>
           <input
             value={form.title || ''}
-            onChange={e => setForm(p => ({ ...p, title: e.target.value, slug: p.slug || generateSlug(e.target.value) }))}
+            onChange={e => setForm(p => ({ ...p, title: e.target.value, slug: generateSlug(e.target.value) }))}
             placeholder="Titre de l'article"
             className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-dental-500" />
         </div>
