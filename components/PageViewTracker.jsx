@@ -20,7 +20,7 @@ export function PageViewTracker() {
   const lastTracked = useRef(null)
 
   useEffect(() => {
-    if (!pathname || pathname === lastTracked.current) return
+   if (!pathname || pathname === lastTracked.current || pathname.startsWith('/admin')) return
     lastTracked.current = pathname
     supabase.from('analytics_events').insert({
       event_type: 'page_view',
