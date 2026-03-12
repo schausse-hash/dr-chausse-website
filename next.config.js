@@ -12,6 +12,13 @@ const nextConfig = {
       { source: '/drsmile/consultation-gratuite6', destination: '/#contact', permanent: true },
 
       // ── Accueil ──
+      { source: '/en/smile-makeover.html', destination: '/services/rehabilitation-complete', permanent: true },
+      { source: '/en/complete-dental-rehabilitation.html', destination: '/services/rehabilitation-complete', permanent: true },
+      { source: '/en/complete-dental-rehabilitation.html/', destination: '/services/rehabilitation-complete', permanent: true },
+      { source: '/conditions-utilisations.html', destination: '/', permanent: true },
+      { source: '/terms-and-conditions.html', destination: '/', permanent: true },
+      { source: '/drlalancette', destination: '/apropos', permanent: true },
+      { source: '/sitemap.xml', destination: '/sitemap.xml', permanent: false },
       { source: '/accueil.html', destination: '/', permanent: true },
       { source: '/index.html', destination: '/', permanent: true },
       { source: '/index.html/', destination: '/', permanent: true },
