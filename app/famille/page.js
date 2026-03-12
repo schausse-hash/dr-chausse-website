@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { PageViewTracker } from '@/components/PageViewTracker'
 
 function createSupabase() {
   return createClient(
@@ -69,6 +70,8 @@ export default function FamillePage() {
 
   return (
     <main>
+  <PageViewTracker />
+    
       {/* BANNIÈRE */}
       <div className="relative pt-20 bg-dental-900">
         <div className="max-w-4xl mx-auto px-6 py-20 text-white text-center">
