@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { Suspense } from 'react'
 import { PageViewTracker } from '@/components/PageViewTracker'
 
 function createSupabase() {
@@ -91,7 +92,9 @@ export default function MaViePage() {
 
   return (
     <main>
- <PageViewTracker />
+<Suspense fallback={null}>
+  <PageViewTracker />
+</Suspense>
     
       {/* BANNIÈRE — desktop seulement */}
 <div className="relative pt-20 bg-dental-900 hidden lg:block">
