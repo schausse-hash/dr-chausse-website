@@ -362,6 +362,7 @@ function Contact() {
 export default function Home() {
   return (
     <main>
+      <SchemaFAQ />     
       <Hero />
       <Emplacements />
       <Contact />
