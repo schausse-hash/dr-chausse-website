@@ -1,5 +1,6 @@
 import Link from 'next/link'
 import { createClient } from '@supabase/supabase-js'
+import { Suspense } from 'react'
 import { PageViewTracker } from '@/components/PageViewTracker'
 
 export const dynamic = 'force-dynamic'
@@ -39,7 +40,9 @@ export default async function ServicesPage() {
 
   return (
     <main>
-      <PageViewTracker />
+   <Suspense fallback={null}>
+  <PageViewTracker />
+</Suspense>
       <div className="relative pt-20">
         <img src="/images/clinique-1.jpg" alt="Dr Chaussé en consultation" className="w-full h-72 md:h-96 object-cover" />
         <div className="absolute inset-0 bg-dental-900/50 flex items-center justify-center">
