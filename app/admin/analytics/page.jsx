@@ -81,7 +81,7 @@ export default function AnalyticsDashboard() {
     // Agrégats par type
     const { data: agg } = await supabase
       .from('analytics_events')
-      .select('event_type, label, session_id, created_at')
+     .select('event_type, label, page, session_id, created_at')
       .gte('created_at', since)
       .order('created_at', { ascending: false })
 
