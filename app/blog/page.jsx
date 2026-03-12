@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { Clock, Tag } from 'lucide-react'
+import { Suspense } from 'react'
 import { PageViewTracker } from '@/components/PageViewTracker'
 
 
@@ -35,7 +36,9 @@ export default async function BlogPage() {
   return (
     <main>
 
-       <PageViewTracker /> 
+      <Suspense fallback={null}>
+  <PageViewTracker />
+</Suspense>
 
       {/* HERO */}
      <section className="hero-gradient pt-28 pb-20 relative overflow-hidden">
