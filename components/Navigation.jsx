@@ -71,10 +71,10 @@ export default function Navigation() {
         {/* Desktop */}
         <div className="hidden lg:flex items-center space-x-6">
           {navLinks.map((link) => (
-            <a key={link.href} href={link.href}
+            <Link key={link.href} href={link.href}
               className={`text-sm font-medium transition-colors ${
                 isScrolled ? 'text-charcoal hover:text-dental-600' : 'text-white/90 hover:text-white'
-              }`}>{link.label}</a>
+              }`}>{link.label}</Link>
           ))}
           <a href="tel:5145214141" className="btn-primary text-xs py-3 px-6">514.521.4141</a>
         </div>
@@ -93,9 +93,9 @@ export default function Navigation() {
         <div className="lg:hidden absolute top-full left-0 right-0 bg-white shadow-xl">
           <div className="px-6 py-8 space-y-4">
             {navLinks.map((link) => (
-              <a key={link.href} href={link.href}
+              <Link key={link.href} href={link.href}
                 className="block text-lg text-charcoal hover:text-dental-600"
-                onClick={() => setIsMobileMenuOpen(false)}>{link.label}</a>
+                onClick={() => setIsMobileMenuOpen(false)}>{link.label}</Link>
             ))}
             <div className="flex space-x-4 pt-4 border-t">
               {socialLinks.map((social) => (
