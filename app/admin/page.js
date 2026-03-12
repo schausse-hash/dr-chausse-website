@@ -1050,7 +1050,12 @@ const TABS = [
 // SERVICE EDITOR COMPLET
 // ============================================
 function ServiceEditor({ service, onSave, onCancel, saving }) {
-  const [form, setForm] = useState({ ...service, content: service.content || [] })
+const [form, setForm] = useState({ 
+  ...service, 
+  content: typeof service.content === 'string' 
+    ? JSON.parse(service.content) 
+    : (service.content || []) 
+})
   const [uploadingImage, setUploadingImage] = useState(false)
   const fileInputRef = useRef(null)
   const supabase = createClient()
