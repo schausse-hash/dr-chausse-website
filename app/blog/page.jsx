@@ -33,6 +33,8 @@ export default async function BlogPage() {
 
   return (
     <main>
+ <BlogTracker />
+      
 
       {/* HERO */}
      <section className="hero-gradient pt-28 pb-20 relative overflow-hidden">
