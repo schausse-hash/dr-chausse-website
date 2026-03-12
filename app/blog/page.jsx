@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { Clock, Tag } from 'lucide-react'
+import BlogTracker from '@/components/BlogTracker'
 
 export const revalidate = 0
 
