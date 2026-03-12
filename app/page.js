@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import { SchemaFAQ } from '@/components/SchemaOrg'
 import { 
   Phone, Mail, MapPin, Globe,
   Award, Star,
