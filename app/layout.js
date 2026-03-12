@@ -9,6 +9,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import Script from 'next/script'
 import ConditionalLayout from '@/components/ConditionalLayout'
 import { SchemaDentiste, SchemaFAQ } from '@/components/SchemaOrg'
+import { Suspense } from 'react'
 import { PageViewTracker } from '@/components/PageViewTracker'
 
 const playfair = Playfair_Display({
@@ -122,11 +123,13 @@ export default function RootLayout({ children }) {
       </head>
       <body>
 
-   {/* ... Google Analytics scripts ... */}
+     {/* ... Google Analytics scripts ... */}
+<Suspense fallback={null}>
   <PageViewTracker />
-  <ConditionalLayout>
-    {children}
-  </ConditionalLayout>
+</Suspense>
+<ConditionalLayout>
+  {children}
+</ConditionalLayout>
 
         {/* ── Google Analytics ── */}
         <Script
