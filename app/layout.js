@@ -121,37 +121,31 @@ export default function RootLayout({ children }) {
         <SchemaDentiste />
         <SchemaFAQ />
       </head>
-      <body>
+   <body>
+  <Suspense fallback={null}>
+    <PageViewTracker />
+  </Suspense>
 
-     {/* ... Google Analytics scripts ... */}
-<Suspense fallback={null}>
-  <PageViewTracker />
-</Suspense>
-<ConditionalLayout>
-  {children}
-</ConditionalLayout>
+  {/* ── Google Analytics ── */}
+  <Script
+    src="https://www.googletagmanager.com/gtag/js?id=G-3K872PH6L4"
+    strategy="afterInteractive"
+  />
+  <Script id="google-analytics" strategy="afterInteractive">
+    {`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-3K872PH6L4', {
+        page_path: window.location.pathname,
+      });
+    `}
+  </Script>
 
-        {/* ── Google Analytics ── */}
-        <Script
-          src="https://www.googletagmanager.com/gtag/js?id=G-G-3K872PH6L4"
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-6ERJEBXPZW', {
-              page_path: window.location.pathname,
-            });
-          `}
-        </Script>
-
-        <ConditionalLayout>
-          {children}
-        </ConditionalLayout>
-
-      </body>
+  <ConditionalLayout>
+    {children}
+  </ConditionalLayout>
+</body>
     </html>
   )
 }
