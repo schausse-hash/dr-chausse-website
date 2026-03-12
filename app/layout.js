@@ -9,6 +9,7 @@ import { Playfair_Display, Inter } from 'next/font/google'
 import Script from 'next/script'
 import ConditionalLayout from '@/components/ConditionalLayout'
 import { SchemaDentiste, SchemaFAQ } from '@/components/SchemaOrg'
+import { PageViewTracker } from '@/components/PageViewTracker'
 
 const playfair = Playfair_Display({
   subsets: ['latin'],
@@ -120,6 +121,12 @@ export default function RootLayout({ children }) {
         <SchemaFAQ />
       </head>
       <body>
+
+   {/* ... Google Analytics scripts ... */}
+  <PageViewTracker />
+  <ConditionalLayout>
+    {children}
+  </ConditionalLayout>
 
         {/* ── Google Analytics ── */}
         <Script
