@@ -46,7 +46,11 @@ export default async function ServiceDetailPage({ params }) {
     'ATM / Botox': '💉', 'Botox esthétique': '✨', 'Médecine du sommeil': '😴',
   }
 
-  const content = Array.isArray(service.content) ? service.content : []
+const content = Array.isArray(service.content) 
+  ? service.content 
+  : typeof service.content === 'string' 
+    ? JSON.parse(service.content) 
+    : []
 
   return (
     <main>
