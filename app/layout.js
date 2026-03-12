@@ -8,7 +8,7 @@ import './globals.css'
 import { Playfair_Display, Inter } from 'next/font/google'
 import Script from 'next/script'
 import ConditionalLayout from '@/components/ConditionalLayout'
-import { SchemaDentiste, SchemaFAQ } from '@/components/SchemaOrg'
+import { SchemaDentiste } from '@/components/SchemaOrg'
 import { Suspense } from 'react'
 import { PageViewTracker } from '@/components/PageViewTracker'
 
@@ -119,7 +119,6 @@ export default function RootLayout({ children }) {
       <head>
         {/* ── Schema.org JSON-LD ── */}
         <SchemaDentiste />
-        <SchemaFAQ />
       </head>
    <body>
   <Suspense fallback={null}>
