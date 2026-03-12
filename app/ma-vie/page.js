@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { PageViewTracker } from '@/components/PageViewTracker'
 
 function createSupabase() {
   return createClient(
@@ -90,6 +91,8 @@ export default function MaViePage() {
 
   return (
     <main>
+ <PageViewTracker />
+    
       {/* BANNIÈRE — desktop seulement */}
 <div className="relative pt-20 bg-dental-900 hidden lg:block">
   <div className="max-w-4xl mx-auto px-6 py-20 text-white text-center">
