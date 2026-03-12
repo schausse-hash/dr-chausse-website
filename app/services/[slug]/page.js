@@ -27,6 +27,16 @@ export async function generateMetadata({ params }) {
   }
 }
 
+const categoryMap = {
+  'Implantologie': ['Implants', 'Implantologie'],
+  'Chirurgie': ['Chirurgie', 'Extraction'],
+  'Orthodontie': ['Orthodontie', 'Invisalign'],
+  'Parodontie': ['Parodontie', 'Gencives'],
+  'Réhabilitation': ['Réhabilitation', 'Prothèse'],
+  'ATM / Botox': ['Botox', 'ATM', 'Douleur'],
+  'Botox esthétique': ['Botox', 'Esthétique'],
+}
+
 export default async function ServiceDetailPage({ params }) {
   const supabase = createSupabase()
   const { data: service } = await supabase
@@ -39,6 +49,32 @@ export default async function ServiceDetailPage({ params }) {
 
   if (!service) notFound()
 
+  // Articles reliés par catégorie
+  const categories = categoryMap[service.category] || []
+  let articlesRelies = []
+  if (categories.length > 0) {
+    const { data } = await supabase
+      .from('articles')
+      .select('title, slug, excerpt, image_url, categorie, date_publication')
+      .eq('published', true)
+      .eq('locale', 'fr')
+      .in('categorie', categories)
+      .order('date_publication', { ascending: false })
+      .limit(3)
+    articlesRelies = data || []
+  }
+  // Si aucun article relié, prendre les 2 plus récents
+  if (articlesRelies.length === 0) {
+    const { data } = await supabase
+      .from('articles')
+      .select('title, slug, excerpt, image_url, categorie, date_publication')
+      .eq('published', true)
+      .eq('locale', 'fr')
+      .order('date_publication', { ascending: false })
+      .limit(2)
+    articlesRelies = data || []
+  }
+
   const categoryEmojis = {
     'Chirurgie': '🏥', 'Implantologie': '🦷', 'Réhabilitation': '👑',
     'Orthodontie': '😊', 'Technologie': '✨', 'Esthétique': '💎',
@@ -46,11 +82,11 @@ export default async function ServiceDetailPage({ params }) {
     'ATM / Botox': '💉', 'Botox esthétique': '✨', 'Médecine du sommeil': '😴',
   }
 
-const content = Array.isArray(service.content) 
-  ? service.content 
-  : typeof service.content === 'string' 
-    ? JSON.parse(service.content) 
-    : []
+  const content = Array.isArray(service.content)
+    ? service.content
+    : typeof service.content === 'string'
+      ? JSON.parse(service.content)
+      : []
 
   return (
     <main>
@@ -85,7 +121,7 @@ const content = Array.isArray(service.content)
                   {section.texte && (
                     <p className="text-warm-gray leading-relaxed mb-4">{section.texte}</p>
                   )}
-                  {section.liste && (
+                  {section.liste && section.liste.length > 0 && (
                     <ul className="space-y-3 mt-3">
                       {section.liste.map((item, j) => (
                         <li key={j} className="flex items-start gap-3 text-warm-gray">
@@ -100,6 +136,64 @@ const content = Array.isArray(service.content)
             </div>
           ) : (
             <p className="text-warm-gray">Contenu à venir. Contactez-nous pour plus d'informations.</p>
+          )}
+
+          {/* ARTICLES RELIÉS */}
+          {articlesRelies.length > 0 && (
+            <div className="mt-16">
+              <div className="section-divider mb-4" />
+              <h3 className="font-display text-2xl text-charcoal mb-2">
+                📖 Articles reliés
+              </h3>
+              <p className="text-warm-gray text-sm mb-6">
+                Apprenez-en plus sur ce sujet dans notre blogue
+              </p>
+              <div className="space-y-4">
+                {articlesRelies.map((article) => (
+                  <Link
+                    key={article.slug}
+                    href={`/blog/${article.slug}`}
+                    className="flex gap-4 p-4 bg-cream rounded-xl hover:bg-dental-50 transition-colors group"
+                  >
+                    {article.image_url ? (
+                      <img
+                        src={article.image_url}
+                        alt={article.title}
+                        className="w-20 h-16 object-cover rounded-lg flex-shrink-0"
+                      />
+                    ) : (
+                      <div className="w-20 h-16 bg-dental-100 rounded-lg flex items-center justify-center flex-shrink-0 text-2xl">
+                        🦷
+                      </div>
+                    )}
+                    <div className="flex-1 min-w-0">
+                      <div className="font-medium text-charcoal group-hover:text-dental-600 transition-colors">
+                        {article.title}
+                      </div>
+                      {article.excerpt && (
+                        <p className="text-sm text-warm-gray mt-1 line-clamp-2">
+                          {article.excerpt}
+                        </p>
+                      )}
+                      {article.categorie && (
+                        <span className="text-xs text-dental-500 mt-1 inline-block">
+                          📁 {article.categorie}
+                        </span>
+                      )}
+                    </div>
+                    <div className="text-dental-400 group-hover:text-dental-600 transition-colors self-center flex-shrink-0">
+                      →
+                    </div>
+                  </Link>
+                ))}
+              </div>
+              <Link
+                href="/blog"
+                className="inline-flex items-center gap-2 mt-6 text-dental-600 hover:underline text-sm font-medium"
+              >
+                Voir tous les articles →
+              </Link>
+            </div>
           )}
 
           {/* CTA */}
