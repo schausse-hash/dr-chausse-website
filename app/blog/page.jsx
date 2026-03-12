@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Link from 'next/link'
 import { Clock, Tag } from 'lucide-react'
+import { PageViewTracker } from '@/components/PageViewTracker'
 
 
 export const revalidate = 0
@@ -34,7 +35,7 @@ export default async function BlogPage() {
   return (
     <main>
 
-      
+       <PageViewTracker /> 
 
       {/* HERO */}
      <section className="hero-gradient pt-28 pb-20 relative overflow-hidden">
