@@ -18,6 +18,5 @@ export default function robots() {
       },
     ],
     sitemap: 'https://www.dentiste.com/sitemap.xml',
-    host: 'https://www.dentiste.com',
   }
 }
