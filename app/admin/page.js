@@ -3,6 +3,7 @@ import ReactMarkdown from 'react-markdown'
 import AdminMaVie from '@/components/AdminMaVie'
 import { useState, useEffect, useRef } from 'react'
 import { createClient } from '@/lib/supabase/client'
+import AdminPatients from '@/components/AdminPatients'
 
 function LoginForm({ onLogin }) {
   const [email, setEmail] = useState('')
