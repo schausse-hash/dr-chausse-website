@@ -793,7 +793,7 @@ function AdminBackup() {
   async function exportAll() {
     setLoading(true)
     setMessage('')
-    const tables = ['services', 'articles', 'avant_apres', 'site_settings']
+    const tables = ['services', 'articles', 'avant_apres', 'site_settings', 'patients', 'envois', 'envois_log']
     const backup = {}
     for (const table of tables) {
       const { data } = await supabase.from(table).select('*')
