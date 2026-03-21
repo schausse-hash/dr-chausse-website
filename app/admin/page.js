@@ -1307,6 +1307,7 @@ function SiteSettingsEditor({ settings, onSave, saving }) {
         { key: 'tagline', label: 'Tagline', type: 'text' },
         { key: 'seo_title_default', label: 'SEO Title par défaut', type: 'text' },
         { key: 'seo_description_default', label: 'SEO Description par défaut', type: 'textarea' },
+    
       ].map(field => (
         <div key={field.key} className="bg-white rounded-xl border border-gray-100 p-4">
           <label className="block text-sm font-medium text-charcoal mb-2">{field.label}</label>
