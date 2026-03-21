@@ -958,6 +958,7 @@ const TABS = [
   { id: 'avantapres', label: '🦷 Avant/Après' },
   { id: 'blog', label: '✍️ Blog' },
   { id: 'backup', label: '💾 Backup' },
+  { id: 'patients', label: '👥 Patients' },
 ]
 
   return (
@@ -1040,6 +1041,9 @@ const TABS = [
 )}
 {activeTab === 'backup' && (
   <AdminBackup />
+)}
+{activeTab === 'patients' && (
+  <AdminPatients />
 )}
     
       </div>
