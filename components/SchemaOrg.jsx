@@ -62,7 +62,7 @@ export function SchemaDentiste() {
         "alternateName": "Centre dentaire Serge Chaussé — Montréal",
         "url": "https://www.cliniquedentaireboulevardsaintjoseph.ca/",
         "telephone": "+15145214141",
-        "email": "info@centredentaireboulevardsaintjoseph.ca",
+        "email": "info@cliniquedentaireboulevardsaintjoseph.ca",
         "image": "https://www.dentiste.com/images/clinique-montreal.jpg",
         "priceRange": "$$",
         "currenciesAccepted": "CAD",
