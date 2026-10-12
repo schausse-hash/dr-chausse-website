@@ -25,7 +25,7 @@ export default function MentionsLegalesPage() {
             <p className="text-warm-gray leading-relaxed mt-3">
               <strong className="text-charcoal">Gestion Serge Chaussé inc.</strong><br />
               Numéro d'entreprise du Québec (NEQ) : 1171303119<br />
-              Siège social : 1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9
+              Siège social : 1006, avenue Laurier Est, Montréal (Québec) H2J 1G6
             </p>
           </section>
 
