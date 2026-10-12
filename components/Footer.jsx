@@ -56,6 +56,10 @@ export default function Footer() {
                   className="text-accent-400 hover:text-accent-300">Cours Hands-on à l'international</a>
               </li>
             </ul>
+            <p className="text-white/40 text-xs mt-6">
+              Site exploité par{' '}
+              <a href="/mentions-legales" className="hover:text-white/60">Gestion Serge Chaussé inc.</a>
+            </p>
           </div>
         </div>
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center text-sm text-white/40">
