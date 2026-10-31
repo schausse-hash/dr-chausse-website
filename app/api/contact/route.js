@@ -36,7 +36,7 @@ export async function POST(req) {
       from: 'Dr Chaussé <schausse@dentiste.com>',
       to: destinataire,
       cc: COPIE,
-      subject: `Nouveau message — ${sujet || 'Sans sujet'}`,
+      subject: `Nouveau message — ${cliniqueChoisie.nomCourt} — ${sujet || 'Sans sujet'}`,
       html: `
         <h2>Nouveau message du site web</h2>
         <p><strong>Nom:</strong> ${prenom} ${nom}</p>
