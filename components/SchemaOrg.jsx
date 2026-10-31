@@ -145,6 +145,46 @@ export function SchemaDentiste() {
         "doctor": { "@id": "https://www.dentiste.com/#docteur" }
       },
 
+      // ── Clinique Montréal (Rosemont) ──────────────────────────
+      {
+        "@type": "Dentist",
+        "@id": "https://www.dentiste.com/#clinique-rosemont",
+        "name": "Dentistes Cité Rosemont",
+        "url": "https://dentisterosemont.ca/",
+        "telephone": "+15147256060",
+        "email": "info@dentisterosemont.ca",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "4994, rue Beaubien Est, bureau 110",
+          "addressLocality": "Montréal",
+          "addressRegion": "QC",
+          "postalCode": "H1T 1V4",
+          "addressCountry": "CA"
+        },
+        "hasMap": "https://maps.google.com/?q=4994+rue+Beaubien+Est,+Montréal,+QC+H1T+1V4",
+        "doctor": { "@id": "https://www.dentiste.com/#docteur" }
+      },
+
+      // ── Clinique Longueuil ────────────────────────────────────
+      {
+        "@type": "Dentist",
+        "@id": "https://www.dentiste.com/#clinique-longueuil",
+        "name": "Clinique Dentaire Bédard Couture",
+        "url": "https://dentiste-denturologiste.ca/",
+        "telephone": "+14506519935",
+        "email": "info@cdplacedesormeaux.ca",
+        "address": {
+          "@type": "PostalAddress",
+          "streetAddress": "2877, chemin de Chambly",
+          "addressLocality": "Longueuil",
+          "addressRegion": "QC",
+          "postalCode": "J4L 1M8",
+          "addressCountry": "CA"
+        },
+        "hasMap": "https://maps.google.com/?q=2877+chemin+de+Chambly,+Longueuil,+QC+J4L+1M8",
+        "doctor": { "@id": "https://www.dentiste.com/#docteur" }
+      },
+
       // ── Site web ──────────────────────────────────────────────
       {
         "@type": "WebSite",
@@ -226,7 +266,7 @@ export function SchemaFAQ() {
         "name": "Est-ce que le Dr Chaussé accepte de nouveaux patients?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Oui, le Dr Serge Chaussé accepte de nouveaux patients dans ses deux cliniques à Montréal (514.521.4141) et Saint-Jean-sur-Richelieu (450 349-3368)."
+          "text": "Oui, le Dr Serge Chaussé accepte de nouveaux patients dans ses quatre cliniques : Clinique dentaire Boulevard St-Joseph à Montréal (514-521-4141), Centre Dentaire St-Luc à Saint-Jean-sur-Richelieu (450 349-3368), Dentistes Cité Rosemont à Montréal (514 725-6060) et Clinique Dentaire Bédard Couture à Longueuil (450 651-9935)."
         }
       },
       {

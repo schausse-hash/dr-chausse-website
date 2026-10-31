@@ -3,6 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { SchemaFAQ } from '@/components/SchemaOrg'
+import { CLINIQUES } from '@/lib/cliniques'
 import { 
   Phone, Mail, MapPin, Globe,
   Award, Star,
@@ -74,36 +75,16 @@ function Hero() {
 
 // EMPLACEMENTS
 function Emplacements() {
-  const bureaux = [
-    {
-      nom: "Clinique dentaire Boulevard St-Joseph",
-      ville: "Montréal (Plateau Mont-Royal)",
-      adresse: "1277 Bd Saint-Joseph E, Montréal, QC H2J 1L9",
-      tel: "514-521-4141",
-      site: "cliniquedentaireboulevardsaintjoseph.ca",
-      email: "info@cliniquedentaireboulevardsaintjoseph.ca",
-      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2795.6!2d-73.5739!3d45.5322!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc91a4e1b3b3b3b%3A0x0!2s1277+Bd+Saint-Joseph+E%2C+Montr%C3%A9al!5e0!3m2!1sfr!2sca!4v1700000000000",
-    },
-    {
-      nom: "Centre Dentaire St-Luc",
-      ville: "Saint-Jean-sur-Richelieu",
-      adresse: "413 Boul. Saint-Luc, Saint-Jean-sur-Richelieu, QC J2W 2A3",
-      tel: "450 349-3368",
-      email: "centredentairest-luc@videotron.ca",
-      site: "centredentairest-luc.com",
-      mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2810.4!2d-73.2637!3d45.3078!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4cc924b1b1b1b1b1%3A0x0!2s413+Boul.+Saint-Luc%2C+Saint-Jean-sur-Richelieu!5e0!3m2!1sfr!2sca!4v1700000000001",
-    },
-  ]
   return (
     <section id="emplacements" className="py-24 bg-white">
       <div className="max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <div className="section-divider mx-auto mb-4" />
           <h2 className="font-display text-4xl text-charcoal mb-4">Où me trouver</h2>
-          <p className="text-warm-gray text-lg">Je pratique dans deux emplacements pour mieux vous servir</p>
+          <p className="text-warm-gray text-lg">Je pratique dans quatre emplacements pour mieux vous servir</p>
         </div>
         <div className="grid md:grid-cols-2 gap-8">
-          {bureaux.map((b, i) => (
+          {CLINIQUES.map((b, i) => (
             <div key={i} className="bg-cream rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
               {/* Carte Google Maps */}
               <div className="h-52 w-full bg-gray-200">
@@ -274,9 +255,12 @@ function DentCaptcha({ onVerified }) {
 function Contact() {
   const [formStatus, setFormStatus] = useState('idle')
   const [captchaOk, setCaptchaOk] = useState(false)
-  const [formData, setFormData] = useState({ prenom: '', nom: '', email: '', telephone: '', sujet: '', message: '' })
+  const [formData, setFormData] = useState({ prenom: '', nom: '', email: '', telephone: '', clinique: '', sujet: '', message: '' })
 
   const handleChange = (e) => setFormData({ ...formData, [e.target.name]: e.target.value })
+
+  // Téléphone affiché en cas d'erreur : celui de la clinique choisie, sinon Montréal
+  const telErreur = CLINIQUES.find(c => c.cle === formData.clinique)?.tel || '514 521-4141'
 
   const handleSubmit = async (e) => {
   e.preventDefault()
@@ -290,7 +274,7 @@ function Contact() {
     })
     if (response.ok) {
       setFormStatus('success')
-      setFormData({ prenom: '', nom: '', email: '', telephone: '', sujet: '', message: '' })
+      setFormData({ prenom: '', nom: '', email: '', telephone: '', clinique: '', sujet: '', message: '' })
     } else { setFormStatus('error') }
   } catch { setFormStatus('error') }
 }
@@ -312,7 +296,7 @@ function Contact() {
           )}
           {formStatus === 'error' && (
             <div className="mb-6 p-4 bg-red-50 border border-red-200 rounded-xl">
-              <p className="text-red-700">Erreur lors de l'envoi. Appelez-moi au <a href="tel:5145214141" className="font-semibold underline">514.521.4141</a></p>
+              <p className="text-red-700">Erreur lors de l'envoi. Appelez-moi au <a href={`tel:${telErreur.replace(/\D/g, '')}`} className="font-semibold underline">{telErreur}</a></p>
             </div>
           )}
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -328,6 +312,13 @@ function Contact() {
               <input type="tel" name="telephone" value={formData.telephone} onChange={handleChange}
                 placeholder="Téléphone" className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none" />
             </div>
+            <select name="clinique" value={formData.clinique} onChange={handleChange} required
+              className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
+              <option value="">Clinique *</option>
+              {CLINIQUES.map(c => (
+                <option key={c.cle} value={c.cle}>{c.nom} — {c.ville}</option>
+              ))}
+            </select>
             <select name="sujet" value={formData.sujet} onChange={handleChange}
               className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-dental-500 focus:border-transparent outline-none bg-white">
               <option value="">Sujet de votre message</option>

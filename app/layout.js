@@ -44,6 +44,8 @@ export const metadata = {
     'dentiste Plateau Mont-Royal',
     'formateur implantologie',
     'dentiste Saint-Jean-sur-Richelieu',
+    'dentiste Rosemont Montréal',
+    'dentiste Longueuil',
     'blanchiment dentaire Montréal',
     'réhabilitation dentaire Montréal',
   ],
